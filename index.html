@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeoDonkey — Serverless Headless ERP with In-Browser Copilot</title>
+  <meta name="description" content="Try NeoDonkey-ERP in your browser with zero dependencies, local storage, and optional in-browser AI Copilot powered by WebGPU and LiteRT." />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Top Site Navigation -->
+    <header class="site-header">
+      <div class="brand-wrapper">
+        <span class="site-logo">🫏</span>
+        <h1 class="site-name">NeoDonkey</h1>
+      </div>
+
+      <div class="header-actions">
+        <!-- Hardware Gate Toggle (Hidden by default until hardware check succeeds) -->
+        <div id="copilot-toggle-container" class="copilot-toggle-container" style="display: none;">
+          <span class="copilot-toggle-label">
+            <span class="copilot-sparkle">✨</span> Enable Copilot
+          </span>
+          <label class="switch" for="copilot-checkbox">
+            <input type="checkbox" id="copilot-checkbox" />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container layout -->
+    <div class="layout-container">
+      <!-- Base ERP Shell (Progressive Enhancement - always visible) -->
+      <main id="erp-root" class="erp-container"></main>
+
+      <!-- Copilot Drawer (Toggled on when hardware gate passes and user enables Copilot) -->
+      <aside id="copilot-drawer" class="copilot-drawer hidden">
+        <header class="copilot-header">
+          <div class="copilot-title">
+            <span class="sparkle">✨</span>
+            <h3>In-Browser Copilot</h3>
+          </div>
+          <button id="close-copilot-btn" class="erp-tab-btn" aria-label="Close Copilot">✕</button>
+        </header>
+
+        <div id="copilot-body" class="copilot-body">
+          <!-- Model Card / Download Section -->
+          <div id="model-section" class="model-card">
+            <div id="model-info"></div>
+            <div id="download-progress-container" style="display: none;">
+              <p id="download-status" class="model-desc">Downloading weights to OPFS...</p>
+              <div class="progress-bar-track">
+                <div id="progress-bar-fill" class="progress-bar-fill"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Active Copilot Messages & Rendered A2UI -->
+          <div id="copilot-messages" class="copilot-messages"></div>
+        </div>
+
+        <div class="copilot-input-area">
+          <input type="text" id="copilot-input" class="copilot-input" placeholder="Ask questions about local ERP data..." disabled />
+          <button id="send-btn" class="btn-send" disabled>Send</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
