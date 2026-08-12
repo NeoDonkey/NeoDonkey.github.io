@@ -31,6 +31,11 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
+      - name: Typecheck and test
+        run: pnpm verify
+      # Copies the ERP runtime in from the pinned ref in erp.pin.json (PRD-001 R2) before
+      # bundling. public/erp/ is not in this repository; a deploy that skipped this step would
+      # publish a site with no ERP in it.
       - name: Build static site
         run: pnpm build
       - name: Upload artifact

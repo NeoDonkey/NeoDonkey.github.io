@@ -44,12 +44,35 @@ you find yourself reasoning "we already use X on the website", stop.
 ## How the ERP gets into this site
 
 The ERP runtime is plain ES modules with relative imports and no build step, so it can be used as
-it is. Copy it in at deploy time from a **pinned tag** of `NeoDonkey/NeoDonkey-ERP` rather than
+it is. Copy it in at deploy time from a **pinned ref** of `NeoDonkey/NeoDonkey-ERP` rather than
 tracking its `main`, so the site always demonstrates a known version and never breaks because
 someone merged something upstream an hour ago.
 
 Do not fork or vendor a modified copy. If the ERP needs a change to be usable as a library, that
 is an issue in the ERP repository, not a patch here.
+
+**How it is done here.** `erp.pin.json` names the ref; `scripts/vendor-erp.mjs` fetches that ref
+and copies `index.html`, `runtime/`, `operating-model/`, the manifest and the service worker into
+`public/erp/`, which is a build output and is in `.gitignore`. `pnpm dev` and `pnpm build` both
+run it first. The site then loads `erp/index.html` in a frame, so the ERP keeps its own
+stylesheet and its own relative paths and this site does not restyle it.
+
+Two things are worth knowing before changing any of that:
+
+**The ERP publishes no tags yet, so the pin is a commit SHA.** Move it to a tag the moment one
+exists.
+
+**`_files` is generated, and it is not a patch.** `runtime/ui/storage.js` asks for
+`_files?under=operating-model` to find out which operating-model files exist, because HTTP has no
+directory listing; `serve.mjs` answers it in the ERP repository and a static host cannot. The
+vendor script writes a static `public/erp/_files` with the same shape, so the demo opens on the
+ERP's real operating model — 93 documents, 48 rules — instead of the built-in starter. Not one
+vendored byte is modified.
+
+**Do not let a dev server answer 200 for a missing file.** The ERP fetches `release.json` and
+treats any 200 as a release manifest; served an `index.html` by a single-page fallback, it
+concludes the runtime was signed by an unknown key and refuses to boot — correctly. `appType:
+'mpa'` in `vite.config.ts` is what keeps that from happening.
 
 ---
 
@@ -75,15 +98,15 @@ point of progressive enhancement, not a consolation prize.
 Checked on 2026-08-12. Do not re-litigate these without new evidence; do verify anything marked
 *unverified* before depending on it.
 
-**The model never lives in this repository.** LiteRT.js fetches it at runtime:
+**The model never lives in this repository.** The runtime fetches it once, at run time, and keeps
+it locally afterwards.
 
-```js
-const model = await loadAndCompile('/model.tflite', { accelerator: 'webgpu' });
-```
-
-It also accepts a `Uint8Array`, which is the form to use here: fetch the weights once, store them
-in OPFS, and load from OPFS on every later visit. That satisfies the caching requirement and makes
-the second visit independent of whoever hosts the weights.
+> **Superseded on 2026-08-12 — see `docs/ADR-002-inference-runtime.md`.** The API recorded here
+> was LiteRT.js's `loadAndCompile('/model.tflite', { accelerator: 'webgpu' })`, with a note to
+> pass a `Uint8Array` from OPFS. That call compiles a graph; it is not an LLM runtime — there is
+> no tokeniser, no KV cache and no sampling loop in it, and `.tflite` carries none of them
+> either. The runtime is now WebLLM, which keeps the weights in cache storage itself. The
+> requirement is unchanged: fetched once, kept on this machine, never re-fetched, deletable.
 
 **GitHub Pages cannot host the weights.** 1 GB per site, **100 MB per file**, 100 GB of traffic a
 month. A 2B quantised model is larger than that in one file. The runtime's own WASM files are
@@ -92,10 +115,11 @@ small and belong here; the weights come from Hugging Face, Kaggle or another CDN
 **WebAssembly runtime memory is capped at 2 GB.** That bounds model size regardless of where the
 weights are hosted, and it is the constraint that decides which models can be offered at all.
 
-**Hugging Face CORS is unverified.** There is a historical report of model files served without
-`Access-Control-Allow-Origin`, which would break a browser-side fetch. Verify against the actual
-host before building the download path on it. Fetching to a `Uint8Array` yourself gives you
-somewhere to put a workaround if it is still true.
+**Hugging Face CORS: verified, 2026-08-12.** `huggingface.co` returns
+`access-control-allow-origin` echoing the requesting origin on `/resolve/main/` files — checked
+with an explicit `Origin: https://neodonkey.github.io` against the four model repositories the
+site offers. The historical report of missing CORS headers no longer holds, and the download path
+needs no workaround.
 
 **A2UI needs no library.** It is Apache 2.0, currently v0.9.1 with v1.0 in release candidate.
 Reference renderers exist for several frameworks, and payloads can be rendered by your own code.

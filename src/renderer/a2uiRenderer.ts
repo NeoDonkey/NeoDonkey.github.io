@@ -1,4 +1,4 @@
-import { sanitiseUrl } from '../sanitizer/sanitizer';
+import { sanitisePayload, sanitiseUrl } from '../sanitizer/sanitizer';
 
 /**
  * A2UI Component Schema Types (v0.9.1 / v1.0 compatible)
@@ -115,10 +115,18 @@ export interface A2UIRootPayload {
 }
 
 /**
- * Domain-Agnostic A2UI DOM Renderer
- * 
- * Takes A2UI JSON payload and constructs standard DOM nodes.
- * Contains ZERO business-specific vocabulary (no domain entity fields).
+ * A2UI to DOM.
+ *
+ * There is no business vocabulary in this file and there must never be one: no invoice, no
+ * article, no supplier (PRD-001 R7). It renders components; the model supplies the meaning. The
+ * ERP carries an open defect for making exactly this mistake in its own UI — see
+ * `docs/COMPROMISES.md` #13 there — and reproducing it here would cost the site the one thing
+ * it exists to demonstrate.
+ *
+ * Every string reaches the document through `textContent` and never through `innerHTML`, so a
+ * component whose text is `<img onerror=…>` renders those characters instead of that element.
+ * The payload is sanitised on the way in as well (PRD-001 R8); the two together are why a
+ * hostile payload has nowhere left to execute.
  */
 export class A2UIRenderer {
   /**
@@ -127,6 +135,8 @@ export class A2UIRenderer {
   public render(payload: A2UIRootPayload, container: HTMLElement): void {
     // Clear container safely
     container.replaceChildren();
+
+    payload = sanitisePayload(payload);
 
     if (!payload || !payload.layout) {
       const errorMsg = document.createElement('p');
@@ -145,7 +155,7 @@ export class A2UIRenderer {
       container.appendChild(header);
     }
 
-    const rootElement = this.renderComponent(payload.layout);
+    const rootElement = this.build(payload.layout);
     container.appendChild(rootElement);
   }
 
@@ -153,6 +163,11 @@ export class A2UIRenderer {
    * Recursively renders an individual A2UI component node.
    */
   public renderComponent(comp: A2UIComponent): HTMLElement {
+    comp = sanitisePayload(comp);
+    return this.build(comp);
+  }
+
+  private build(comp: A2UIComponent): HTMLElement {
     if (!comp || !comp.type) {
       const fallback = document.createElement('span');
       fallback.textContent = '';
@@ -200,7 +215,7 @@ export class A2UIRenderer {
 
     if (Array.isArray(comp.children)) {
       for (const child of comp.children) {
-        el.appendChild(this.renderComponent(child));
+        el.appendChild(this.build(child));
       }
     }
     return el;
@@ -229,7 +244,7 @@ export class A2UIRenderer {
     body.className = 'a2ui-card-body';
     if (Array.isArray(comp.children)) {
       for (const child of comp.children) {
-        body.appendChild(this.renderComponent(child));
+        body.appendChild(this.build(child));
       }
     }
     card.appendChild(body);
