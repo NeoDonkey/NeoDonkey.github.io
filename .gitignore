@@ -1,0 +1,13 @@
+node_modules/
+dist/
+build/
+.DS_Store
+*.log
+.env
+.env.*
+*.pem
+*.key
+# Model weights are never committed — they are fetched at runtime and cached in OPFS.
+*.tflite
+*.bin
+*.gguf
