@@ -1,211 +1,91 @@
-import { ERPApp } from './erp/erpApp';
-import { ERPStore, generateDefaultCompany } from './erp/company';
-import { detectSystemCapabilities, checkHardwareCapability } from './copilot/hardwareGate';
-import { ModelManager } from './copilot/modelManager';
-import { A2UIRenderer } from './renderer/a2uiRenderer';
-import { CopilotEngine } from '../integrations/copilotEngine';
+/**
+ * The site: a marketing page, a log-in button, and the ERP behind it.
+ *
+ * There is deliberately very little here. The ERP is the runtime from the pinned ref and it
+ * runs itself; the Copilot is a drawer that reads the same repository; this file only decides
+ * which of the two the visitor is looking at.
+ */
+
+import { CopilotPanel } from './copilot/copilotPanel';
+import { hasExistingIdentity } from './erp/workspace';
+import '@fontsource-variable/inter';
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
 import './style.css';
 
-document.addEventListener('DOMContentLoaded', async () => {
-  // 1. Mount Base ERP (Progressive Enhancement - always works)
-  const erpRoot = document.getElementById('erp-root');
-  if (!erpRoot) return;
+const ERP_URL = new URL('erp/index.html', document.baseURI).href;
 
-  const erpApp = new ERPApp(erpRoot);
-  erpApp.render();
+/** The ref in erp.pin.json, substituted at build time. */
+declare const __ERP_REF__: string;
 
-  // 2. Setup Login Modal Event Listeners
-  const loginModal = document.getElementById('login-modal');
-  const loginNavBtn = document.getElementById('login-nav-btn');
-  const openLoginModalBtn = document.getElementById('open-login-modal-btn');
-  const closeLoginModalBtn = document.getElementById('close-login-modal');
-  const confirmLoginBtn = document.getElementById('confirm-login-btn');
-  const companyNameInput = document.getElementById('company-name-input') as HTMLInputElement | null;
-
-  function openModal() {
-    loginModal?.classList.remove('hidden');
-  }
-
-  function closeModal() {
-    loginModal?.classList.add('hidden');
-  }
-
-  loginNavBtn?.addEventListener('click', openModal);
-  openLoginModalBtn?.addEventListener('click', openModal);
-  closeLoginModalBtn?.addEventListener('click', closeModal);
-
-  confirmLoginBtn?.addEventListener('click', () => {
-    const name = companyNameInput?.value.trim() || 'Donkey Logistics & Trade GmbH';
-    const currentComp = generateDefaultCompany();
-    currentComp.name = name;
-
-    const newStore = new ERPStore(currentComp);
-    const newApp = new ERPApp(erpRoot, newStore);
-    newApp.render();
-
-    closeModal();
-
-    // Smooth scroll to ERP section
-    const erpSection = document.getElementById('erp-demo-section');
-    erpSection?.scrollIntoView({ behavior: 'smooth' });
-  });
-
-  // 3. Instantiate Copilot Helpers
-  const modelManager = new ModelManager();
-  const a2uiRenderer = new A2UIRenderer();
-  let copilotEngine: CopilotEngine | null = null;
-
-  // 4. Silent Hardware Gate Check
-  const sysCapabilities = await detectSystemCapabilities();
-  const gateResult = checkHardwareCapability(sysCapabilities);
-
+function boot(): void {
+  const landing = document.getElementById('landing-root');
+  const app = document.getElementById('app-root');
+  const frame = document.getElementById('erp-frame') as HTMLIFrameElement | null;
+  const drawer = document.getElementById('copilot-drawer');
   const toggleContainer = document.getElementById('copilot-toggle-container');
-  const toggleCheckbox = document.getElementById('copilot-checkbox') as HTMLInputElement | null;
-  const copilotDrawer = document.getElementById('copilot-drawer');
-  const closeBtn = document.getElementById('close-copilot-btn');
-  const modelInfoContainer = document.getElementById('model-info');
-  const downloadProgressContainer = document.getElementById('download-progress-container');
-  const progressBarFill = document.getElementById('progress-bar-fill');
-  const downloadStatus = document.getElementById('download-status');
-  const messagesContainer = document.getElementById('copilot-messages');
-  const copilotInput = document.getElementById('copilot-input') as HTMLInputElement | null;
-  const sendBtn = document.getElementById('send-btn') as HTMLButtonElement | null;
+  const toggle = document.getElementById('copilot-checkbox') as HTMLInputElement | null;
+  if (!landing || !app || !frame || !drawer || !toggle || !toggleContainer) return;
 
-  // PRD-001 R3: If gate passes, show toggle; if fails, remain silent
-  if (gateResult.supported && toggleContainer && toggleCheckbox) {
-    toggleContainer.style.display = 'flex';
+  // ---- the Copilot: a silent check, then an offer or nothing at all (PRD-001 R3) ----
+  const copilot = new CopilotPanel(drawer);
 
-    toggleCheckbox.addEventListener('change', async () => {
-      if (toggleCheckbox.checked) {
-        copilotDrawer?.classList.remove('hidden');
-        await setupCopilotUI();
-      } else {
-        copilotDrawer?.classList.add('hidden');
-      }
-    });
-  }
-
-  if (closeBtn && toggleCheckbox && copilotDrawer) {
-    closeBtn.addEventListener('click', () => {
-      toggleCheckbox.checked = false;
-      copilotDrawer.classList.add('hidden');
-    });
-  }
-
-  async function setupCopilotUI() {
-    const activeModel = modelManager.getActiveModel();
-
-    if (modelInfoContainer) {
-      modelInfoContainer.replaceChildren();
-
-      const title = document.createElement('div');
-      title.className = 'model-title';
-      title.textContent = activeModel.name;
-
-      const badge = document.createElement('span');
-      badge.className = 'model-size';
-      badge.textContent = activeModel.sizeFormatted;
-
-      const desc = document.createElement('p');
-      desc.className = 'model-desc';
-      desc.textContent = activeModel.description;
-
-      modelInfoContainer.appendChild(title);
-      modelInfoContainer.appendChild(badge);
-      modelInfoContainer.appendChild(desc);
-
-      if (!modelManager.isModelCached(activeModel.id)) {
-        const downloadBtn = document.createElement('button');
-        downloadBtn.className = 'btn-send';
-        downloadBtn.style.marginTop = '0.5rem';
-        downloadBtn.textContent = `Download Weights (${activeModel.sizeFormatted})`;
-
-        downloadBtn.addEventListener('click', async () => {
-          downloadBtn.style.display = 'none';
-          if (downloadProgressContainer) downloadProgressContainer.style.display = 'block';
-
-          const weights = await modelManager.downloadAndCacheModel(activeModel.id, progress => {
-            if (progressBarFill) progressBarFill.style.width = `${progress.percentage}%`;
-            if (downloadStatus) downloadStatus.textContent = `Downloading weights... ${progress.percentage}% (${(progress.bytesDownloaded / (1024 * 1024)).toFixed(0)} MB / ${activeModel.sizeMB} MB)`;
-          });
-
-          await initEngine(weights);
-        });
-
-        modelInfoContainer.appendChild(downloadBtn);
-      } else {
-        const statusMsg = document.createElement('p');
-        statusMsg.className = 'a2ui-notice a2ui-notice-success';
-        statusMsg.style.marginTop = '0.5rem';
-        statusMsg.textContent = 'Weights cached in OPFS — ready for local WebGPU inference.';
-        modelInfoContainer.appendChild(statusMsg);
-
-        await initEngine();
-      }
-    }
-  }
-
-  async function initEngine(weights?: Uint8Array) {
-    copilotEngine = new CopilotEngine({ modelId: modelManager.getActiveModel().id });
-    await copilotEngine.initialize(weights);
-
-    if (copilotInput) copilotInput.disabled = false;
-    if (sendBtn) sendBtn.disabled = false;
-
-    // Post welcome message in drawer
-    if (messagesContainer && messagesContainer.children.length === 0) {
-      const welcomeBubble = document.createElement('div');
-      welcomeBubble.className = 'chat-bubble chat-assistant';
-      welcomeBubble.textContent = 'Copilot active. Ask questions about your local company records (e.g., "Which invoices last month were largest?")';
-      messagesContainer.appendChild(welcomeBubble);
-    }
-  }
-
-  async function handleUserQuery() {
-    if (!copilotInput || !copilotEngine || !copilotInput.value.trim() || !messagesContainer) return;
-
-    const userText = copilotInput.value.trim();
-    copilotInput.value = '';
-
-    // Append User Message Bubble
-    const userBubble = document.createElement('div');
-    userBubble.className = 'chat-bubble chat-user';
-    userBubble.textContent = userText;
-    messagesContainer.appendChild(userBubble);
-
-    // Append Assistant Response Container
-    const assistantBubble = document.createElement('div');
-    assistantBubble.className = 'chat-bubble chat-assistant';
-    assistantBubble.textContent = 'Thinking and rendering A2UI...';
-    messagesContainer.appendChild(assistantBubble);
-
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-    // Gather ERP Context
-    const store = erpApp.getStore();
-    const context = {
-      activeModule: erpApp.getCurrentView(),
-      summaryMetrics: store.getSummaryMetrics(),
-      visibleEntities: store.getInvoices() as unknown as Record<string, unknown>[],
-    };
-
-    try {
-      const a2uiPayload = await copilotEngine.generate(userText, context);
-      assistantBubble.replaceChildren();
-      a2uiRenderer.render(a2uiPayload, assistantBubble);
-    } catch (err) {
-      assistantBubble.replaceChildren();
-      const errNotice = document.createElement('div');
-      errNotice.className = 'a2ui-notice a2ui-notice-error';
-      errNotice.textContent = (err as Error).message || 'Failed to generate response.';
-      assistantBubble.appendChild(errNotice);
-    }
-
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-  }
-
-  sendBtn?.addEventListener('click', handleUserQuery);
-  copilotInput?.addEventListener('keydown', e => {
-    if (e.key === 'Enter') handleUserQuery();
+  toggle.addEventListener('change', () => {
+    if (toggle.checked) void copilot.open();
+    else copilot.close();
   });
-});
+
+  document.getElementById('close-copilot-btn')?.addEventListener('click', () => {
+    toggle.checked = false;
+    copilot.close();
+  });
+
+  // ---- landing <-> ERP ----
+  const pinLabel = document.getElementById('erp-pin');
+  if (pinLabel) {
+    pinLabel.textContent = `NeoDonkey-ERP @ ${__ERP_REF__}`;
+    pinLabel.title = 'The pinned ref this demo runs, from erp.pin.json';
+    pinLabel.hidden = false;
+  }
+
+  let opened = false;
+
+  const enter = (): void => {
+    // The frame has no `src` until now: a visitor reading the landing page has not asked for an
+    // ERP, and starting one would write to their storage before they said yes.
+    if (!opened) { frame.src = ERP_URL; opened = true; }
+    landing.hidden = true;
+    app.hidden = false;
+    window.scrollTo(0, 0);
+    void copilot.probe().then((offered) => {
+      // Failure is silent: no toggle, no apology, no explanation of what they are missing.
+      if (offered) toggleContainer.hidden = false;
+    });
+  };
+
+  const leave = (): void => {
+    app.hidden = true;
+    landing.hidden = false;
+    window.scrollTo(0, 0);
+  };
+
+  for (const button of document.querySelectorAll('[data-login]')) {
+    button.addEventListener('click', enter);
+  }
+  document.getElementById('back-to-landing-btn')?.addEventListener('click', leave);
+
+  // A visitor who has been here before has a key in this browser, so "log in" is the wrong word
+  // for what the button does — there is nobody to log in to, and their company is already here.
+  void hasExistingIdentity().then((returning) => {
+    if (!returning) return;
+    for (const button of document.querySelectorAll('[data-login]')) {
+      button.textContent = 'Open your company';
+    }
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', boot);
+} else {
+  boot();
+}

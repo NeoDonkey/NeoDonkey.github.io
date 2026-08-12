@@ -57,15 +57,24 @@ around them; they were checked on 2026-08-12 and cost real time to establish.
 
 ## 4. Verifying
 
-The site has no test suite yet. The first substantial change should bring one, because the pieces
-worth building here are exactly the pieces worth testing:
+`pnpm verify` is typecheck plus tests, and CI runs it before it will deploy. What is covered:
 
-- the hardware gate, as a pure function of a capability object — testable without the hardware
-- a canned A2UI payload rendering to expected DOM — testable with no model present, and worth
-  building before one exists
-- hostile payloads executing nothing
+- the hardware gate, as a pure function of a capability object — the same decision on any machine
+- a canned A2UI payload rendering to expected DOM, with no model present
+- hostile payloads executing nothing, including prototype keys and unbounded nesting
 
-A change is not done because it looks right in a browser.
+**A change is not done because it looks right in a browser — and it is not done if it has only
+been type-checked either.** Three of the things this site claims cannot be asserted by a unit
+test: that the ERP boots, that a model loads onto the GPU, and that an answer renders. Drive a
+real browser before saying any of those work. The ERP repository's `docs/_browser-verify.mjs`
+shows how to do it with no dependencies at all.
+
+Two failures worth knowing about before you rediscover them:
+
+- A dev server with a single-page fallback answers 200 for `erp/release.json` and the ERP refuses
+  to boot, correctly. `appType: 'mpa'`.
+- The ERP's onboarding offers "Choose a folder" first. Automation that clicks the button matching
+  "start" opens a native picker and hangs.
 
 ---
 

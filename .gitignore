@@ -11,3 +11,7 @@ build/
 *.tflite
 *.bin
 *.gguf
+
+# The ERP runtime is copied in at build time from the pinned ref in erp.pin.json.
+# It is a build output, not a fork: never commit it.
+public/erp/
