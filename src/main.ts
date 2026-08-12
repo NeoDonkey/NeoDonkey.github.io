@@ -1,4 +1,5 @@
 import { ERPApp } from './erp/erpApp';
+import { ERPStore, generateDefaultCompany } from './erp/company';
 import { detectSystemCapabilities, checkHardwareCapability } from './copilot/hardwareGate';
 import { ModelManager } from './copilot/modelManager';
 import { A2UIRenderer } from './renderer/a2uiRenderer';
@@ -13,12 +14,48 @@ document.addEventListener('DOMContentLoaded', async () => {
   const erpApp = new ERPApp(erpRoot);
   erpApp.render();
 
-  // 2. Instantiate Helpers
+  // 2. Setup Login Modal Event Listeners
+  const loginModal = document.getElementById('login-modal');
+  const loginNavBtn = document.getElementById('login-nav-btn');
+  const openLoginModalBtn = document.getElementById('open-login-modal-btn');
+  const closeLoginModalBtn = document.getElementById('close-login-modal');
+  const confirmLoginBtn = document.getElementById('confirm-login-btn');
+  const companyNameInput = document.getElementById('company-name-input') as HTMLInputElement | null;
+
+  function openModal() {
+    loginModal?.classList.remove('hidden');
+  }
+
+  function closeModal() {
+    loginModal?.classList.add('hidden');
+  }
+
+  loginNavBtn?.addEventListener('click', openModal);
+  openLoginModalBtn?.addEventListener('click', openModal);
+  closeLoginModalBtn?.addEventListener('click', closeModal);
+
+  confirmLoginBtn?.addEventListener('click', () => {
+    const name = companyNameInput?.value.trim() || 'Donkey Logistics & Trade GmbH';
+    const currentComp = generateDefaultCompany();
+    currentComp.name = name;
+
+    const newStore = new ERPStore(currentComp);
+    const newApp = new ERPApp(erpRoot, newStore);
+    newApp.render();
+
+    closeModal();
+
+    // Smooth scroll to ERP section
+    const erpSection = document.getElementById('erp-demo-section');
+    erpSection?.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // 3. Instantiate Copilot Helpers
   const modelManager = new ModelManager();
   const a2uiRenderer = new A2UIRenderer();
   let copilotEngine: CopilotEngine | null = null;
 
-  // 3. Silent Hardware Gate Check
+  // 4. Silent Hardware Gate Check
   const sysCapabilities = await detectSystemCapabilities();
   const gateResult = checkHardwareCapability(sysCapabilities);
 

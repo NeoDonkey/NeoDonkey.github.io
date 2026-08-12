@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NeoDonkey — Serverless Headless ERP with In-Browser Copilot</title>
+  <title>NeoDonkey — Serverless Headless ERP with In-Browser AI Copilot</title>
   <meta name="description" content="Try NeoDonkey-ERP in your browser with zero dependencies, local storage, and optional in-browser AI Copilot powered by WebGPU and LiteRT." />
   <link rel="stylesheet" href="/src/style.css" />
 </head>
@@ -13,60 +13,155 @@
     <header class="site-header">
       <div class="brand-wrapper">
         <span class="site-logo">🫏</span>
-        <h1 class="site-name">NeoDonkey</h1>
+        <div class="site-branding">
+          <h1 class="site-name">NeoDonkey</h1>
+          <span class="site-tagline">Headless ERP</span>
+        </div>
       </div>
 
+      <nav class="site-nav-links">
+        <a href="#marketing-hero" class="nav-link">Overview</a>
+        <a href="#features" class="nav-link">Features</a>
+        <a href="https://github.com/NeoDonkey/NeoDonkey-ERP" target="_blank" rel="noopener" class="nav-link">GitHub ERP</a>
+      </nav>
+
       <div class="header-actions">
-        <!-- Hardware Gate Toggle (Hidden by default until hardware check succeeds) -->
+        <!-- Hardware Gate Toggle (Hidden until hardware check succeeds) -->
         <div id="copilot-toggle-container" class="copilot-toggle-container" style="display: none;">
           <span class="copilot-toggle-label">
-            <span class="copilot-sparkle">✨</span> Enable Copilot
+            <span class="copilot-sparkle">✨</span> Copilot
           </span>
           <label class="switch" for="copilot-checkbox">
             <input type="checkbox" id="copilot-checkbox" />
             <span class="slider"></span>
           </label>
         </div>
+
+        <button id="login-nav-btn" class="btn-primary-sm">Instant Login</button>
       </div>
     </header>
 
-    <!-- Main Container layout -->
-    <div class="layout-container">
-      <!-- Base ERP Shell (Progressive Enhancement - always visible) -->
-      <main id="erp-root" class="erp-container"></main>
+    <!-- Marketing Hero & Value Proposition -->
+    <section id="marketing-hero" class="marketing-hero">
+      <div class="hero-badge">
+        <span class="badge-sparkle">✨</span> Next-Gen ERP: WebGPU In-Browser AI & Zero Server Costs
+      </div>
 
-      <!-- Copilot Drawer (Toggled on when hardware gate passes and user enables Copilot) -->
-      <aside id="copilot-drawer" class="copilot-drawer hidden">
-        <header class="copilot-header">
-          <div class="copilot-title">
-            <span class="sparkle">✨</span>
-            <h3>In-Browser Copilot</h3>
+      <h2 class="hero-title">
+        The Headless ERP That Runs <span class="gradient-text">Entirely In Your Browser</span>
+      </h2>
+
+      <p class="hero-subtitle">
+        NeoDonkey gives you a complete enterprise management system powered by local git storage.
+        No cloud servers, zero API fees, and total data privacy.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#erp-demo-section" class="btn-hero-primary" id="start-demo-btn">
+          🚀 Try Live Demo Sandbox
+        </a>
+        <button class="btn-hero-secondary" id="open-login-modal-btn">
+          🔑 Local Session Login
+        </button>
+      </div>
+
+      <!-- Feature Cards Grid -->
+      <div id="features" class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🫏</div>
+          <h3>Headless Architecture</h3>
+          <p>Decoupled ES module core. Use the standard vanilla UI or attach custom heads seamlessly.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>100% Privacy & Offline</h3>
+          <p>Company records stay inside your browser's OPFS memory. Zero telemetry or network calls.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">✨</div>
+          <h3>Local WebGPU Copilot</h3>
+          <p>On capable hardware, LiteRT.js runs quantised LLMs locally to emit dynamic A2UI components.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Login Modal (Serverless Local Session) -->
+    <div id="login-modal" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-title">
+            <span class="modal-icon">🫏</span>
+            <h3>Local Session Login</h3>
           </div>
-          <button id="close-copilot-btn" class="erp-tab-btn" aria-label="Close Copilot">✕</button>
-        </header>
+          <button id="close-login-modal" class="btn-icon">✕</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-notice">
+            <strong>Serverless Authentication:</strong> NeoDonkey runs 100% client-side. No sign-up or passwords required. Entering a session loads your isolated company sandbox in local OPFS storage.
+          </p>
 
-        <div id="copilot-body" class="copilot-body">
-          <!-- Model Card / Download Section -->
-          <div id="model-section" class="model-card">
-            <div id="model-info"></div>
-            <div id="download-progress-container" style="display: none;">
-              <p id="download-status" class="model-desc">Downloading weights to OPFS...</p>
-              <div class="progress-bar-track">
-                <div id="progress-bar-fill" class="progress-bar-fill"></div>
+          <div class="form-group">
+            <label for="company-name-input">Company Name</label>
+            <input type="text" id="company-name-input" class="form-input" value="Donkey Logistics & Trade GmbH" />
+          </div>
+
+          <div class="form-group">
+            <label for="session-role-select">Session Role</label>
+            <select id="session-role-select" class="form-input">
+              <option value="admin">Administrator (Full Access)</option>
+              <option value="accountant">Financial Accountant</option>
+              <option value="inventory">Inventory Specialist</option>
+            </select>
+          </div>
+
+          <button id="confirm-login-btn" class="btn-hero-primary full-width">
+            Initialize Local Session →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ERP Demo Section Container -->
+    <section id="erp-demo-section" class="erp-demo-section">
+      <div class="layout-container">
+        <!-- Base ERP Shell (Progressive Enhancement - always visible) -->
+        <main id="erp-root" class="erp-container"></main>
+
+        <!-- Copilot Drawer (Toggled on when hardware gate passes and user enables Copilot) -->
+        <aside id="copilot-drawer" class="copilot-drawer hidden">
+          <header class="copilot-header">
+            <div class="copilot-title">
+              <span class="sparkle">✨</span>
+              <h3>In-Browser Copilot</h3>
+            </div>
+            <button id="close-copilot-btn" class="erp-tab-btn" aria-label="Close Copilot">✕</button>
+          </header>
+
+          <div id="copilot-body" class="copilot-body">
+            <!-- Model Card / Download Section -->
+            <div id="model-section" class="model-card">
+              <div id="model-info"></div>
+              <div id="download-progress-container" style="display: none;">
+                <p id="download-status" class="model-desc">Downloading weights to OPFS...</p>
+                <div class="progress-bar-track">
+                  <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                </div>
               </div>
             </div>
+
+            <!-- Active Copilot Messages & Rendered A2UI -->
+            <div id="copilot-messages" class="copilot-messages"></div>
           </div>
 
-          <!-- Active Copilot Messages & Rendered A2UI -->
-          <div id="copilot-messages" class="copilot-messages"></div>
-        </div>
-
-        <div class="copilot-input-area">
-          <input type="text" id="copilot-input" class="copilot-input" placeholder="Ask questions about local ERP data..." disabled />
-          <button id="send-btn" class="btn-send" disabled>Send</button>
-        </div>
-      </aside>
-    </div>
+          <div class="copilot-input-area">
+            <input type="text" id="copilot-input" class="copilot-input" placeholder="Ask questions about local ERP data..." disabled />
+            <button id="send-btn" class="btn-send" disabled>Send</button>
+          </div>
+        </aside>
+      </div>
+    </section>
   </div>
 
   <script type="module" src="/src/main.ts"></script>
