@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://neodonkey.github.io/sitemap.xml
