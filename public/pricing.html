@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeoDonkey Pricing: Own Your ERP, Don't Rent It | One-Time Cost</title>
+  <meta name="description" content="NeoDonkey is not SaaS. Pay once, own forever. No per-user fees, no monthly subscriptions, no vendor lock-in. See the ownership model that makes traditional ERP vendors nervous." />
+  <meta name="keywords" content="ERP pricing, open source ERP cost, no subscription ERP, buy once own forever, ERP without monthly fees" />
+  <link rel="canonical" href="https://neodonkey.github.io/pricing/" />
+  <link rel="stylesheet" href="/src/style.css" />
+  <style>
+    .pricing-hero { padding: 120px 24px 60px; background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%); color: white; }
+    .pricing-hero h1 { font-size: 3rem; margin-bottom: 16px; }
+    .pricing-hero p { font-size: 1.25rem; opacity: 0.9; max-width: 640px; }
+    .pricing-section { padding: 80px 24px; max-width: 960px; margin: 0 auto; }
+    .pricing-section h2 { font-size: 2rem; margin-bottom: 24px; }
+    .pricing-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 32px 0; }
+    .pricing-card { background: var(--surface-2); border-radius: 16px; padding: 32px; border: 2px solid var(--border); }
+    .pricing-card.featured { border-color: #0d9488; position: relative; }
+    .pricing-card.featured::before { content: "RECOMMENDED"; position: absolute; top: -12px; left: 24px; background: #0d9488; color: white; padding: 4px 12px; border-radius: 100px; font-size: 0.75rem; font-weight: 600; }
+    .pricing-card h3 { font-size: 1.25rem; margin-bottom: 8px; }
+    .pricing-card .price { font-size: 3rem; font-weight: 700; color: #0d9488; margin: 16px 0; }
+    .pricing-card .price-note { color: var(--text-2); font-size: 0.875rem; margin-bottom: 24px; }
+    .pricing-card ul { list-style: none; padding: 0; }
+    .pricing-card li { padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .pricing-card li::before { content: "✓"; color: #0d9488; margin-right: 8px; }
+    .highlight-box { background: var(--surface-2); border-radius: 12px; padding: 32px; margin: 32px 0; border-left: 4px solid #0d9488; }
+    .savings-calc { background: #0f172a; color: white; padding: 48px 24px; border-radius: 16px; margin: 32px 0; }
+    .savings-calc h3 { margin-bottom: 24px; }
+    .calc-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #334155; }
+    .calc-total { font-size: 1.5rem; font-weight: 700; color: #0d9488; margin-top: 16px; }
+    .cta-banner { background: #0d9488; color: white; padding: 48px 24px; text-align: center; margin-top: 48px; }
+    .cta-banner .btn { background: white; color: #0d9488; padding: 12px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-block; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <header class="site-nav" style="background: #0f172a;">
+    <div class="container site-nav__inner">
+      <a class="brand" href="/" aria-label="NeoDonkey">
+        <svg class="brand__mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="32" height="32" rx="7" fill="#0d9488"/>
+          <path d="M13.5 12.5 L11.8 5.4 C11.6 4 13 3.2 13.9 4.1 L15.6 5.9 L15.8 12.5 Z" fill="#fff"/>
+          <path d="M18.5 12.5 L20.2 5.4 C20.4 4 19 3.2 18.1 4.1 L16.4 5.9 L16.2 12.5 Z" fill="#fff"/>
+          <path d="M8.5 12.5 L8.5 15.5 C8.5 23.5 11 26.5 16 26.5 C21 26.5 23.5 23.5 23.5 15.5 L23.5 12.5 C23.5 11.4 22.6 10.6 21.5 10.6 L10.5 10.6 C9.4 10.6 8.5 11.4 8.5 12.5 Z" fill="#fff"/>
+          <circle cx="12.5" cy="16.5" r="1.2" fill="#0d9488"/>
+          <circle cx="19.5" cy="16.5" r="1.2" fill="#0d9488"/>
+          <rect x="13.5" y="19.5" width="5" height="3.6" rx="1.8" fill="#ccfbf1"/>
+        </svg>
+        <span class="brand__name">NeoDonkey</span>
+      </a>
+      <nav class="site-nav__links" aria-label="Primary">
+        <a class="site-nav__link" href="/">Home</a>
+        <a class="site-nav__link" href="/blog/">Blog</a>
+        <a class="site-nav__link" href="https://github.com/NeoDonkey/NeoDonkey-ERP" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="pricing-hero">
+    <div class="container">
+      <h1>We Don't Have a "Pricing Page."<br>Because You Buy It Once.</h1>
+      <p>Every other ERP vendor charges you monthly, forever. We don't. Here's how NeoDonkey's ownership model works — and why it terrifies the industry.</p>
+    </div>
+  </section>
+
+  <section class="pricing-section">
+    <h2>The Ownership Model</h2>
+    <p>NeoDonkey isn't SaaS. It's not subscription software. It's <strong>a product you buy once and own forever</strong> — like buying a book instead of renting a library.</p>
+    
+    <div class="pricing-cards">
+      <div class="pricing-card featured">
+        <h3>NeoDonkey Community</h3>
+        <div class="price">€0</div>
+        <div class="price-note">Forever. No catch. EUPL-1.2 licensed.</div>
+        <ul>
+          <li>Full ERP core</li>
+          <li>Git-based data layer</li>
+          <li>Browser runtime</li>
+          <li>Ed25519 signatures</li>
+          <li>Peer-to-peer sync</li>
+          <li>Community support</li>
+          <li>Self-hosted</li>
+        </ul>
+      </div>
+      
+      <div class="pricing-card">
+        <h3>Traditional ERP (Reference)</h3>
+        <div class="price" style="color: #ef4444;">€180K-€500K</div>
+        <div class="price-note">Plus €40K-€110K/year forever</div>
+        <ul>
+          <li>SAP / Oracle / Microsoft</li>
+          <li>Per-user licensing</li>
+          <li>Annual maintenance (22%)</li>
+          <li>Forced upgrades</li>
+          <li>Consultant dependency</li>
+          <li>Server costs extra</li>
+          <li>Vendor lock-in</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing-section">
+    <h2>Why "Free" Is Sustainable</h2>
+    
+    <div class="highlight-box">
+      <h3>No Servers to Pay For</h3>
+      <p>Traditional ERP vendors charge you for their cloud infrastructure. NeoDonkey runs on <strong>your hardware</strong> — your laptop, your office PC, your tablet. We have no servers. We have no cloud bill. Therefore, we have nothing to charge you for.</p>
+    </div>
+
+    <div class="highlight-box">
+      <h3>No Support to Sell</h3>
+      <p>NeoDonkey is designed to be understood. The entire system is a git repo you can read. The documentation is the code. When something is simple enough to understand, you don't need a €200/hour consultant to explain it.</p>
+    </div>
+
+    <div class="highlight-box">
+      <h3>EUPL-1.2: Forever Open</h3>
+      <p>Even if the NeoDonkey project stopped tomorrow, the code is yours under the EUPL-1.2 license. You can fork it, modify it, sell it. It's your software. We can't take it back. We can't change the terms. We can't raise prices.</p>
+    </div>
+  </section>
+
+  <section class="pricing-section">
+    <div class="savings-calc">
+      <h3>5-Year Cost Calculator: 50-Person Company</h3>
+      <div class="calc-row">
+        <span>SAP Business One (50 users)</span>
+        <span>€850,000</span>
+      </div>
+      <div class="calc-row">
+        <span>Odoo Enterprise (50 users)</span>
+        <span>€60,000</span>
+      </div>
+      <div class="calc-row">
+        <span>ERPNext (self-hosted + support)</span>
+        <span>€24,000</span>
+      </div>
+      <div class="calc-row" style="border-bottom: 2px solid #0d9488;">
+        <span><strong>NeoDonkey</strong></span>
+        <span><strong>€0</strong></span>
+      </div>
+      <div class="calc-total">
+        You save: €24,000 - €850,000
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing-section">
+    <h2>The Honest Fine Print</h2>
+    <p>We're not going to pretend there are zero costs:</p>
+    <ul style="margin: 24px 0; padding-left: 24px; line-height: 2;">
+      <li><strong>Your time:</strong> Learning any new system takes time. But NeoDonkey is designed to be learned in hours, not months.</li>
+      <li><strong>Your hardware:</strong> You need a computer with a browser. Which you already have.</li>
+      <li><strong>Optional relay:</strong> For 24/7 sync across locations, you might want a €3/month Hetzner VPS as a relay. Optional. Not required.</li>
+      <li><strong>Optional support:</strong> If you want professional support, third-party consultants can help. But you don't need us for that.</li>
+    </ul>
+  </section>
+
+  <section class="cta-banner">
+    <div class="container">
+      <h2>The Most Expensive ERP Is "Free" SaaS</h2>
+      <p>Every "free trial" becomes a €50K/year subscription. NeoDonkey costs zero today, zero tomorrow, zero forever.</p>
+      <a href="/" class="btn">Get NeoDonkey Free →</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__bottom">
+        <span>&copy; 2026 NeoDonkey &middot; EUPL-1.2</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NeoDonkey vs Oracle NetSuite — Cost, Lock-in, and Data Ownership Compared</title>
+  <meta name="description" content="Oracle NetSuite costs $999+/month base + $99/user/month. NeoDonkey costs €0. Compare TCO, data ownership, and vendor lock-in.">
+  <link rel="canonical" href="https://neodonkey.github.io/compare/oracle.html">
+  <link rel="stylesheet" href="/src/style.css">
+  <style>
+    .compare-hero { background: #1e3a5f; color: white; padding: 80px 24px; text-align: center; }
+    .compare-hero h1 { font-size: 2.5rem; margin-bottom: 16px; }
+    .compare-hero p { opacity: 0.9; max-width: 600px; margin: 0 auto; }
+    .compare-table { width: 100%; border-collapse: collapse; margin: 48px 0; }
+    .compare-table th, .compare-table td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border); }
+    .compare-table th { background: var(--surface-2); font-weight: 600; }
+    .compare-table .winner { background: rgba(13, 148, 136, 0.1); font-weight: 600; }
+    .compare-table .loser { background: rgba(239, 68, 68, 0.05); }
+    .cost-highlight { font-size: 2rem; font-weight: 700; }
+    .cost-neo { color: #0d9488; }
+    .cost-ora { color: #ef4444; }
+  </style>
+</head>
+<body>
+  <header class="site-nav">
+    <div class="container site-nav__inner">
+      <a class="brand" href="/" aria-label="NeoDonkey">
+        <svg class="brand__mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="32" height="32" rx="7" fill="#0d9488"/>
+          <path d="M13.5 12.5 L11.8 5.4 C11.6 4 13 3.2 13.9 4.1 L15.6 5.9 L15.8 12.5 Z" fill="#fff"/>
+          <path d="M18.5 12.5 L20.2 5.4 C20.4 4 19 3.2 18.1 4.1 L16.4 5.9 L16.2 12.5 Z" fill="#fff"/>
+          <path d="M8.5 12.5 L8.5 15.5 C8.5 23.5 11 26.5 16 26.5 C21 26.5 23.5 23.5 23.5 15.5 L23.5 12.5 C23.5 11.4 22.6 10.6 21.5 10.6 L10.5 10.6 C9.4 10.6 8.5 11.4 8.5 12.5 Z" fill="#fff"/>
+          <circle cx="12.5" cy="16.5" r="1.2" fill="#0d9488"/>
+          <circle cx="19.5" cy="16.5" r="1.2" fill="#0d9488"/>
+          <rect x="13.5" y="19.5" width="5" height="3.6" rx="1.8" fill="#ccfbf1"/>
+        </svg>
+        <span class="brand__name">NeoDonkey</span>
+      </a>
+      <nav class="site-nav__links" aria-label="Primary">
+        <a class="site-nav__link" href="/">Home</a>
+        <a class="site-nav__link" href="/pricing.html">Pricing</a>
+        <a class="site-nav__link" href="/blog/">Blog</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="compare-hero">
+    <div class="container">
+      <h1>NeoDonkey vs Oracle NetSuite</h1>
+      <p>Oracle NetSuite starts at $999/month + $99/user. NeoDonkey starts at €0 and stays there. Here's the full breakdown.</p>
+    </div>
+  </section>
+
+  <main class="container" style="padding: 80px 24px; max-width: 960px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 64px; text-align: center;">
+      <div style="padding: 48px; background: var(--surface-2); border-radius: 16px;">
+        <div class="cost-highlight cost-ora">$184K+</div>
+        <p style="margin-top: 16px;">Oracle NetSuite<br>5-year TCO (50 users)</p>
+      </div>
+      <div style="padding: 48px; background: #0d9488; color: white; border-radius: 16px;">
+        <div class="cost-highlight" style="color: white;">€0</div>
+        <p style="margin-top: 16px;">NeoDonkey<br>5-year TCO (unlimited users)</p>
+      </div>
+    </div>
+
+    <h2 style="margin-bottom: 32px;">Feature Comparison</h2>
+    <table class="compare-table">
+      <tr>
+        <th>Feature</th>
+        <th>Oracle NetSuite</th>
+        <th>NeoDonkey</th>
+      </tr>
+      <tr>
+        <td>Base Price</td>
+        <td class="loser">$999+/month</td>
+        <td class="winner">€0</td>
+      </tr>
+      <tr>
+        <td>Per-User Price</td>
+        <td class="loser">$99/user/month</td>
+        <td class="winner">€0 (unlimited)</td>
+      </tr>
+      <tr>
+        <td>Data Ownership</td>
+        <td class="loser">Oracle hosts your data</td>
+        <td class="winner">You own the git repository</td>
+      </tr>
+      <tr>
+        <td>Source Code Access</td>
+        <td class="loser">Proprietary, closed</td>
+        <td class="winner">100% open source (EUPL-1.2)</td>
+      </tr>
+      <tr>
+        <td>Customizations</td>
+        <td class="loser">$250-500/hour consultant</td>
+        <td class="winner">DIY or any developer</td>
+      </tr>
+      <tr>
+        <td>Offline Capability</td>
+        <td class="loser">Requires internet</td>
+        <td class="winner">Fully offline (browser storage)</td>
+      </tr>
+      <tr>
+        <td>Export Data</td>
+        <td class="loser">CSV/Excel only, fees may apply</td>
+        <td class="winner">Native git clone, any format</td>
+      </tr>
+      <tr>
+        <td>AI Assistant</td>
+        <td class="loser">Cloud-based (sends your data)</td>
+        <td class="winner">Local GPU, zero data leaves device</td>
+      </tr>
+      <tr>
+        <td>Implementation Time</td>
+        <td class="loser">3-6 months + consultant</td>
+        <td class="winner">10 seconds, self-service</td>
+      </tr>
+      <tr>
+        <td>Vendor Lock-in</td>
+        <td class="loser">Extreme (proprietary platform)</td>
+        <td class="winner">None (open source, git-based)</td>
+      </tr>
+    </table>
+
+    <h2 style="margin: 64px 0 32px;">Why Oracle NetSuite Costs So Much</h2>
+    <p>NetSuite pioneered cloud ERP and was acquired by Oracle in 2016 for $9.3 billion. That acquisition wasn't about technology — it was about recurring revenue. NetSuite's business model is designed to maximize lifetime customer value through:</p>
+    <ul style="margin-bottom: 32px; padding-left: 24px; line-height: 1.8;">
+      <li><strong>Module upselling:</strong> Basic ERP is just the entry drug. CRM, e-commerce, PSA, and "SuiteApps" each add $$$.</li>
+      <li><strong>Implementation services:</strong> Oracle partners charge $150-300/hour for setup. A typical implementation costs $50K-150K.</li>
+      <li><strong>Customization dependency:</strong> SuiteScript (JavaScript-based) requires specialized consultants at $200+/hour.</li>
+      <li><strong>Annual price increases:</strong> Contract typically allows 3-5% annual increases. Over 5 years, that's 16-28% higher than day one.</li>
+    </ul>
+
+    <h2 style="margin: 64px 0 32px;">The NeoDonkey Alternative</h2>
+    <p>NeoDonkey is built on a fundamentally different economic model:</p>
+    <ul style="margin-bottom: 32px; padding-left: 24px; line-height: 1.8;">
+      <li><strong>EUPL-1.2 license:</strong> Free forever. No subscription tiers. No feature gates.</li>
+      <li><strong>Browser-native:</strong> Runs in your browser using Origin Private File System. No servers to rent.</li>
+      <li><strong>Git-based data:</strong> Your company is a repository. Clone it, fork it, migrate it — zero fees.</li>
+      <li><strong>Zero-dependency core:</strong> Plain ES modules. Any web developer can modify it. No specialized consultants needed.</li>
+    </ul>
+
+    <div style="text-align: center; margin: 64px 0; padding: 48px; background: var(--surface-2); border-radius: 16px;">
+      <h2 style="margin-bottom: 16px;">Ready to Escape?</h2>
+      <p style="margin-bottom: 32px;">Open NeoDonkey in your browser. No signup. No credit card. Your company appears as a git repository in 10 seconds.</p>
+      <a href="/" style="display: inline-block; padding: 16px 48px; background: #0d9488; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 1.125rem;">Try NeoDonkey Free →</a>
+    </div>
+
+    <div style="margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--border);">
+      <p style="color: var(--text-2);">Also see: <a href="/compare/sap.html">NeoDonkey vs SAP</a> · <a href="/compare/odoo.html">NeoDonkey vs Odoo</a> · <a href="/pricing.html">Full Pricing Comparison</a></p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__bottom">
+        <span>&copy; 2026 NeoDonkey &middot; EUPL-1.2</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
