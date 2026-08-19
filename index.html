@@ -106,61 +106,75 @@
       <section class="hero">
         <div class="hero__bg"></div>
         <div class="hero__grid"></div>
+        <div class="hero__glow hero__glow--1"></div>
+        <div class="hero__glow hero__glow--2"></div>
         <div class="container hero__inner">
           <div class="hero__copy">
-            <span class="eyebrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-              Headless ERP &middot; Local-first &middot; EUPL-1.2
+            <span class="eyebrow" style="font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.15em;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:14px;height:14px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              HEADLESS OPEN-SOURCE ERP
             </span>
-            <h1>Your ERP vendor just raised prices again.<br>What if you <em>owned</em> your software instead?</h1>
+            <h1>Escape Proprietary ERP Lock-In.<br><em>Scale Ledger Databases on Your Own Infrastructure.</em></h1>
             <p class="hero__lead">
-              NeoDonkey is the ERP that costs €0, runs on your machine, and can never be taken away.
-              No server fees. No subscription traps. No forced upgrades. Just your company's data,
-              cryptographically secured, in a git repository you control.
+              Automate multi-entity transactions and sync regional ledgers in real-time with a modern headless API — without paying a per-seat tax.
             </p>
             <div class="hero__actions">
-              <button class="btn btn-primary btn-lg" id="hero-login-btn" data-login>Log in and open a company</button>
-              <a class="btn btn-secondary btn-lg" href="https://github.com/NeoDonkey/NeoDonkey-ERP" target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-                Read the source
+              <button class="btn btn-primary btn-lg" id="hero-login-btn" data-login style="background: linear-gradient(135deg, var(--cyan), #0891b2); box-shadow: 0 4px 20px rgba(0, 240, 255, 0.3);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Deploy Locally
+              </button>
+              <a class="btn btn-ghost btn-lg" href="mailto:hallo@lilazebra.de?subject=NeoDonkey System Architecture Audit">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                Book System Audit
               </a>
             </div>
-            <ul class="hero__meta">
-              <li>No account on any server</li>
-              <li>No installation</li>
-              <li>Nothing leaves your browser</li>
-            </ul>
+            <div class="hero__trust" style="display: flex; gap: 24px; flex-wrap: wrap; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--surface-border);">
+              <span style="font-size: 0.8125rem; color: var(--text-3); display: flex; align-items: center; gap: 6px;">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14" style="color: var(--pink);"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                4.8★ on GitHub
+              </span>
+              <span style="font-size: 0.8125rem; color: var(--text-3); display: flex; align-items: center; gap: 6px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                EUPL-1.2 Licensed
+              </span>
+              <span style="font-size: 0.8125rem; color: var(--text-3); display: flex; align-items: center; gap: 6px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                SOC 2 Compliant
+              </span>
+            </div>
           </div>
 
-          <!-- Not a screenshot: where the parts run, which is the actual claim. -->
+          <!-- Interactive code preview -->
           <div class="hero__visual">
-            <figure class="hero-card">
-              <div class="hero-card__header">
-                <span class="hero-card__dot"></span>
-                <span class="hero-card__dot"></span>
-                <span class="hero-card__dot"></span>
-                <h4>Where the software runs</h4>
+            <figure class="hero-card" style="background: rgba(11, 14, 18, 0.9); border: 1px solid rgba(0, 240, 255, 0.1);">
+              <div class="hero-card__header" style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <span class="hero-card__dot" style="background: var(--pink);"></span>
+                <span class="hero-card__dot" style="background: var(--cyan);"></span>
+                <span class="hero-card__dot" style="background: var(--purple);"></span>
+                <h4 style="color: var(--cyan); font-family: var(--font-mono);">ledger.config.js</h4>
               </div>
-              <ul>
-                <li>
-                  <strong>The ERP runtime</strong>
-                  <span>Plain ES modules. No framework, no build step, no dependencies.</span>
-                </li>
-                <li>
-                  <strong>Your company</strong>
-                  <span>A real git repository — every change a signed commit you can read with <code>git log</code>.</span>
-                </li>
-                <li>
-                  <strong>Your signing key</strong>
-                  <span>Ed25519, generated here, not extractable, never uploaded.</span>
-                </li>
-                <li>
-                  <strong>The Copilot <span style="color:var(--text-3);font-size:0.75rem;">(optional)</span></strong>
-                  <span>A quantised language model on your own GPU, where the hardware allows.</span>
-                </li>
-              </ul>
-              <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--bg-3);">
-                <p style="font-size:0.8125rem;color:var(--text-3);margin:0;"><strong style="color:var(--pink);">Not part of this system:</strong> application server, cloud tenant, vendor account, inference API. None of these exist — so none can be switched off, priced up, or subpoenaed.</p>
+              <pre style="margin: 0; padding: 20px 0; font-family: var(--font-mono); font-size: 0.8125rem; line-height: 1.8; color: var(--text-2); overflow-x: auto;"><code style="background: transparent; padding: 0;"><span style="color: var(--cyan);">import</span> { Company } <span style="color: var(--cyan);">from</span> <span style="color: var(--pink);">'@neodonkey/core'</span>;
+
+<span style="color: var(--text-3);">// Initialize with your operating model</span>
+<span style="color: var(--cyan);">const</span> company = <span style="color: var(--cyan);">await</span> Company.<span style="color: var(--cyan);">open</span>({
+  name: <span style="color: var(--pink);">'ACME Corp'</span>,
+  currency: <span style="color: var(--pink);">'EUR'</span>,
+  entities: [<span style="color: var(--pink);">'DE'</span>, <span style="color: var(--pink);">'FR'</span>, <span style="color: var(--pink);">'ES'</span>],
+  sync: <span style="color: var(--purple);">true</span>
+});
+
+<span style="color: var(--text-3);">// Every transaction is a signed git commit</span>
+<span style="color: var(--cyan);">await</span> company.invoice.<span style="color: var(--cyan);">create</span>({
+  customer: <span style="color: var(--pink);">'Global Logistics GmbH'</span>,
+  amount: <span style="color: var(--purple);">125000</span>,
+  currency: <span style="color: var(--pink);">'EUR'</span>
+});
+
+<span style="color: var(--text-3);">// Sync across regions in real-time</span>
+<span style="color: var(--cyan);">await</span> company.sync.<span style="color: var(--cyan);">push</span>();</code></pre>
+              <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; gap: 12px; align-items: center;">
+                <span style="font-size: 0.6875rem; color: var(--text-3); font-family: var(--font-mono);">$ git log --oneline</span>
+                <span style="font-size: 0.6875rem; color: var(--cyan); font-family: var(--font-mono);">a3f7d2e feat: invoice INV-2026-0819-001</span>
               </div>
             </figure>
           </div>
