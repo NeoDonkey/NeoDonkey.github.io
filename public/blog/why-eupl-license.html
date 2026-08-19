@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Why We Chose EUPL-1.2: The European Open Source License — NeoDonkey</title>
+  <meta name="description" content="Most open-source projects use MIT or GPL. We chose EUPL-1.2, the European Union Public License. Here's why this matters for digital sovereignty." />
+  <link rel="canonical" href="https://neodonkey.github.io/blog/why-eupl-license.html" />
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    .blog-post { max-width: 720px; margin: 0 auto; padding: 140px 24px 80px; }
+    .blog-post h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 16px; line-height: 1.2; }
+    .blog-post .meta { color: var(--text-3); font-size: 0.875rem; margin-bottom: 48px; }
+    .blog-post h2 { font-size: 1.5rem; font-weight: 700; margin: 48px 0 16px; }
+    .blog-post p { color: var(--text-2); line-height: 1.8; margin-bottom: 20px; }
+    .blog-post pre { background: var(--bg-2); padding: 20px; border-radius: var(--radius); overflow-x: auto; margin: 24px 0; }
+    .blog-post code { font-family: var(--font-mono); font-size: 0.875rem; color: var(--cyan); }
+    .blog-post blockquote { border-left: 3px solid var(--pink); padding-left: 20px; margin: 24px 0; color: var(--text-2); font-style: italic; }
+    .blog-post ul, .blog-post ol { color: var(--text-2); margin: 16px 0; padding-left: 24px; }
+    .blog-post li { margin: 8px 0; line-height: 1.7; }
+  </style>
+</head>
+<body>
+  <nav class="site-nav">
+    <div class="container site-nav__inner">
+      <a class="brand" href="/"><svg class="brand__mark" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#07070f"/><path d="M13.5 12.5 L11.8 5.4 C11.6 4 13 3.2 13.9 4.1 L15.6 5.9 L15.8 12.5 Z" fill="#ff2d95"/><path d="M18.5 12.5 L20.2 5.4 C20.4 4 19 3.2 18.1 4.1 L16.4 5.9 L16.2 12.5 Z" fill="#00f0ff"/></svg><span>NeoDonkey</span></a>
+      <div class="site-nav__links">
+        <a class="site-nav__link" href="/">Home</a>
+        <a class="site-nav__link" href="/blog/">Blog</a>
+        <a class="site-nav__link" href="/pricing.html">Pricing</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="blog-post">
+    <div class="eyebrow">Legal & Strategy</div>
+    <h1>Why We Chose EUPL-1.2: The European Open Source License</h1>
+    <div class="meta">August 20, 2026 · 6 min read · NeoDonkey Legal</div>
+
+    <p>When we open-sourced NeoDonkey, we had a choice: MIT, GPL, Apache, or EUPL. Most projects default to MIT or Apache because they're "business-friendly." We chose EUPL-1.2, the European Union Public License. Here's why.</p>
+
+    <h2>The License Nobody Knows</h2>
+
+    <p>EUPL-1.2 is the official open-source license of the European Union. Created by the EU Commission in 2007 and updated in 2017, it's designed to be:</p>
+
+    <ul>
+      <li><strong>Copyleft</strong> — Derivative works must be open source</li>
+      <li><strong>Compatible</strong> — Works with GPL, AGPL, and other major licenses</li>
+      <li><strong>Legally robust</strong> — Written for European law, not American</li>
+      <li><strong>Multilingual</strong> — Official versions in 23 EU languages</li>
+    </ul>
+
+    <p>And yet, most developers have never heard of it. The open-source world is dominated by American licenses: MIT (Massachusetts), Apache (California), GPL (Boston). EUPL is the European alternative that nobody talks about.</p>
+
+    <h2>Why Copyleft Matters for ERP</h2>
+
+    <p>MIT and Apache licenses allow anyone to take your code, modify it, and sell it as proprietary software without contributing back. This is called "proprietization" — and it's how open-source projects get captured.</p>
+
+    <p>Consider what happened to MongoDB (SSPL), Elasticsearch (SSPL), and Redis (RSAL). All three started as open source, got popular, then had to change licenses when cloud providers started offering them as proprietary services. The open-source community lost.</p>
+
+    <p>EUPL-1.2 prevents this. If someone modifies NeoDonkey and distributes it, their modifications must also be EUPL-licensed. They can't take our work, add a proprietary wrapper, and sell it without giving back.</p>
+
+    <blockquote>
+      "EUPL is not anti-business. It's pro-contribution. If you benefit from the commons, you contribute to the commons."
+    </blockquote>
+
+    <h2>European Legal Certainty</h2>
+
+    <p>American licenses are written for American law. When there's a dispute, courts interpret them through the lens of US copyright law, UCITA, and state-specific regulations.</p>
+
+    <p>EUPL is designed for European legal systems:</p>
+
+    <ul>
+      <li>References European copyright directives</li>
+      <li>Addresses EU data protection requirements</li>
+      <li>Compatible with EU public procurement rules</li>
+      <li>Court-tested in EU member states</li>
+    </ul>
+
+    <p>For European companies — especially those in regulated industries or public sector — this matters. Your legal team understands EUPL. They don't need to hire US counsel to interpret it.</p>
+
+    <h2>The Sovereignty Angle</h2>
+
+    <p>NeoDonkey is about digital sovereignty: your data, your software, your control. Using an American license for European sovereignty software felt... wrong.</p>
+
+    <p>EUPL is the only open-source license created by a democratic institution (the EU Commission) rather than a foundation, company, or individual. It's not Richard Stallman's vision or Google's preference. It's 27 democratic nations agreeing on how software freedom should work.</p>
+
+    <h2>Compatibility: The Hidden Superpower</h2>
+
+    <p>EUPL-1.2 is compatible with:</p>
+
+    <ul>
+      <li>GPL v2 and v3</li>
+      <li>AGPL</li>
+      <li>LGPL</li>
+      <li>OSL</li>
+      <li>Cecill</li>
+    </ul>
+
+    <p>This means you can combine EUPL code with GPL code without license conflicts. The EUPL's "upstream compatibility" clause allows you to relicense EUPL code under any of these licenses, solving the "license compatibility matrix" problem that plagues open-source projects.</p>
+
+    <h2>The Trade-Off</h2>
+
+    <p>EUPL is not as "permissive" as MIT. Some companies avoid it because they can't proprietize it. If your business model is "take open source, add proprietary sauce, sell without contributing," EUPL blocks you.</p>
+
+    <p>Good. That's the point.</p>
+
+    <p>If you want to use NeoDonkey for your business, you can. If you want to modify it for your needs, you can. If you want to sell services around it, you can. But if you want to take our code, close it, and compete with us using our own work — you can't. That's fair.</p>
+
+    <h2>Try It</h2>
+
+    <p>NeoDonkey is EUPL-1.2 licensed. Read the license (it's only 3,000 words). Compare it to GPL (5,000 words) or Apache (2,000 words but US-centric). Decide for yourself which license best protects software freedom in 2026.</p>
+
+    <p><a href="https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12" target="_blank" class="btn btn-primary">Read EUPL-1.2 →</a></p>
+
+    <hr style="border: none; border-top: 1px solid var(--bg-3); margin: 48px 0;">
+
+    <p style="font-size: 0.875rem; color: var(--text-3);">Published by NeoDonkey Legal. <a href="https://github.com/NeoDonkey/NeoDonkey-ERP" style="color: var(--cyan);">View source on GitHub</a>.</p>
+  </article>
+
+  <footer class="site-footer">
+    <div class="container site-footer__bottom" style="text-align: center; padding: 32px 0;">
+      <span>&copy; 2026 NeoDonkey &middot; EUPL-1.2 &middot; <a href="/" style="color: var(--text-3);">Home</a> &middot; <a href="/blog/" style="color: var(--text-3);">Blog</a></span>
+    </div>
+  </footer>
+</body>
+</html>
