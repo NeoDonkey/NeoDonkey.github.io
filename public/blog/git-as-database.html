@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Why Git Makes a Better ERP Database Than PostgreSQL — NeoDonkey Engineering</title>
+  <title>Why Git Makes a Better ERP Database Than PostgreSQL, NeoDonkey Engineering</title>
   <meta name="description" content="Every ERP uses PostgreSQL. We use git. Here's why a distributed version control system solves the hardest problems in enterprise resource planning." />
   <meta name="keywords" content="git database, ERP architecture, immutable ledger, cryptographic audit trail, database design" />
   <meta name="author" content="NeoDonkey Engineering" />
@@ -40,25 +40,25 @@
     <h1>Why Git Makes a Better ERP Database Than PostgreSQL</h1>
     <div class="meta">August 20, 2026 · 8 min read · NeoDonkey Engineering</div>
 
-    <p>Every ERP vendor uses PostgreSQL. SAP, Oracle, Odoo, ERPNext — they all store your company's data in relational tables, wrapped in ACID transactions, backed up nightly, and replicated across availability zones.</p>
+    <p>Every ERP vendor uses PostgreSQL. SAP, Oracle, Odoo, ERPNext, they all store your company's data in relational tables, wrapped in ACID transactions, backed up nightly, and replicated across availability zones.</p>
 
-    <p>We chose git. And not as a backup mechanism — git <em>is</em> our database.</p>
+    <p>We chose git. And not as a backup mechanism, git <em>is</em> our database.</p>
 
     <h2>The Problem with Database-First ERP</h2>
 
     <p>Traditional ERP architecture assumes a central database is the source of truth. This creates three fundamental problems that every ERP user eventually faces:</p>
 
     <ol>
-      <li><strong>The audit problem</strong> — You need an "audit table" that records every change, but it's separate from the actual data. If someone with admin access modifies both, you have no way to know.</li>
-      <li><strong>The migration problem</strong> — Your company's history lives in a proprietary schema. Want to leave? Pay €40K for "data extraction" and pray the CSV exports are complete.</li>
-      <li><strong>The collaboration problem</strong> — Two people can't edit the same record simultaneously. Database locks force serialization, creating bottlenecks in fast-moving operations.</li>
+      <li><strong>The audit problem</strong>, You need an "audit table" that records every change, but it's separate from the actual data. If someone with admin access modifies both, you have no way to know.</li>
+      <li><strong>The migration problem</strong>, Your company's history lives in a proprietary schema. Want to leave? Pay €40K for "data extraction" and pray the CSV exports are complete.</li>
+      <li><strong>The collaboration problem</strong>, Two people can't edit the same record simultaneously. Database locks force serialization, creating bottlenecks in fast-moving operations.</li>
     </ol>
 
     <h2>Git Solves All Three</h2>
 
     <h3>1. Immutable Audit Trail</h3>
 
-    <p>In git, every change is a commit. Every commit has an author, a timestamp, and a cryptographic hash. You cannot alter history without breaking every subsequent hash — it's mathematically infeasible.</p>
+    <p>In git, every change is a commit. Every commit has an author, a timestamp, and a cryptographic hash. You cannot alter history without breaking every subsequent hash, it's mathematically infeasible.</p>
 
     <pre><code>$ git log --oneline
 a3f7d2e feat: invoice INV-2026-0819-001 (+€12,500.00)
@@ -70,7 +70,7 @@ a3f7d2e feat: invoice INV-2026-0819-001 (+€12,500.00)
 
     <h3>2. Portable, Open Data Format</h3>
 
-    <p>A git repository is just a folder with a specific structure. Clone it, and you have everything — data, history, and the code that reads it. No proprietary formats, no extraction fees, no vendor dependency.</p>
+    <p>A git repository is just a folder with a specific structure. Clone it, and you have everything, data, history, and the code that reads it. No proprietary formats, no extraction fees, no vendor dependency.</p>
 
     <pre><code>$ git clone https://github.com/your-company/ledger.git
 $ cd ledger
@@ -87,7 +87,7 @@ signing-keys/
 
     <h3>3. Conflict Resolution, Not Locking</h3>
 
-    <p>When two people edit the same record in a database, one waits or gets an error. In git, both create commits, and the system merges them — just like developers collaborate on code.</p>
+    <p>When two people edit the same record in a database, one waits or gets an error. In git, both create commits, and the system merges them, just like developers collaborate on code.</p>
 
     <pre><code># Alice creates an invoice
 $ git commit -m "feat: invoice INV-2026-001"
@@ -97,7 +97,7 @@ $ git commit -m "feat: supplier Global Logistics"
 
 # Sync merges both changes
 $ git pull --rebase
-# No conflicts — changes are in different files
+# No conflicts, changes are in different files
 $ git push</code></pre>
 
     <h2>But What About Queries?</h2>
@@ -125,7 +125,7 @@ const balance = index['account-balances'].get('1200');</code></pre>
 
     <p>We're not claiming git is <em>always</em> better than PostgreSQL. If you need sub-millisecond latency on 10,000 concurrent transactions, use a database. If you need complex ad-hoc queries across terabytes of data, use a database.</p>
 
-    <p>But for most SMEs — companies with 5-500 employees, hundreds of transactions per day, not millions — git is not just sufficient. It's <em>superior</em> for the things that matter: auditability, portability, and collaboration.</p>
+    <p>But for most SMEs, companies with 5-500 employees, hundreds of transactions per day, not millions, git is not just sufficient. It's <em>superior</em> for the things that matter: auditability, portability, and collaboration.</p>
 
     <blockquote>
       "The best time to choose git over PostgreSQL was when you started your ERP. The second best time is now."
@@ -133,7 +133,7 @@ const balance = index['account-balances'].get('1200');</code></pre>
 
     <h2>Try It</h2>
 
-    <p>NeoDonkey creates a git repository in your browser. Every invoice, every journal entry, every supplier change is a signed commit. Open your browser's developer tools and run <code>git log</code> — it's a real repository.</p>
+    <p>NeoDonkey creates a git repository in your browser. Every invoice, every journal entry, every supplier change is a signed commit. Open your browser's developer tools and run <code>git log</code>, it's a real repository.</p>
 
     <p><a href="/" class="btn btn-primary">Try NeoDonkey Free →</a></p>
 

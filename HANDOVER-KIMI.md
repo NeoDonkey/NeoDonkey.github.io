@@ -143,25 +143,50 @@ One idea, one verifiable claim, one artifact.
 
 ## 5. Working on the site
 
-- The landing page is `index.html`. Native CSS, no build step, no framework. Edit it
-  directly.
-- Design tokens live in `brand/tokens.css`. Change a colour there and it changes
-  everywhere, in both light and dark mode. Never hardcode a hex value in a page.
-- New posts: copy `blog/_template.html`, rename it to the slug, fill the five slots
-  marked TITLE, DEK, DATE, READING and BODY.
-- The previous homepage is preserved as `index.legacy.html` in case something in it
-  is needed. It is not linked from anywhere.
+### The one thing that will bite you
 
-### Still needed, and blocking
+**Everything the world sees is under `public/`.** Vite builds `index.html` and copies
+`public/` verbatim into `dist/`. For a while the repository also had a second copy of
+`blog/`, `compare/`, `pricing.html` and `sitemap.xml` at the top level. They were
+tracked, they looked canonical, and nothing shipped them. Editing them changed nothing
+on the live site. They have been deleted. If you find yourself editing a path that is
+not `index.html` and not under `public/`, stop and check.
 
-1. **`/brand/mark.svg`** the logo. The nav removes the image when the file is
-   missing so nothing is broken, but the site is not finished without it.
-2. **`/brand/og.png`**, 1200x630, for link previews. Dark ground, the mark, and the
-   sentence "Your company is a git repository."
-3. **One real screenshot** of the browser UI running a company. A real capture, not
-   a mock up built from HTML.
+| What | Where | Notes |
+|---|---|---|
+| Landing page | `index.html` | The only Vite entry. Native CSS in a `<style>` block, no framework. |
+| Design tokens | `public/brand/tokens.css` | Every colour, size and radius. Change here, the whole site follows, light and dark. |
+| Post styles | `public/brand/post.css` | Shared by every new article and by the template. |
+| App shell | `public/brand/app.css` | The demo chrome and the Copilot drawer. Owned by `src/main.ts`, do not restyle casually. |
+| Archive styles | `public/style.css` | Old stylesheet the nine legacy posts link. Its palette is now aliases onto `tokens.css`. Do not add colours to it. |
+| New post | copy `public/blog/_template.html` | Rename to the slug, fill TITLE, DEK, DATE, READING, BODY. |
+| Post index | `public/blog/index.html` | Add the new post as the lead, demote the previous lead into the list. |
+| Sitemap | `public/sitemap.xml` | Add every new post. |
 
----
+**Never hardcode a hex value in a page.** If a colour is missing, add a token.
+
+### The reference post
+
+`public/blog/an-approval-that-outlived-its-subject.html` is the standard. Read it before
+writing anything. What makes it work, in order of importance:
+
+1. It is about something that actually happened, on a date, with a log.
+2. It translates the engineering into the reader's language in the second section. The
+   incident is a stale build approval; the post says it is a requisition approved at one
+   amount and paid at another, because that is the same failure and the CFO already knows
+   it by heart.
+3. It names what the fix does not cover, before anyone else can.
+4. Every claim links to a file in the repository.
+
+Copy that shape. Journal entry, then the business translation, then the limitation.
+
+### Still open
+
+1. **One real screenshot** of the browser UI running a company, for a section below the
+   scorecard. A real capture, never a mock up built from HTML.
+2. **The eight legacy posts.** They are still comparison pieces and listicles, and the
+   index says so in plain words rather than hiding them. Replace them one at a time with
+   posts built from the repository. Do not delete the URLs.
 
 ## 6. The checklist, before anything publishes
 

@@ -8,16 +8,32 @@ of this document is that six months of output looks like one hand made it.
 
 ## 1. The one idea
 
-**Your company is a git repository.**
+**Your company runs on the machines it already owns. Nothing in the middle.**
 
-That sentence is the product, the positioning and the proof at once. Everything on
-the site is downstream of it. When a page, a post or a tweet does not trace back to
-it in one step, it is off brand no matter how well written it is.
+That is the product, the positioning and the proof at once. Everything on the site is
+downstream of it. When a page, a post or a tweet does not trace back to it in one step,
+it is off brand no matter how well written it is.
 
-What it replaced, and why: the site used to lead with "The ERP That Costs Zero.
-Forever." Price is the least interesting true thing about this product, it invites a
-race to the bottom, and every buyer who has been burned reads "free" as "unsupported".
-Lead with the property nobody else has.
+Three sentences carry it, and they are the manifesto's, not marketing's:
+
+1. *Your company is not a customer of a data centre. It is the data centre.*
+2. *What your COO writes is what the system runs.*
+3. *Sovereignty is structural, not contractual.*
+
+**What this replaced, and why.** The site led for a while with "Your company is a git
+repository." It is true, and it is the wrong first sentence: the people who sign ERP
+contracts are CEOs, CFOs and COOs, and to them it either means nothing or it means
+"a developer tool". Lead with what the company gets. The git repository is the *proof*,
+offered second, to the CTO who is checking.
+
+Before that the site led with "The ERP That Costs Zero. Forever." Price is the least
+interesting true thing about this product, it invites a race to the bottom, and to a
+buyer who has been burned "free" reads as "unsupported".
+
+**Register.** Write for someone with budget authority who has survived a failed
+implementation. Never write down to them and never write like a startup. No "we're
+building", no roadmap language, no hobby-project modesty. This is a system that either
+does the job or does not, and the scorecard says which.
 
 ---
 
@@ -141,7 +157,9 @@ headline needs three lines, the headline is too long, not the type too big.
 Dial: 5 of 10. Entry animation on the hero, reveal on scroll, a 1px push on button
 press. That is the complete list.
 
-- No looping animation anywhere.
+- No looping animation anywhere, with exactly one exception: the hero mesh. Its loop is
+  the argument (a machine drops out, the traffic reroutes, nothing stops), so it earns
+  the repetition. Nothing else on the site may loop.
 - No parallax, no scroll hijacking, no custom cursor.
 - Reveal uses `IntersectionObserver`. A scroll event listener is banned.
 - Everything collapses under `prefers-reduced-motion: reduce`.
@@ -156,6 +174,10 @@ feedback are valid answers. "It looked cool" is not.
 **Done.** The mark ships at `/brand/mark.png` with sizes at 512, 180, 128, 64 and 32,
 a favicon, and an Open Graph card at `/brand/og.png` composed from the mark on the
 indigo ground.
+
+**The mark is not the hero image.** It is a nav badge, a favicon and an OG card. A logo
+in the hero slot says nothing about the product and reads as a placeholder. The hero
+carries the mesh diagram instead, which is the one picture that explains the system.
 
 **Still open.** One real screenshot of the browser UI running a company, for a
 section below the proof block. A real capture, never a mock up built from HTML.
