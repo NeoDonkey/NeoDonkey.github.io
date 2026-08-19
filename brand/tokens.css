@@ -1,0 +1,79 @@
+/* ============================================================================
+   NeoDonkey design tokens
+   ----------------------------------------------------------------------------
+   One accent. One radius scale. One type scale. Light and dark from the same
+   variables, so nothing can drift between the two.
+
+   The accent is cinnabar, the colour of an audit stamp. It is not a SaaS blue
+   and not a terminal green, and it means something here: this product's whole
+   claim is that a third party can verify the books. A stamp is what that looks
+   like. Use it for exactly three things: the mark, a verified state, and the
+   primary action. Never for decoration.
+   ========================================================================= */
+
+:root {
+  /* ---- surface and ink ------------------------------------------------- */
+  --paper:        #FBFAF7;   /* page. warm off-white, never #ffffff        */
+  --paper-sunk:   #F3F1EC;   /* recessed panels, proof blocks              */
+  --ink:          #16150F;   /* body. off-black, never #000000             */
+  --ink-soft:     #56534A;   /* secondary text                             */
+  --ink-faint:    #8C877A;   /* meta, captions                             */
+  --rule:         #E2DED4;   /* hairlines                                  */
+
+  /* ---- the one accent -------------------------------------------------- */
+  --stamp:        #C0341C;
+  --stamp-ink:    #FFFFFF;   /* text on stamp. checked: 6.1:1              */
+  --stamp-wash:   rgba(192, 52, 28, 0.08);
+
+  /* ---- verified state (proof output only, never decoration) ------------ */
+  --verified:     #2F6B4F;
+
+  /* ---- type ------------------------------------------------------------ */
+  /* No webfont is loaded on purpose: this repository ships an ERP with zero
+     dependencies, and a landing page that pulls three font files to say so
+     would be arguing against itself. If a licensed display face is added
+     later, set --font-display in ONE place and nothing else changes.
+     Recommended if you do: ABC Diatype, Söhne Breit, or GT America Display. */
+  --font-display: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-body:    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono:    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* ---- scale. 1.5 ratio, capped so a headline never becomes a shout ---- */
+  --t-hero:   clamp(2.6rem, 6.2vw, 5.1rem);
+  --t-h2:     clamp(1.9rem, 3.4vw, 2.9rem);
+  --t-h3:     1.22rem;
+  --t-body:   1.0625rem;
+  --t-small:  0.9375rem;
+  --t-micro:  0.8125rem;
+
+  /* ---- rhythm ---------------------------------------------------------- */
+  --gap:      1.5rem;
+  --section:  clamp(5rem, 11vw, 9rem);
+  --measure:  62ch;
+  --shell:    1180px;
+
+  /* ---- shape. one scale, applied everywhere ---------------------------- */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* ---- motion ---------------------------------------------------------- */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper:      #12110D;
+    --paper-sunk: #1B1A15;
+    --ink:        #F2EFE6;
+    --ink-soft:   #A8A296;
+    --ink-faint:  #79736A;
+    --rule:       #2C2A23;
+
+    --stamp:      #F2603F;
+    --stamp-ink:  #1A0B07;   /* dark text on bright stamp. checked: 8.4:1  */
+    --stamp-wash: rgba(242, 96, 63, 0.11);
+
+    --verified:   #6FBF93;
+  }
+}
