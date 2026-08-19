@@ -1,162 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NeoDonkey vs Odoo: The Real Open Source ERP Comparison</title>
-  <meta name="description" content="Compare NeoDonkey with Odoo. Both are open source, but only one is truly free, truly serverless, and truly yours. See why NeoDonkey beats Odoo on sovereignty and cost." />
-  <meta name="keywords" content="Odoo alternative, open source ERP comparison, NeoDonkey vs Odoo, free ERP, serverless ERP" />
-  <link rel="canonical" href="https://neodonkey.github.io/compare/odoo/" />
-  <link rel="stylesheet" href="/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeoDonkey vs Odoo: Open Source ERP Comparison | 2026</title>
+  <meta name="description" content="NeoDonkey vs Odoo Enterprise: Why zero-cost beats €60K. Compare features, costs, and vendor lock-in risks. The open source ERP that actually belongs to you.">
+  <meta name="keywords" content="Odoo alternative, open source ERP comparison, Odoo Enterprise cost, no subscription ERP, Odoo vs NeoDonkey">
+  <link rel="canonical" href="https://neodonkey.github.io/compare/odoo.html">
+  <link rel="stylesheet" href="/style.css">
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is Odoo really free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Odoo Community is free and open source, but lacks critical features like accounting, inventory, and manufacturing. Odoo Enterprise costs €19.90-€30.90/user/month plus hosting. For 50 users, that's €11,940-€18,540/year before implementation costs."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What's the difference between Odoo Community and Enterprise?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Odoo Community is the free, open-source version with basic CRM and website features. Odoo Enterprise adds accounting, inventory, manufacturing, and other essential ERP modules. The Enterprise license is required for most business use cases, making Odoo effectively a paid product."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I switch from Odoo to NeoDonkey without losing data?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. NeoDonkey uses standard git repositories for data storage. You can export your Odoo data to CSV/JSON and import it into NeoDonkey. Your complete history becomes a git log with cryptographic signatures, giving you better auditability than Odoo's database approach."
+        }
+      }
+    ]
+  }
+  </script>
+  
   <style>
-    .compare-hero { padding: 120px 24px 60px; background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%); color: white; }
-    .compare-hero h1 { font-size: 3rem; margin-bottom: 16px; }
-    .compare-hero p { font-size: 1.25rem; opacity: 0.9; max-width: 640px; }
-    .compare-section { padding: 80px 24px; max-width: 960px; margin: 0 auto; }
-    .compare-section h2 { font-size: 2rem; margin-bottom: 24px; }
-    .vs-table { width: 100%; border-collapse: collapse; margin: 32px 0; }
-    .vs-table th { background: var(--surface-2); padding: 16px; text-align: left; font-weight: 600; }
-    .vs-table td { padding: 16px; border-bottom: 1px solid var(--border); }
-    .vs-table .odoo { color: #f97316; }
-    .vs-table .neo { color: #0d9488; font-weight: 600; }
-    .highlight-box { background: var(--surface-2); border-radius: 12px; padding: 32px; margin: 32px 0; border-left: 4px solid #0d9488; }
-    .cta-banner { background: #0d9488; color: white; padding: 48px 24px; text-align: center; margin-top: 48px; }
-    .cta-banner h2 { margin-bottom: 16px; }
-    .cta-banner .btn { background: white; color: #0d9488; padding: 12px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-block; margin-top: 16px; }
+    .compare-hero { padding: 140px 24px 80px; text-align: center; background: linear-gradient(135deg, var(--bg-1) 0%, var(--surface) 100%); }
+    .compare-hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 16px; }
+    .compare-hero .lead { font-size: 1.25rem; color: var(--text-2); max-width: 640px; margin: 0 auto 32px; }
+    .cost-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; max-width: 1000px; margin: 0 auto 80px; padding: 0 24px; }
+    .cost-card { background: var(--surface); border: 1px solid var(--surface-border); border-radius: var(--radius); padding: 40px; position: relative; }
+    .cost-card.neo { border-color: var(--pink); }
+    .cost-card .label { font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; color: var(--text-3); }
+    .cost-card .amount { font-size: 3.5rem; font-weight: 800; margin-bottom: 8px; }
+    .cost-card .period { color: var(--text-3); font-size: 0.9375rem; }
+    .cost-card .details { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--surface-border); }
+    .cost-card .details li { color: var(--text-2); font-size: 0.875rem; margin-bottom: 8px; padding-left: 20px; position: relative; }
+    .cost-card .details li::before { content: "×"; position: absolute; left: 0; color: var(--text-3); }
+    .cost-card.neo .details li::before { content: "✓"; color: var(--green); }
+    
+    .section { padding: 80px 24px; }
+    .section-head { text-align: center; max-width: 640px; margin: 0 auto 48px; }
+    .comparison-table { max-width: 900px; margin: 0 auto; border-collapse: collapse; }
+    .comparison-table th, .comparison-table td { padding: 16px 24px; text-align: left; border-bottom: 1px solid var(--surface-border); }
+    .comparison-table th { font-weight: 600; color: var(--text-3); font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    .comparison-table td { color: var(--text-2); }
+    .comparison-table .winner { color: var(--green); font-weight: 600; }
+    
+    .faq-section { max-width: 720px; margin: 0 auto; padding: 80px 24px; }
+    .faq-item { margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--surface-border); }
+    .faq-item h3 { font-size: 1.25rem; margin-bottom: 12px; }
+    .faq-item p { color: var(--text-2); line-height: 1.7; }
+    
+    .cta-box { background: var(--surface); border: 1px solid var(--surface-border); border-radius: var(--radius); padding: 48px; text-align: center; max-width: 640px; margin: 0 auto 80px; }
+    .cta-box h2 { margin-bottom: 16px; }
+    .cta-box p { color: var(--text-2); margin-bottom: 24px; }
+    
+    @media (max-width: 640px) {
+      .compare-hero h1 { font-size: 2rem; }
+      .cost-card .amount { font-size: 2.5rem; }
+    }
   </style>
 </head>
 <body>
-  <header class="site-nav" style="background: #0f172a;">
+  <nav class="site-nav">
     <div class="container site-nav__inner">
-      <a class="brand" href="/" aria-label="NeoDonkey">
-        <svg class="brand__mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect width="32" height="32" rx="7" fill="#0d9488"/>
-          <path d="M13.5 12.5 L11.8 5.4 C11.6 4 13 3.2 13.9 4.1 L15.6 5.9 L15.8 12.5 Z" fill="#fff"/>
-          <path d="M18.5 12.5 L20.2 5.4 C20.4 4 19 3.2 18.1 4.1 L16.4 5.9 L16.2 12.5 Z" fill="#fff"/>
-          <path d="M8.5 12.5 L8.5 15.5 C8.5 23.5 11 26.5 16 26.5 C21 26.5 23.5 23.5 23.5 15.5 L23.5 12.5 C23.5 11.4 22.6 10.6 21.5 10.6 L10.5 10.6 C9.4 10.6 8.5 11.4 8.5 12.5 Z" fill="#fff"/>
-          <circle cx="12.5" cy="16.5" r="1.2" fill="#0d9488"/>
-          <circle cx="19.5" cy="16.5" r="1.2" fill="#0d9488"/>
-          <rect x="13.5" y="19.5" width="5" height="3.6" rx="1.8" fill="#ccfbf1"/>
-        </svg>
-        <span class="brand__name">NeoDonkey</span>
-      </a>
-      <nav class="site-nav__links" aria-label="Primary">
+      <a class="brand" href="/" aria-label="NeoDonkey"><span class="brand__name">NeoDonkey</span></a>
+      <div class="site-nav__links">
         <a class="site-nav__link" href="/">Home</a>
+        <a class="site-nav__link" href="/pricing.html">Pricing</a>
         <a class="site-nav__link" href="/blog/">Blog</a>
         <a class="site-nav__link" href="https://github.com/NeoDonkey/NeoDonkey-ERP" target="_blank" rel="noopener">GitHub</a>
-      </nav>
+      </div>
+    </div>
+  </nav>
+
+  <header class="compare-hero">
+    <div class="container">
+      <div class="eyebrow">Comparison</div>
+      <h1>NeoDonkey vs Odoo</h1>
+      <p class="lead">Two open-source ERPs. One critical difference: Odoo Enterprise costs €60K over 5 years. NeoDonkey costs €0. Forever. Here's why the "free" ERP isn't actually free.</p>
     </div>
   </header>
 
-  <section class="compare-hero">
-    <div class="container">
-      <h1>Odoo Calls Itself "Open Source."<br>But You Still Pay Forever.</h1>
-      <p>The difference between "open core" and truly open. Between "hosted on our cloud" and truly yours.</p>
+  <section>
+    <div class="cost-grid">
+      <div class="cost-card">
+        <div class="label">Odoo Enterprise (50 users)</div>
+        <div class="amount" style="color: var(--red);">€60K</div>
+        <div class="period">5-year total cost</div>
+        <ul class="details">
+          <li>License: €19.90-€30.90/user/month</li>
+          <li>Hosting: €4,800/year minimum</li>
+          <li>Implementation: €10K-€50K</li>
+          <li>Customization: Requires Odoo partner</li>
+          <li>Support: Paid support contracts</li>
+          <li>Upgrades: Major version migrations</li>
+        </ul>
+      </div>
+      <div class="cost-card neo">
+        <div class="label">NeoDonkey</div>
+        <div class="amount" style="color: var(--green);">€0</div>
+        <div class="period">Forever. No catch.</div>
+        <ul class="details">
+          <li>EUPL-1.2 open source</li>
+          <li>No per-user fees</li>
+          <li>Self-hosted (your browser)</li>
+          <li>No implementation needed</li>
+          <li>Community support</li>
+          <li>Zero upgrade costs</li>
+        </ul>
+      </div>
     </div>
   </section>
 
-  <section class="compare-section">
-    <h2>The Open Source Lie</h2>
-    <p>Odoo is technically open source (LGPL). But here's what they don't advertise:</p>
+  <section class="section" style="background: var(--surface);">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">The Odoo Trap</span>
+        <h2>Why "Free" Isn't Free</h2>
+        <p>Odoo Community is free. But you can't run a business on it.</p>
+      </div>
+      <div style="max-width: 720px; margin: 0 auto;">
+        <div style="background: var(--bg-1); border-radius: var(--radius); padding: 32px; margin-bottom: 24px;">
+          <h3 style="margin-bottom: 16px; color: var(--red);">What's Missing in Odoo Community?</h3>
+          <ul style="color: var(--text-2); line-height: 1.8; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
+            <li>Accounting/Invoicing</li>
+            <li>Inventory Management</li>
+            <li>Manufacturing (MRP)</li>
+            <li>Purchase Orders</li>
+            <li>Project Management</li>
+            <li>Timesheets</li>
+            <li>Email Marketing</li>
+            <li>Helpdesk</li>
+            <li>eCommerce</li>
+            <li>Studio (customization)</li>
+          </ul>
+          <p style="margin-top: 16px; color: var(--text-3); font-size: 0.9375rem;">All these require Odoo Enterprise. The "free" version is essentially a CRM with website builder.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Feature Comparison</span>
+        <h2>What You Actually Get</h2>
+      </div>
+      <table class="comparison-table">
+        <thead>
+          <tr><th>Feature</th><th>Odoo Community</th><th>Odoo Enterprise</th><th>NeoDonkey</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>CRM</td><td>✓</td><td>✓</td><td class="winner">✓</td></tr>
+          <tr><td>Accounting</td><td>✗</td><td>✓</td><td class="winner">✓</td></tr>
+          <tr><td>Inventory</td><td>✗</td><td>✓</td><td class="winner">✓</td></tr>
+          <tr><td>Invoicing</td><td>✗</td><td>✓</td><td class="winner">✓</td></tr>
+          <tr><td>Purchasing</td><td>✗</td><td>✓</td><td class="winner">✓</td></tr>
+          <tr><td>Multi-company</td><td>✗</td><td>✓</td><td class="winner">✓</td></tr>
+          <tr><td>Git-based Audit</td><td>✗</td><td>✗</td><td class="winner">✓</td></tr>
+          <tr><td>Per-user Cost</td><td>€0</td><td>€19.90-€30.90/mo</td><td class="winner">€0</td></tr>
+          <tr><td>Data Portability</td><td>PostgreSQL dump</td><td>PostgreSQL dump</td><td class="winner">git clone</td></tr>
+          <tr><td>Vendor Lock-in</td><td>Low</td><td>High</td><td class="winner">None</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="faq-section">
+    <span class="eyebrow">FAQ</span>
+    <h2 style="text-align: center; margin-bottom: 48px;">Common Questions</h2>
     
-    <div class="highlight-box">
-      <h3>"Free" Odoo Costs €20-€50/User/Month</h3>
-      <p>Odoo's Community edition is free. But it lacks critical features: accounting, inventory with barcode support, manufacturing, CRM email marketing, and 80% of the apps businesses actually need. To get those, you need <strong>Odoo Enterprise</strong> — and that's €20-€50 per user per month. For a 50-person company, that's €12K-€30K/year. Forever.</p>
+    <div class="faq-item">
+      <h3>Is Odoo really free?</h3>
+      <p>Odoo Community is free and open source, but lacks critical ERP features like accounting, inventory, and manufacturing. For actual business use, you need Odoo Enterprise at €19.90-€30.90/user/month. For 50 users over 5 years, that's €60K-€93K plus hosting and implementation costs.</p>
     </div>
-
-    <div class="highlight-box">
-      <h3>You Still Need a Server</h3>
-      <p>Odoo doesn't run in your browser. It needs a server — either Odoo's cloud (€20-€50/user/month) or your own infrastructure (€200-€1000/month in hosting, maintenance, backups, SSL certs). NeoDonkey runs entirely in the browser. No server. No hosting bill. Ever.</p>
+    
+    <div class="faq-item">
+      <h3>What's the catch with NeoDonkey being €0?</h3>
+      <p>There is no catch. NeoDonkey is licensed under EUPL-1.2, which means it's genuinely free to use, modify, and distribute. We don't have servers to maintain or a sales team to pay. The project is sustainable because it has no costs to cover — it's just code.</p>
     </div>
-  </section>
-
-  <section class="compare-section">
-    <h2>Head-to-Head</h2>
-    <table class="vs-table">
-      <thead>
-        <tr>
-          <th>Feature</th>
-          <th>Odoo Community</th>
-          <th>Odoo Enterprise</th>
-          <th>NeoDonkey</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>License cost</td>
-          <td class="odoo">€0</td>
-          <td class="odoo">€20-€50/user/mo</td>
-          <td class="neo">€0 (EUPL-1.2)</td>
-        </tr>
-        <tr>
-          <td>Server required</td>
-          <td class="odoo">Yes (self-hosted)</td>
-          <td class="odoo">Yes (Odoo cloud)</td>
-          <td class="neo">No (browser-only)</td>
-        </tr>
-        <tr>
-          <td>Hosting cost (50 users)</td>
-          <td class="odoo">€200-€1000/mo</td>
-          <td class="odoo">€1000-€2500/mo</td>
-          <td class="neo">€0</td>
-        </tr>
-        <tr>
-          <td>Full accounting</td>
-          <td class="odoo">❌ Limited</td>
-          <td class="odoo">✅</td>
-          <td class="neo">✅ (built-in)</td>
-        </tr>
-        <tr>
-          <td>Manufacturing</td>
-          <td class="odoo">❌</td>
-          <td class="odoo">✅</td>
-          <td class="neo">✅ (extensible)</td>
-        </tr>
-        <tr>
-          <td>Data sovereignty</td>
-          <td class="odoo">⚠️ Your server</td>
-          <td class="odoo">❌ Odoo's cloud</td>
-          <td class="neo">✅ Your machine only</td>
-        </tr>
-        <tr>
-          <td>Offline capability</td>
-          <td class="odoo">❌</td>
-          <td class="odoo">❌</td>
-          <td class="neo">✅ (full offline)</td>
-        </tr>
-        <tr>
-          <td>Vendor lock-in</td>
-          <td class="odoo">⚠️ Community modules</td>
-          <td class="odoo">❌ Heavy</td>
-          <td class="neo">✅ None (git-based)</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <section class="compare-section">
-    <h2>Why NeoDonkey Wins for European SMEs</h2>
-    <ul style="margin: 24px 0; padding-left: 24px; line-height: 2;">
-      <li><strong>True zero cost.</strong> Not "free tier" or "community edition." Every feature, forever, at zero cost.</li>
-      <li><strong>True data sovereignty.</strong> Your data never touches a server. Not ours, not anyone's. It lives in your browser and syncs peer-to-peer.</li>
-      <li><strong>True offline.</strong> Work on a plane, in a factory with no wifi, during an internet outage. Full functionality.</li>
-      <li><strong>True portability.</strong> Your company is a git repo. Copy it to a USB stick. Email it. Back it up however you want.</li>
-      <li><strong>True simplicity.</strong> No 20,000 features you'll never use. Just the ERP core, extensible via dialects.</li>
-    </ul>
-  </section>
-
-  <section class="cta-banner">
-    <div class="container">
-      <h2>Stop Paying for "Open Source"</h2>
-      <p>Odoo's "free" Community edition costs you in hosting, missing features, and lock-in. NeoDonkey costs nothing. Really.</p>
-      <a href="/" class="btn">Try NeoDonkey Free →</a>
+    
+    <div class="faq-item">
+      <h3>Can I migrate from Odoo to NeoDonkey?</h3>
+      <p>Yes. Export your Odoo data to CSV/JSON (available in both Community and Enterprise), then import into NeoDonkey. Your historical data becomes a git repository with signed commits, giving you better auditability than Odoo's database approach.</p>
+    </div>
+    
+    <div class="faq-item">
+      <h3>Which is better for a small business?</h3>
+      <p>If you have technical staff or are comfortable with self-hosting, NeoDonkey eliminates subscription costs entirely. If you need extensive third-party integrations and prefer a traditional support model, Odoo Enterprise might be worth the cost. But calculate your 5-year TCO first — most small businesses underestimate Odoo's total cost by 2-3x.</p>
     </div>
   </section>
+
+  <div class="cta-box">
+    <h2>Tired of Subscription Fees?</h2>
+    <p>NeoDonkey gives you core ERP functionality without the per-user tax. Open source. Local-first. Zero cost.</p>
+    <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+      <a href="/" class="btn btn-primary btn-lg">Try NeoDonkey Free</a>
+      <a href="/pricing.html" class="btn btn-secondary btn-lg">See Full Pricing</a>
+    </div>
+  </div>
 
   <footer class="site-footer">
     <div class="container">
       <div class="site-footer__bottom">
-        <span>&copy; 2026 NeoDonkey &middot; EUPL-1.2</span>
+        <span>© 2026 NeoDonkey · EUPL-1.2 · <a href="/" style="color: var(--text-3);">Home</a> · <a href="/pricing.html" style="color: var(--text-3);">Pricing</a> · <a href="/blog/" style="color: var(--text-3);">Blog</a></span>
       </div>
     </div>
   </footer>
