@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeoDonkey vs ERPNext: The Open Source ERP Comparison</title>
+  <meta name="description" content="ERPNext is the most popular open source ERP. NeoDonkey is the only one that costs zero and runs in your browser. Compare features, architecture, and total cost." />
+  <link rel="canonical" href="https://neodonkey.github.io/compare/erpnext.html" />
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    .compare-hero { padding: 140px 24px 80px; text-align: center; }
+    .compare-hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 16px; }
+    .compare-hero p { color: var(--text-2); max-width: 600px; margin: 0 auto; font-size: 1.125rem; }
+    .matrix { max-width: 1000px; margin: 60px auto; padding: 0 24px; }
+    .matrix table { width: 100%; border-collapse: collapse; }
+    .matrix th { text-align: left; padding: 16px; border-bottom: 2px solid var(--bg-3); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); }
+    .matrix td { padding: 16px; border-bottom: 1px solid var(--bg-3); }
+    .matrix tr:hover { background: rgba(255,255,255,0.02); }
+    .win { color: var(--cyan); font-weight: 600; }
+    .lose { color: #ef4444; }
+    .neutral { color: var(--text-2); }
+    .faq { max-width: 800px; margin: 80px auto; padding: 0 24px; }
+    .faq h2 { font-size: 2rem; margin-bottom: 32px; text-align: center; }
+    .faq details { border-bottom: 1px solid var(--bg-3); padding: 20px 0; }
+    .faq summary { font-weight: 600; cursor: pointer; color: var(--text-1); }
+    .faq p { color: var(--text-2); margin-top: 12px; line-height: 1.7; }
+  </style>
+</head>
+<body>
+  <nav class="site-nav">
+    <div class="container site-nav__inner">
+      <a class="brand" href="/"><svg class="brand__mark" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#07070f"/><path d="M13.5 12.5 L11.8 5.4 C11.6 4 13 3.2 13.9 4.1 L15.6 5.9 L15.8 12.5 Z" fill="#ff2d95"/><path d="M18.5 12.5 L20.2 5.4 C20.4 4 19 3.2 18.1 4.1 L16.4 5.9 L16.2 12.5 Z" fill="#00f0ff"/></svg><span>NeoDonkey</span></a>
+      <div class="site-nav__links">
+        <a class="site-nav__link" href="/">Home</a>
+        <a class="site-nav__link" href="/pricing.html">Pricing</a>
+        <a class="site-nav__link" href="/blog/">Blog</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="compare-hero">
+    <div class="eyebrow">ERP Comparison</div>
+    <h1>NeoDonkey vs <span class="gradient-text">ERPNext</span></h1>
+    <p>ERPNext is the most popular open source ERP. NeoDonkey is the only one that costs zero and runs in your browser. Here's how two open-source philosophies differ.</p>
+  </section>
+
+  <section class="matrix">
+    <table>
+      <thead>
+        <tr><th>Feature</th><th>NeoDonkey</th><th>ERPNext</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Software cost</strong></td>
+          <td class="win">€0</td>
+          <td class="win">€0 (open source)</td>
+        </tr>
+        <tr>
+          <td><strong>Hosting cost</strong></td>
+          <td class="win">€0 (browser-only)</td>
+          <td class="lose">€20-€200/month (server required)</td>
+        </tr>
+        <tr>
+          <td><strong>Installation</strong></td>
+          <td class="win">Open browser</td>
+          <td class="lose">Docker + Linux + Python</td>
+        </tr>
+        <tr>
+          <td><strong>Server required</strong></td>
+          <td class="win">No</td>
+          <td class="lose">Yes (Frappe framework)</td>
+        </tr>
+        <tr>
+          <td><strong>Database</strong></td>
+          <td class="win">Git (immutable)</td>
+          <td class="neutral">MariaDB (relational)</td>
+        </tr>
+        <tr>
+          <td><strong>Modules included</strong></td>
+          <td class="lose">Core ERP only</td>
+          <td class="win">CRM, HR, Projects, Manufacturing</td>
+        </tr>
+        <tr>
+          <td><strong>Offline capability</strong></td>
+          <td class="win">Full offline</td>
+          <td class="lose">Requires server</td>
+        </tr>
+        <tr>
+          <td><strong>Mobile app</strong></td>
+          <td class="lose">PWA only</td>
+          <td class="win">Native iOS/Android</td>
+        </tr>
+        <tr>
+          <td><strong>Community size</strong></td>
+          <td class="lose">Small</td>
+          <td class="win">Large (Frappe ecosystem)</td>
+        </tr>
+        <tr>
+          <td><strong>Code complexity</strong></td>
+          <td class="win">~2K lines</td>
+          <td class="lose">~500K lines</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>Is ERPNext better than NeoDonkey?</summary>
+      <p>It depends on your needs. ERPNext is a full-featured ERP with CRM, HR, project management, and manufacturing modules. NeoDonkey is a focused core ERP (GL, AP, AR, inventory) that runs without a server. If you need breadth, choose ERPNext. If you want zero infrastructure and maximum simplicity, choose NeoDonkey.</p>
+    </details>
+    <details>
+      <summary>Why does NeoDonkey have fewer modules?</summary>
+      <p>NeoDonkey is designed as a headless core ERP that integrates with best-of-breed tools. Need CRM? Use HubSpot or Salesforce. Need HR? Use BambooHR. NeoDonkey handles the financial backbone and syncs via API. This keeps the codebase tiny (2K lines vs 500K) and eliminates feature bloat.</p>
+    </details>
+    <details>
+      <summary>Can I migrate from ERPNext to NeoDonkey?</summary>
+      <p>Yes. Both systems export to CSV. Extract your chart of accounts, customers, suppliers, and open transactions from ERPNext and import them into NeoDonkey. Historical data can be preserved as signed git commits.</p>
+    </details>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container site-footer__bottom" style="text-align: center; padding: 32px 0;">
+      <span>&copy; 2026 NeoDonkey &middot; EUPL-1.2 &middot; <a href="/" style="color: var(--text-3);">Home</a></span>
+    </div>
+  </footer>
+</body>
+</html>
