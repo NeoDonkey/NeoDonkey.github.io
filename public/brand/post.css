@@ -58,3 +58,22 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 .foot__in { display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap;
             width: min(100% - 2.5rem, var(--shell)); margin-inline: auto; }
 .foot a { color: var(--ink-soft); text-decoration: none; }
+
+/* ---- tables ---------------------------------------------------------------
+   Only the converted archive posts use these. A table can be wider than the
+   measure, so it scrolls inside its own rail and the page never does.        */
+.tablewrap { overflow-x: auto; margin: 2rem 0; border: 1px solid var(--rule);
+             border-radius: var(--r-lg); }
+.tablewrap::-webkit-scrollbar { height: 6px; }
+.tablewrap::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }
+table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: var(--t-small); }
+thead th { background: var(--paper-sunk); color: var(--ink); font-weight: 620; text-align: left;
+           font-size: var(--t-micro); letter-spacing: .04em; text-transform: uppercase;
+           padding: .85rem 1rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tbody td { padding: .85rem 1rem; border-bottom: 1px solid var(--rule); color: var(--ink-soft);
+           vertical-align: top; line-height: 1.6; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody td strong { color: var(--ink); }
+
+article h4 { font-family: var(--font-display); font-weight: 620; font-size: 1.02rem; margin: 1.8rem 0 .5rem; }
+article strong { color: var(--ink); font-weight: 620; }
