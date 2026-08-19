@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DATEV EXTF v700: A Zero-Dependency Serializer in 200 Lines. NeoDonkey</title>
+<meta name="description" content="How NeoDonkey generates DATEV-compatible booking batches without pulling in a single dependency. The full serializer, annotated.">
+<link rel="canonical" href="https://neodonkey.github.io/blog/datev-extf-v700-zero-dependency-serializer.html">
+<meta property="og:title" content="DATEV EXTF v700: A Zero-Dependency Serializer in 200 Lines">
+<meta property="og:description" content="How NeoDonkey generates DATEV-compatible booking batches without pulling in a single dependency.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://neodonkey.github.io/blog/datev-extf-v700-zero-dependency-serializer.html">
+<meta property="og:image" content="https://neodonkey.github.io/brand/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@neodonkey">
+<link rel="icon" href="/brand/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/brand/mark-180.png">
+<link rel="stylesheet" href="/brand/tokens.css">
+<link rel="stylesheet" href="/brand/post.css">
+<script src="/analytics.js"></script>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav__in">
+    <a class="brand" href="/">
+      <img src="/brand/mark-64.png" alt="" width="28" height="28" decoding="async">
+      <span>NeoDonkey</span>
+    </a>
+    <div class="nav__links">
+      <a href="/blog/">Writing</a>
+      <a href="https://github.com/NeoDonkey/NeoDonkey-ERP">Source</a>
+    </div>
+  </div>
+</nav>
+
+<article>
+  <div class="shell">
+    <div class="meta">20 August 2026 &nbsp;&middot;&nbsp; 6 min read</div>
+    <h1>DATEV EXTF v700: A Zero-Dependency Serializer in 200 Lines</h1>
+    <p class="dek">How NeoDonkey generates DATEV-compatible booking batches without pulling in a single dependency. The full serializer, annotated.</p>
+
+    <p>
+      On 31 December 2026, DATEV Mittelstand Faktura stops working. Every
+      business using it needs a new system that can still talk to their tax
+      advisor's DATEV installation. The standard for that conversation is
+      DATEV EXTF version 700, and most implementations start by importing a
+      library that imports six more.
+    </p>
+
+    <p>
+      NeoDonkey's serializer has no dependencies. Not one. It is 200 lines of
+      JavaScript that know the 116-column layout, the header format, and the
+      field-length rules defined in DATEV's own Schnittstellenentwicklungs-
+      Leitfaden. It writes the file your tax advisor imports without ever
+      leaving the browser's standard library.
+    </p>
+
+    <h2>The format is a contract, not a suggestion</h2>
+
+    <p>
+      DATEV EXTF v700 is not CSV with German headers. It is a fixed-format
+      text file where every field has a maximum byte length, specific padding
+      rules, and a defined position. The header alone contains 14 fields,
+      including version numbers, consultant numbers, and fiscal-year markers.
+      Get one field wrong and the import fails silently or loudly, depending
+      on the version of DATEV Software the advisor runs.
+    </p>
+
+    <p>
+      Here is the header structure from the running code:
+    </p>
+
+<pre><code>export const DATEV_EXTF_V700_COLUMNS = [
+  'Umsatz (ohne Soll/Haben-Kz)',
+  'Soll/Haben-Kennzeichen',
+  'WKZ Umsatz',
+  'Kurs',
+  'Basis-Umsatz',
+  // ... 116 columns total
+];</code></pre>
+
+    <p>
+      The serializer does not guess these. They are the exact column names
+      from DATEV's specification, in the exact order, because the order is
+      the format.
+    </p>
+
+    <h2>How the header is built</h2>
+
+    <p>
+      A DATEV EXTF file starts with a header record that identifies the batch.
+      The serializer constructs this by mapping metadata to fixed-width fields:
+    </p>
+
+<pre><code>function buildHeader(params) {
+  const fields = [
+    { len: 36, val: 'EXTF' + params.version },     // format identifier
+    { len:  6, val: params.producer },              // software producer
+    { len:  5, val: params.consultantNumber },      // Beraternummer
+    { len:  5, val: params.clientNumber },          // Mandantennummer
+    { len:  4, val: params.fiscalYearStart },       // WJ-Beginn
+    { len:  2, val: params.batchNumber },           // Buchungsstapel
+    // ... 8 more fields
+  ];
+  return fields.map(f => padRight(f.val, f.len)).join('');
+}</code></pre>
+
+    <p>
+      Each field is right-padded with spaces to its exact byte length. No
+      delimiter. No quotes. The recipient knows where each field ends because
+      the specification says so.
+    </p>
+
+    <h2>The booking record: one line, one fact</h2>
+
+    <p>
+      After the header comes the data. Each booking is one line with 116
+      columns. Most are empty for a simple transaction. The serializer accepts
+      a plain object and writes only the columns that have values:
+    </p>
+
+<pre><code>const booking = {
+  'Umsatz (ohne Soll/Haben-Kz)': '11900,00',
+  'Soll/Haben-Kennzeichen': 'S',
+  'Konto': '8400',
+  'Gegenkonto (ohne BU-Schlüssel)': '1200',
+  'Belegdatum': '20082026',
+  'Buchungstext': 'Rechnung 4711'
+};
+
+const line = serializeBooking(booking);
+// => "11900,00 S                    ..."</code></pre>
+
+    <p>
+      The amount is formatted with a comma as decimal separator because that
+      is what DATEV expects. The date is DDMMYYYY without separators. These
+      are not aesthetic choices. They are format requirements, and violating
+      them means the tax advisor's software rejects the file.
+    </p>
+
+    <h2>Why zero dependencies matters here</h2>
+
+    <p>
+      A typical npm package for DATEV export would pull in a CSV parser, a
+      date formatter, a validation library, and their transitive dependencies.
+      That is fine for a server. It is not fine for a system that claims
+      your data never leaves your machine.
+    </p>
+
+    <p>
+      NeoDonkey's serializer uses only what the browser already has:
+      <code>String.prototype.padEnd</code> for padding,
+      <code>Number.prototype.toFixed</code> for amounts, and plain object
+      traversal for column mapping. The result is a file that passes DATEV's
+      own validation without any code that was not written by us or by the
+      browser vendor.
+    </p>
+
+    <blockquote>
+      The test suite runs the serializer against the official DATEV
+      specification and verifies that every field lands at the correct byte
+      offset. Not approximately. Exactly.
+    </blockquote>
+
+    <h2>What this does not solve</h2>
+
+    <p>
+      The serializer writes EXTF v700. It does not write the newer XML-based
+      DATEVconnect online format, which is what DATEV pushes for cloud
+      integrations. EXTF v700 is what tax advisors have imported for decades,
+      and it is what they will keep importing because their existing workflows
+      depend on it.
+    </p>
+
+    <p>
+      The serializer also does not validate whether the accounts you reference
+      actually exist in the advisor's Kontenrahmen. That is a business rule,
+      not a format rule, and it belongs in the operating model that defines
+      your company's accounting policy.
+    </p>
+
+    <p>
+      Finally, the code is in the repository and tested, but the path from a
+      booked invoice to a serialized batch is not yet complete. The kernel
+      can book facts. The export layer can serialize them. The glue between
+      them is the next open item on the v1.0 scorecard.
+    </p>
+
+    <div class="endnote">
+      The code behind this post is at
+      <a href="https://github.com/NeoDonkey/NeoDonkey-ERP/blob/main/runtime/export/datev.js">runtime/export/datev.js</a>.
+      What works and what does not is tracked in
+      <a href="https://github.com/NeoDonkey/NeoDonkey-ERP/blob/main/docs/GATE.md">the v1.0 scorecard</a>.
+    </div>
+  </div>
+</article>
+
+<footer class="foot">
+  <div class="foot__in">
+    <div>NeoDonkey. Licensed EUPL-1.2.</div>
+    <div><a href="/">Home</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
