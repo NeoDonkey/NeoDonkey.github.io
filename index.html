@@ -10,11 +10,12 @@
 <meta property="og:description" content="Every business fact is a signed commit. git fsck verifies your accounting. No server, no vendor, no dependencies.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://neodonkey.github.io/">
-<!-- TODO: og image, 1200x630. See brand/STYLEGUIDE.md, "Images still needed". -->
 <meta property="og:image" content="https://neodonkey.github.io/brand/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@neodonkey">
-<link rel="icon" href="/brand/mark.svg" type="image/svg+xml">
+<link rel="icon" href="/brand/favicon.ico" sizes="any">
+<link rel="icon" href="/brand/mark-64.png" type="image/png">
+<link rel="apple-touch-icon" href="/brand/mark-180.png">
 <link rel="stylesheet" href="/brand/tokens.css">
 <style>
 /* ==========================================================================
@@ -52,7 +53,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 620; margin: 0; }
 }
 .nav__in { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; width: 100%; }
 .brand { display: flex; align-items: center; gap: .6rem; text-decoration: none; font-weight: 640; letter-spacing: -.015em; }
-.brand img { height: 26px; width: auto; display: block; }
+.brand img { height: 28px; width: 28px; display: block; border-radius: 7px; }
 .nav__links { display: flex; align-items: center; gap: 1.6rem; font-size: var(--t-small); }
 .nav__links a { color: var(--ink-soft); text-decoration: none; transition: color .18s var(--ease); }
 .nav__links a:hover { color: var(--ink); }
@@ -66,19 +67,19 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 620; margin: 0; }
   border: 1px solid transparent;
   transition: transform .16s var(--ease), background .18s var(--ease), border-color .18s var(--ease);
 }
-.btn--primary { background: var(--stamp); color: var(--stamp-ink); }
-.btn--primary:hover { background: color-mix(in srgb, var(--stamp) 88%, black); }
+.btn--primary { background: var(--btn-bg); color: var(--btn-ink); }
+.btn--primary:hover { background: color-mix(in srgb, var(--btn-bg) 86%, var(--ink)); }
 .btn--ghost { border-color: var(--rule); color: var(--ink); }
 .btn--ghost:hover { border-color: var(--ink-faint); }
 .btn:active { transform: translateY(1px); }
-.btn:focus-visible { outline: 2px solid var(--stamp); outline-offset: 3px; }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 /* ---- hero. asymmetric, left weighted ------------------------------------ */
 .hero { padding-top: clamp(3.5rem, 8vw, 6rem); padding-bottom: var(--section); }
 .hero__grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
 @media (max-width: 900px) { .hero__grid { grid-template-columns: 1fr; } }
 .hero h1 { font-size: var(--t-hero); line-height: 1.02; letter-spacing: -.035em; max-width: 15ch; margin-bottom: 1.4rem; }
-.hero h1 em { font-style: normal; color: var(--stamp); }
+.hero h1 em { font-style: normal; color: var(--accent); }
 .hero__sub { font-size: clamp(1.06rem, 1.5vw, 1.22rem); color: var(--ink-soft); max-width: 46ch; margin: 0 0 2.1rem; }
 .hero__cta { display: flex; gap: .75rem; flex-wrap: wrap; }
 
@@ -106,7 +107,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 620; margin: 0; }
 .cons__wide { grid-column: 1 / -1; }
 .cons h3 { font-size: var(--t-h3); letter-spacing: -.015em; margin-bottom: .55rem; }
 .cons p { color: var(--ink-soft); margin: 0; font-size: var(--t-small); max-width: 54ch; }
-.cons code { font-family: var(--font-mono); font-size: .86em; background: var(--stamp-wash); color: var(--stamp); padding: .1em .35em; border-radius: var(--r-sm); }
+.cons code { font-family: var(--font-mono); font-size: .86em; background: var(--accent-wash); color: var(--accent); padding: .1em .35em; border-radius: var(--r-sm); }
 @media (max-width: 820px) { .cons { grid-template-columns: 1fr; } }
 
 /* ---- the gate ----------------------------------------------------------- */
@@ -119,7 +120,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 620; margin: 0; }
 .gate__s { font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: .06em; }
 .gate__s[data-s="met"]   { color: var(--verified); }
 .gate__s[data-s="part"]  { color: var(--ink-soft); }
-.gate__s[data-s="unmet"] { color: var(--stamp); }
+.gate__s[data-s="unmet"] { color: var(--accent); }
 .gate__note { color: var(--ink-soft); font-size: var(--t-small); max-width: var(--measure); margin-top: 1.6rem; }
 
 /* ---- audience ----------------------------------------------------------- */
@@ -156,8 +157,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 620; margin: 0; }
 <nav class="nav">
   <div class="shell nav__in">
     <a class="brand" href="/">
-      <!-- Real logo goes at /brand/mark.svg. Until it exists the wordmark stands alone. -->
-      <img src="/brand/mark.svg" alt="" onerror="this.remove()">
+      <img src="/brand/mark-64.png" alt="" width="28" height="28" decoding="async">
       <span>NeoDonkey</span>
     </a>
     <div class="nav__links">

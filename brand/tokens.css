@@ -1,44 +1,54 @@
 /* ============================================================================
    NeoDonkey design tokens
    ----------------------------------------------------------------------------
-   One accent. One radius scale. One type scale. Light and dark from the same
-   variables, so nothing can drift between the two.
+   Every colour here is sampled from the logo rather than chosen next to it.
+   The mark is a neon donkey on a deep indigo plate, and the two values that
+   carry it are:
 
-   The accent is cinnabar, the colour of an audit stamp. It is not a SaaS blue
-   and not a terminal green, and it means something here: this product's whole
-   claim is that a third party can verify the books. A stamp is what that looks
-   like. Use it for exactly three things: the mark, a verified state, and the
-   primary action. Never for decoration.
+       #23C7F6   the glow. the single most identifiable thing about the brand.
+       #1A0D58   the plate it sits on.
+
+   So the site is dark by default and indigo grounded, which is what lets the
+   mark sit on the page instead of looking stuck to it. Light mode is fully
+   supported and contrast checked, it is simply not the primary expression.
+
+   One accent, one hue family, one radius scale.
    ========================================================================= */
 
 :root {
-  /* ---- surface and ink ------------------------------------------------- */
-  --paper:        #FBFAF7;   /* page. warm off-white, never #ffffff        */
-  --paper-sunk:   #F3F1EC;   /* recessed panels, proof blocks              */
-  --ink:          #16150F;   /* body. off-black, never #000000             */
-  --ink-soft:     #56534A;   /* secondary text                             */
-  --ink-faint:    #8C877A;   /* meta, captions                             */
-  --rule:         #E2DED4;   /* hairlines                                  */
+  color-scheme: dark light;
 
-  /* ---- the one accent -------------------------------------------------- */
-  --stamp:        #C0341C;
-  --stamp-ink:    #FFFFFF;   /* text on stamp. checked: 6.1:1              */
-  --stamp-wash:   rgba(192, 52, 28, 0.08);
+  /* ---- ground and ink. dark is the default ----------------------------- */
+  --paper:        #0D0A26;   /* page. deeper than the logo plate so the mark  */
+  --paper-sunk:   #14103A;   /* reads as a badge against it                   */
+  --paper-lift:   #1A1547;   /* hover surfaces                                */
+  --ink:          #EDEBFF;   /* body. violet leaning white, never #ffffff     */
+  --ink-soft:     #A7A2CE;   /* secondary                                     */
+  --ink-faint:    #726C9C;   /* meta, captions                                */
+  --rule:         #241E56;   /* hairlines                                     */
 
-  /* ---- verified state (proof output only, never decoration) ------------ */
-  --verified:     #2F6B4F;
+  /* ---- the one accent, the glow ---------------------------------------- */
+  --accent:       #3DD8F5;   /* on --paper: 9.8:1. safe for text and icons   */
+  --accent-quiet: #23C7F6;
+  --accent-wash:  rgba(61, 216, 245, 0.10);
 
-  /* ---- type ------------------------------------------------------------ */
-  /* No webfont is loaded on purpose: this repository ships an ERP with zero
-     dependencies, and a landing page that pulls three font files to say so
-     would be arguing against itself. If a licensed display face is added
-     later, set --font-display in ONE place and nothing else changes.
-     Recommended if you do: ABC Diatype, Söhne Breit, or GT America Display. */
+  /* ---- primary action. cyan plate, near black label. 11.4:1 ------------- */
+  --btn-bg:       #3DD8F5;
+  --btn-ink:      #06121A;
+
+  /* ---- verified. only ever inside quoted command output ---------------- */
+  --verified:     #5FE3A6;
+
+  /* ---- type. no webfont, on purpose ------------------------------------ */
+  /* This product ships zero dependencies. A page that pulled three font
+     files in order to say so would be arguing with itself. If a licensed
+     display face is added later, set --font-display here and nothing else
+     in the codebase changes. */
   --font-display: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
   --font-body:    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
   --font-mono:    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
-  /* ---- scale. 1.5 ratio, capped so a headline never becomes a shout ---- */
+  /* ---- scale ------------------------------------------------------------ */
   --t-hero:   clamp(2.6rem, 6.2vw, 5.1rem);
   --t-h2:     clamp(1.9rem, 3.4vw, 2.9rem);
   --t-h3:     1.22rem;
@@ -46,34 +56,41 @@
   --t-small:  0.9375rem;
   --t-micro:  0.8125rem;
 
-  /* ---- rhythm ---------------------------------------------------------- */
+  /* ---- rhythm ----------------------------------------------------------- */
   --gap:      1.5rem;
   --section:  clamp(5rem, 11vw, 9rem);
   --measure:  62ch;
   --shell:    1180px;
 
-  /* ---- shape. one scale, applied everywhere ---------------------------- */
+  /* ---- shape. one scale, nothing round ---------------------------------- */
   --r-sm: 4px;
   --r-md: 8px;
-  --r-lg: 12px;
+  --r-lg: 14px;   /* matches the corner of the logo plate at small sizes */
 
-  /* ---- motion ---------------------------------------------------------- */
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@media (prefers-color-scheme: dark) {
+/* ---- light mode --------------------------------------------------------
+   The glow is too bright to sit on white as a text colour, so light mode
+   darkens it for text and uses the indigo plate for the primary button.
+   Both values are still from the mark; the hue family does not change.     */
+@media (prefers-color-scheme: light) {
   :root {
-    --paper:      #12110D;
-    --paper-sunk: #1B1A15;
-    --ink:        #F2EFE6;
-    --ink-soft:   #A8A296;
-    --ink-faint:  #79736A;
-    --rule:       #2C2A23;
+    --paper:        #FBFAFF;
+    --paper-sunk:   #F1EFFA;
+    --paper-lift:   #E9E6F6;
+    --ink:          #14103A;
+    --ink-soft:     #4E4877;
+    --ink-faint:    #7E78A6;
+    --rule:         #E0DCF0;
 
-    --stamp:      #F2603F;
-    --stamp-ink:  #1A0B07;   /* dark text on bright stamp. checked: 8.4:1  */
-    --stamp-wash: rgba(242, 96, 63, 0.11);
+    --accent:       #0A6E8A;   /* on --paper: 5.4:1                        */
+    --accent-quiet: #0E7C99;
+    --accent-wash:  rgba(10, 110, 138, 0.08);
 
-    --verified:   #6FBF93;
+    --btn-bg:       #1A0D58;   /* the logo plate. white on it: 14.9:1       */
+    --btn-ink:      #FFFFFF;
+
+    --verified:     #10714B;
   }
 }

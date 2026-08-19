@@ -23,7 +23,8 @@
 <meta property="og:image" content="https://neodonkey.github.io/brand/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@neodonkey">
-<link rel="icon" href="/brand/mark.svg" type="image/svg+xml">
+<link rel="icon" href="/brand/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/brand/mark-180.png">
 <link rel="stylesheet" href="/brand/tokens.css">
 <style>
 *, *::before, *::after { box-sizing: border-box; }
@@ -41,7 +42,7 @@ a { color: inherit; }
        backdrop-filter: saturate(180%) blur(14px); border-bottom: 1px solid var(--rule); }
 .nav__in { display: flex; align-items: center; justify-content: space-between; width: min(100% - 2.5rem, var(--shell)); margin-inline: auto; }
 .brand { display: flex; align-items: center; gap: .6rem; text-decoration: none; font-weight: 640; letter-spacing: -.015em; }
-.brand img { height: 26px; width: auto; display: block; }
+.brand img { height: 28px; width: 28px; display: block; border-radius: 7px; }
 .nav__links { display: flex; gap: 1.6rem; font-size: var(--t-small); }
 .nav__links a { color: var(--ink-soft); text-decoration: none; }
 .nav__links a:hover { color: var(--ink); }
@@ -58,16 +59,16 @@ article h3 { font-family: var(--font-display); font-weight: 620; font-size: 1.15
 article p { margin: 0 0 1.35rem; }
 article ul, article ol { margin: 0 0 1.35rem; padding-left: 1.2rem; color: var(--ink-soft); }
 article li { margin-bottom: .5rem; }
-article a { color: var(--stamp); text-underline-offset: 3px; }
+article a { color: var(--accent); text-underline-offset: 3px; }
 
-blockquote { margin: 2rem 0; padding-left: 1.2rem; border-left: 2px solid var(--stamp);
+blockquote { margin: 2rem 0; padding-left: 1.2rem; border-left: 2px solid var(--accent);
              color: var(--ink-soft); font-size: 1.08rem; }
 
 pre { background: var(--paper-sunk); border: 1px solid var(--rule); border-radius: var(--r-lg);
       padding: 1.1rem 1.25rem; overflow-x: auto; font-family: var(--font-mono);
       font-size: .82rem; line-height: 1.8; margin: 0 0 1.6rem; }
 code { font-family: var(--font-mono); font-size: .88em; }
-p code, li code { background: var(--stamp-wash); color: var(--stamp); padding: .1em .35em; border-radius: var(--r-sm); }
+p code, li code { background: var(--accent-wash); color: var(--accent); padding: .1em .35em; border-radius: var(--r-sm); }
 pre code { background: none; color: inherit; padding: 0; }
 
 hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
@@ -87,7 +88,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 <nav class="nav">
   <div class="nav__in">
     <a class="brand" href="/">
-      <img src="/brand/mark.svg" alt="" onerror="this.remove()">
+      <img src="/brand/mark-64.png" alt="" width="28" height="28" decoding="async">
       <span>NeoDonkey</span>
     </a>
     <div class="nav__links">

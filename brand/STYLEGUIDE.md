@@ -62,34 +62,45 @@ an auditor, rewrite it.
 
 ## 3. Colour
 
-One accent. Never a second.
+Every value is sampled from the logo rather than chosen to sit next to it. The mark
+is a neon donkey on a deep indigo plate, and two values carry it:
 
-| Token | Light | Dark | Used for |
+- `#23C7F6` the glow. The single most identifiable thing about the brand.
+- `#1A0D58` the plate it stands on.
+
+So the site is **dark by default and indigo grounded**. That is what lets the mark
+sit on the page instead of looking stuck to it. Light mode is supported and contrast
+checked, it is simply not the primary expression.
+
+| Token | Dark (default) | Light | Used for |
 |---|---|---|---|
-| `--paper` | `#FBFAF7` | `#12110D` | Page background. Never pure white or black. |
-| `--paper-sunk` | `#F3F1EC` | `#1B1A15` | Recessed panels, the proof block. |
-| `--ink` | `#16150F` | `#F2EFE6` | Body text. |
-| `--ink-soft` | `#56534A` | `#A8A296` | Secondary text. |
-| `--ink-faint` | `#8C877A` | `#79736A` | Meta, captions. |
-| `--rule` | `#E2DED4` | `#2C2A23` | Hairlines. |
-| `--stamp` | `#C0341C` | `#F2603F` | The accent. |
-| `--verified` | `#2F6B4F` | `#6FBF93` | Verified state in quoted output only. |
+| `--paper` | `#0D0A26` | `#FBFAFF` | Page. Deeper than the plate so the mark reads as a badge. |
+| `--paper-sunk` | `#14103A` | `#F1EFFA` | Recessed panels, the proof block. |
+| `--ink` | `#EDEBFF` | `#14103A` | Body text. Violet leaning, never pure. |
+| `--ink-soft` | `#A7A2CE` | `#4E4877` | Secondary text. |
+| `--ink-faint` | `#726C9C` | `#7E78A6` | Meta, captions. |
+| `--rule` | `#241E56` | `#E0DCF0` | Hairlines. |
+| `--accent` | `#3DD8F5` | `#0A6E8A` | The glow. |
+| `--btn-bg` / `--btn-ink` | `#3DD8F5` / `#06121A` | `#1A0D58` / `#FFFFFF` | Primary action. |
+| `--verified` | `#5FE3A6` | `#10714B` | Verified state, quoted output only. |
 
-**The accent is cinnabar, the colour of an audit stamp.** It is deliberately not a
-SaaS blue and not a terminal green. It is allowed in exactly four places:
+**One accent, and it is the glow.** It is allowed in exactly four places:
 
-1. the logo mark,
+1. the emphasised words in the hero headline,
 2. the primary button,
 3. the focus ring,
 4. a NOT YET row on the scorecard.
 
-It is never a background wash for a whole section, never a gradient, never a glow.
-If you find yourself wanting a second accent, you want a different layout instead.
+Never a background wash for a whole section, never a gradient, never an outer glow
+in CSS. The mark already glows; the interface does not need to.
 
-`--verified` green appears only inside quoted command output, because that is where
-it appears in the real terminal. It is not a UI colour and never marks a button.
+**Why the accent changes value between modes.** The glow is too bright to be a text
+colour on white, so light mode darkens it and moves the primary button to the indigo
+plate. Both values still come from the logo and the hue family does not change.
 
----
+**The mark is the only place the full neon range appears.** Magenta and violet live
+inside the logo image and nowhere else. Do not pull them into the interface, or the
+page becomes a poster and stops being readable.
 
 ## 4. Type
 
@@ -114,7 +125,8 @@ headline needs three lines, the headline is too long, not the type too big.
 
 ## 5. Layout
 
-- One radius scale: 4, 8, 12. Nothing else, nothing round.
+- One radius scale: 4, 8, 14. The 14 matches the corner of the logo plate at small
+  sizes, which is why the nav badge and the proof block agree. Nothing round.
 - Hairlines separate sections. Cards only when elevation means something.
 - Grids are asymmetric on purpose. `1.35fr 1fr` for the hero, `1.6fr 1fr` for the
   consequence grid. Three equal columns are banned.
@@ -139,18 +151,16 @@ feedback are valid answers. "It looked cool" is not.
 
 ---
 
-## 7. Images still needed
+## 7. Images
 
-The site currently ships without photography, which is a gap rather than a style.
-These are the slots, in priority order.
+**Done.** The mark ships at `/brand/mark.png` with sizes at 512, 180, 128, 64 and 32,
+a favicon, and an Open Graph card at `/brand/og.png` composed from the mark on the
+indigo ground.
 
-1. **`/brand/mark.svg`** the logo. Referenced by the nav and the favicon. The nav
-   removes the image if the file is missing, so the site is not broken without it,
-   but it is not finished either.
-2. **`/brand/og.png`**, 1200x630, for link previews on X and LinkedIn. Dark
-   background, the mark, and the sentence "Your company is a git repository."
-3. **One real screenshot** of the browser UI running a company, for a section below
-   the proof block. A real capture, never a mock up built from HTML.
+**Still open.** One real screenshot of the browser UI running a company, for a
+section below the proof block. A real capture, never a mock up built from HTML.
+Until it exists the page ships without product photography, which is a gap rather
+than a style choice.
 
 Rules for any image added later: no stock photography of people in offices, no
 abstract 3D shapes, no gradient meshes. If a picture is not of the actual product or
