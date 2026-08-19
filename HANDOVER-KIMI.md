@@ -180,6 +180,23 @@ writing anything. What makes it work, in order of importance:
 
 Copy that shape. Journal entry, then the business translation, then the limitation.
 
+### The landing page, section by section
+
+The order is an argument and not a list, so do not reorder it without a reason:
+
+1. **Hero.** The promise, and the mesh. Nothing else competes for this space.
+2. **Compatibility.** The biggest fear in the market, named and answered.
+3. **Integration.** The biggest line item, named and answered.
+4. **Operating model.** The idea nobody else has.
+5. **Headless.** Why the answer stays true as technology changes.
+6. **Sovereignty.** Why the design is trustworthy.
+7. **Scale.** Why it applies to the reader whatever their size.
+8. **Close.**
+
+Each of the four diagrams is a plain SVG with CSS keyframes and no library. If you add
+one, wrap it in `<div class="diarail">` so it scrolls rather than shrinks on a phone, and
+give it a mono caption that states the argument inside the drawing.
+
 ### Still open
 
 1. **One real screenshot** of the browser UI running a company, for a section below the

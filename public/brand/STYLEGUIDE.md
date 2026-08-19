@@ -8,32 +8,37 @@ of this document is that six months of output looks like one hand made it.
 
 ## 1. The one idea
 
-**Your company runs on the machines it already owns. Nothing in the middle.**
+**Your next ERP is your last.**
 
-That is the product, the positioning and the proof at once. Everything on the site is
+That is the headline, the positioning and the promise at once. Everything on the site is
 downstream of it. When a page, a post or a tweet does not trace back to it in one step,
 it is off brand no matter how well written it is.
 
-Three sentences carry it, and they are the manifesto's, not marketing's:
+It rests on Principle 6, compatibility in both directions. A document written today opens
+in thirty years. A document written tomorrow opens in the version running now. Updates
+add and never remove. That is why there is no next migration, and the migration is the
+thing every ERP buyer is actually afraid of.
 
-1. *Your company is not a customer of a data centre. It is the data centre.*
-2. *What your COO writes is what the system runs.*
-3. *Sovereignty is structural, not contractual.*
+Four supporting arguments, in the order the page makes them:
+
+1. **Nobody sells you an ERP. They sell you the migration.** (Principle 6)
+2. **Your systems do not need integrating. They need speaking to.** (Principle 5)
+3. **What your COO writes is what the system runs.** (Principle 11)
+4. **The screen is the disposable part.** (Principle 7)
+
+Then ground and scale: the company is the data centre (Principle 2), and one laptop or
+ten thousand employees run the same software (Principle 8).
 
 **What this replaced, and why.** The site led for a while with "Your company is a git
-repository." It is true, and it is the wrong first sentence: the people who sign ERP
-contracts are CEOs, CFOs and COOs, and to them it either means nothing or it means
-"a developer tool". Lead with what the company gets. The git repository is the *proof*,
-offered second, to the CTO who is checking.
-
-Before that the site led with "The ERP That Costs Zero. Forever." Price is the least
-interesting true thing about this product, it invites a race to the bottom, and to a
-buyer who has been burned "free" reads as "unsupported".
+repository", and before that with "The ERP That Costs Zero. Forever." The first is true
+and reads to a CFO as a developer tool. The second sells on price, which is the least
+interesting true thing here and reads as "unsupported" to anyone who has been burned.
+A version after those led on Europe. Sovereignty is a reason to trust the design, not a
+reason to buy, so it is an argument in the middle of the page and not the headline.
 
 **Register.** Write for someone with budget authority who has survived a failed
 implementation. Never write down to them and never write like a startup. No "we're
-building", no roadmap language, no hobby-project modesty. This is a system that either
-does the job or does not, and the scorecard says which.
+building", no roadmap language, no hobby project modesty.
 
 ---
 
@@ -157,9 +162,14 @@ headline needs three lines, the headline is too long, not the type too big.
 Dial: 5 of 10. Entry animation on the hero, reveal on scroll, a 1px push on button
 press. That is the complete list.
 
-- No looping animation anywhere, with exactly one exception: the hero mesh. Its loop is
-  the argument (a machine drops out, the traffic reroutes, nothing stops), so it earns
-  the repetition. Nothing else on the site may loop.
+- **A loop is allowed only when the loop is the argument.** Four diagrams on the landing
+  page loop, and each one earns it by showing something that happens over time and could
+  not be drawn as a still: a machine dropping out and the traffic rerouting, a document
+  stopped at a version wall while another passes through, a translation happening at a
+  boundary, an interface being replaced while the core does not move. Decoration never
+  loops. If you cannot say in one sentence what the motion proves, it does not ship.
+- Each diagram carries its argument in a mono caption inside the drawing, so the point
+  survives a screenshot.
 - No parallax, no scroll hijacking, no custom cursor.
 - Reveal uses `IntersectionObserver`. A scroll event listener is banned.
 - Everything collapses under `prefers-reduced-motion: reduce`.
@@ -197,7 +207,10 @@ of a real document, it probably should not be there.
   competitors' names above our own idea. The existing ones can stay until they are
   replaced by something better; do not write more.
 - A feature list. Features are the least differentiated thing here.
-- A page that claims something the scorecard does not support.
+- A page that claims something the scorecard does not support. The scorecard is no longer
+  a section on the landing page, because five NOT YET rows in front of a buyer reads as a
+  prototype rather than as honesty. It is linked in the footer as "Build status" and it is
+  still the thing every claim has to survive.
 
 ---
 
