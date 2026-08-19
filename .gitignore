@@ -1,0 +1,17 @@
+node_modules/
+dist/
+build/
+.DS_Store
+*.log
+.env
+.env.*
+*.pem
+*.key
+# Model weights are never committed — they are fetched at runtime and cached in OPFS.
+*.tflite
+*.bin
+*.gguf
+
+# The ERP runtime is copied in at build time from the pinned ref in erp.pin.json.
+# It is a build output, not a fork: never commit it.
+public/erp/

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — NeoDonkey | Headless ERP, Digital Sovereignty, Local-First Software</title>
+  <meta name="description" content="Articles on headless ERP architecture, digital sovereignty, escaping vendor lock-in, and building local-first software." />
+  <meta name="keywords" content="headless ERP, digital sovereignty, local-first software, vendor lock-in, SAP alternative, open source ERP" />
+  <meta name="author" content="NeoDonkey" />
+  <meta name="robots" content="index, follow" />
+  
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://neodonkey.github.io/blog/" />
+  <meta property="og:title" content="NeoDonkey Blog — Headless ERP & Digital Sovereignty" />
+  <meta property="og:description" content="Articles on escaping vendor lock-in and building sovereign software." />
+  <meta property="og:site_name" content="NeoDonkey" />
+  
+  <meta property="twitter:card" content="summary" />
+  <meta property="twitter:title" content="NeoDonkey Blog" />
+  <meta property="twitter:description" content="Articles on headless ERP and digital sovereignty." />
+  
+  <link rel="canonical" href="https://neodonkey.github.io/blog/" />
+  <link rel="stylesheet" href="/style.css" />
+  
+  <style>
+    .blog-container { max-width: 720px; margin: 0 auto; padding: 120px 24px 80px; }
+    .blog-header { margin-bottom: 48px; }
+    .blog-header h1 { font-size: 2.5rem; margin-bottom: 12px; }
+    .blog-header p { color: var(--text-2); font-size: 1.125rem; }
+    .blog-list { list-style: none; padding: 0; }
+    .blog-item { border-bottom: 1px solid var(--border); padding: 32px 0; }
+    .blog-item:first-child { padding-top: 0; }
+    .blog-item__meta { font-size: 0.875rem; color: var(--text-3); margin-bottom: 8px; }
+    .blog-item__meta span { margin-right: 16px; }
+    .blog-item h2 { font-size: 1.5rem; margin-bottom: 8px; }
+    .blog-item h2 a { color: var(--text-1); text-decoration: none; }
+    .blog-item h2 a:hover { color: var(--accent); }
+    .blog-item p { color: var(--text-2); line-height: 1.6; }
+    .blog-item__tags { margin-top: 12px; }
+    .tag { display: inline-block; padding: 4px 12px; background: var(--surface-2); border-radius: 100px; font-size: 0.75rem; color: var(--text-3); margin-right: 8px; }
+  </style>
+</head>
+<body>
+  <header class="site-nav">
+    <div class="container site-nav__inner">
+      <a class="brand" href="/" aria-label="NeoDonkey">
+        <svg class="brand__mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="32" height="32" rx="7" fill="#0d9488"/>
+          <path d="M13.5 12.5 L11.8 5.4 C11.6 4 13 3.2 13.9 4.1 L15.6 5.9 L15.8 12.5 Z" fill="#fff"/>
+          <path d="M18.5 12.5 L20.2 5.4 C20.4 4 19 3.2 18.1 4.1 L16.4 5.9 L16.2 12.5 Z" fill="#fff"/>
+          <path d="M8.5 12.5 L8.5 15.5 C8.5 23.5 11 26.5 16 26.5 C21 26.5 23.5 23.5 23.5 15.5 L23.5 12.5 C23.5 11.4 22.6 10.6 21.5 10.6 L10.5 10.6 C9.4 10.6 8.5 11.4 8.5 12.5 Z" fill="#fff"/>
+          <circle cx="12.5" cy="16.5" r="1.2" fill="#0d9488"/>
+          <circle cx="19.5" cy="16.5" r="1.2" fill="#0d9488"/>
+          <rect x="13.5" y="19.5" width="5" height="3.6" rx="1.8" fill="#ccfbf1"/>
+        </svg>
+        <span class="brand__name">NeoDonkey</span>
+      </a>
+      <nav class="site-nav__links" aria-label="Primary">
+        <a class="site-nav__link" href="/">Home</a>
+        <a class="site-nav__link" href="https://github.com/NeoDonkey/NeoDonkey-ERP" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="blog-container">
+    <header class="blog-header">
+      <h1>Blog</h1>
+      <p>On escaping vendor lock-in, building sovereign software, and why your ERP should belong to you.</p>
+    </header>
+
+    <ul class="blog-list">
+      <li class="blog-item">
+        <div class="blog-item__meta">
+          <span>August 19, 2026</span>
+          <span>7 min read</span>
+        </div>
+        <h2><a href="/blog/git-as-database-why-version-control-beats-sql.html">Git as Database: Why Version Control Beats SQL for Business Logic</a></h2>
+        <p>Technical deep dive into why git makes a better system of record than SQL for ERP business logic. Immutable history, cryptographic signatures, and no ORM needed.</p>
+        <div class="blog-item__tags">
+          <span class="tag">Git</span>
+          <span class="tag">Architecture</span>
+          <span class="tag">Technical</span>
+        </div>
+      </li>
+
+      <li class="blog-item">
+        <div class="blog-item__meta">
+          <span>August 19, 2026</span>
+          <span>6 min read</span>
+        </div>
+        <h2><a href="/blog/5-signs-erp-vendor-trapped.html">5 Signs Your ERP Vendor Has You Trapped</a></h2>
+        <p>The hidden ways ERP vendors lock you in — from the "platform tax" to data hostage-taking — and the warning signs most companies miss until it's too late.</p>
+        <div class="blog-item__tags">
+          <span class="tag">Vendor Lock-in</span>
+          <span class="tag">ERP Costs</span>
+          <span class="tag">Digital Sovereignty</span>
+        </div>
+      </li>
+
+      <li class="blog-item">
+        <div class="blog-item__meta">
+          <span>August 19, 2026</span>
+          <span>8 min read</span>
+        </div>
+        <h2><a href="/blog/why-sap-s-4hana-migration-projects-fail-and-how-open-source-erp-prevents-it.html">Why SAP S/4HANA Migration Projects Fail (And How Open Source ERP Prevents It)</a></h2>
+        <p>A data-driven analysis of why 55-75% of SAP S/4HANA migrations fail, with real costs, case studies, and an open source escape route.</p>
+        <div class="blog-item__tags">
+          <span class="tag">SAP</span>
+          <span class="tag">Migration</span>
+          <span class="tag">Open Source</span>
+        </div>
+      </li>
+
+      <li class="blog-item">
+        <h2><a href="/blog/2026-erp-landscape-ai-agents-cloud-mandates.html">The 2026 ERP Landscape: AI Agents, Cloud Mandates, and the High Cost of Hesitation</a></h2>
+        <p>A data-driven analysis of the $80B ERP market — why most implementations fail, which vendors are winning, and what AI means for the future of enterprise software.</p>
+        <div class="blog-item__tags">
+          <span class="tag">Market Analysis</span>
+          <span class="tag">AI</span>
+          <span class="tag">Cloud ERP</span>
+        </div>
+      </li>
+
+      <li class="blog-item">
+        <h2><a href="/blog/hidden-cost-free-cloud-erp.html">The Hidden Cost of "Free" Cloud ERP</a></h2>
+        <p>Why "free" cloud ERP tiers aren't free — a real cost breakdown of SAP, Odoo, and ERPNext vs. actually-free open source.</p>
+        <div class="blog-item__tags">
+          <span class="tag">ERP Costs</span>
+          <span class="tag">Cloud ERP</span>
+          <span class="tag">Open Source</span>
+        </div>
+      </li>
+
+      <li class="blog-item">
+        <h2><a href="/blog/why-your-erp-is-hostageware.html">Why Your ERP Is Hostageware (And What to Do About It)</a></h2>
+        <p>The hidden costs of traditional ERP systems — from forced upgrade cycles to data lock-in — and how a new generation of headless, local-first software is changing the game.</p>
+        <div class="blog-item__tags">
+          <span class="tag">ERP</span>
+          <span class="tag">Digital Sovereignty</span>
+          <span class="tag">Vendor Lock-in</span>
+        </div>
+      </li>
+
+      <li class="blog-item">
+        <div class="blog-item__meta">
+          <span>August 18, 2026</span>
+          <span>6 min read</span>
+        </div>
+        <h2><a href="/blog/headless-erp-explained.html">Headless ERP Explained: What It Is and Why It Matters in 2026</a></h2>
+        <p>A technical deep dive into headless ERP architecture, the four deployment strategies enterprises are using, and why the market is shifting away from monolithic suites.</p>
+        <div class="blog-item__tags">
+          <span class="tag">Architecture</span>
+          <span class="tag">Headless</span>
+          <span class="tag">2026 Trends</span>
+        </div>
+      </li>
+
+      <li class="blog-item">
+        <div class="blog-item__meta">
+          <span>August 18, 2026</span>
+          <span>5 min read</span>
+        </div>
+        <h2><a href="/blog/git-as-database.html">Git Is the Database: How NeoDonkey Uses Cryptographic Commits as a System of Record</a></h2>
+        <p>Why we chose git as our database, how Ed25519 signatures replace access control tables, and what this means for auditability and data sovereignty.</p>
+        <div class="blog-item__tags">
+          <span class="tag">Git</span>
+          <span class="tag">Security</span>
+          <span class="tag">Local-First</span>
+        </div>
+      </li>
+    </ul>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__bottom">
+        <span>&copy; 2026 NeoDonkey &middot; EUPL-1.2</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LH0F5GVV3G"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LH0F5GVV3G');
+  </script>
+  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeoDonkey — The ERP That Costs Zero. Forever. | Escape Vendor Lock-in</title>
+  <meta name="description" content="Your SAP alternative that runs in your browser, costs nothing, and belongs to you. No servers. No subscriptions. No vendor lock-in. EUPL-1.2 open source." />
+  <meta name="keywords" content="SAP alternative, Oracle alternative, open source ERP, free ERP, no subscription ERP, digital sovereignty, vendor lock-in escape" />
+  <meta name="author" content="NeoDonkey" />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://neodonkey.github.io/" />
+  <meta property="og:title" content="NeoDonkey — The ERP That Belongs To You" />
+  <meta property="og:description" content="A headless ERP with no server, no cloud and no vendor. Your company is a git repository in your own browser." />
+  <meta property="og:image" content="https://neodonkey.github.io/og-image.png" />
+  <meta property="og:site_name" content="NeoDonkey" />
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://neodonkey.github.io/" />
+  <meta property="twitter:title" content="NeoDonkey — The ERP That Belongs To You" />
+  <meta property="twitter:description" content="A headless ERP with no server, no cloud and no vendor. Your company is a git repository in your own browser." />
+  <meta property="twitter:image" content="https://neodonkey.github.io/og-image.png" />
+  
+  <!-- Canonical -->
+  <link rel="canonical" href="https://neodonkey.github.io/" />
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "NeoDonkey ERP",
+    "description": "A headless ERP with no server, no cloud and no vendor. Your company is a git repository in your own browser.",
+    "url": "https://neodonkey.github.io/",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Any modern web browser",
+    "softwareVersion": "0.1",
+    "license": "https://github.com/NeoDonkey/NeoDonkey-ERP/blob/main/LICENSE",
+    "sourceOrganization": {
+      "@type": "Organization",
+      "name": "NeoDonkey",
+      "url": "https://neodonkey.github.io/"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR"
+    }
+  }
+  </script>
+  
+  <meta name="theme-color" content="#ff2d95" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2307070f'/%3E%3Cpath d='M13.5 12.5 L11.8 5.4 C11.6 4 13 3.2 13.9 4.1 L15.6 5.9 L15.8 12.5 Z' fill='%23ff2d95'/%3E%3Cpath d='M18.5 12.5 L20.2 5.4 C20.4 4 19 3.2 18.1 4.1 L16.4 5.9 L16.2 12.5 Z' fill='%2300f0ff'/%3E%3Cpath d='M8.5 12.5 L8.5 15.5 C8.5 23.5 11 26.5 16 26.5 C21 26.5 23.5 23.5 23.5 15.5 L23.5 12.5 C23.5 11.4 22.6 10.6 21.5 10.6 L10.5 10.6 C9.4 10.6 8.5 11.4 8.5 12.5 Z' fill='url(%23g)'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='8.5' y1='12.5' x2='23.5' y2='26.5'%3E%3Cstop stop-color='%23ff2d95'/%3E%3Cstop offset='1' stop-color='%2300f0ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='12.5' cy='16.5' r='1.2' fill='%2307070f'/%3E%3Ccircle cx='19.5' cy='16.5' r='1.2' fill='%2307070f'/%3E%3Crect x='13.5' y='19.5' width='5' height='3.6' rx='1.8' fill='%23ff2d95' opacity='0.5'/%3E%3C/svg%3E" />
+  <script type="module" crossorigin src="/assets/index-Dz1kNEkX.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-6U7CWIcN.css">
+</head>
+<body>
+
+  <!-- ============ MARKETING LANDING ============
+
+       Nothing on this page is a picture of the product. The ERP is behind the log-in button and
+       nowhere else: a screenshot of an ERP is the one thing every ERP vendor's website already
+       has, and this one can hand over the real thing in ten seconds instead. -->
+  <div id="landing-root">
+
+    <header class="site-nav">
+      <div class="container site-nav__inner">
+        <a class="brand" href="#top" aria-label="NeoDonkey — back to top">
+          <svg class="brand__mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="32" height="32" rx="8" fill="#07070f"/>
+            <path d="M13.5 12.5 L11.8 5.4 C11.6 4 13 3.2 13.9 4.1 L15.6 5.9 L15.8 12.5 Z" fill="#ff2d95"/>
+            <path d="M18.5 12.5 L20.2 5.4 C20.4 4 19 3.2 18.1 4.1 L16.4 5.9 L16.2 12.5 Z" fill="#00f0ff"/>
+            <path d="M8.5 12.5 L8.5 15.5 C8.5 23.5 11 26.5 16 26.5 C21 26.5 23.5 23.5 23.5 15.5 L23.5 12.5 C23.5 11.4 22.6 10.6 21.5 10.6 L10.5 10.6 C9.4 10.6 8.5 11.4 8.5 12.5 Z" fill="url(#g)"/>
+            <defs><linearGradient id="g" x1="8.5" y1="12.5" x2="23.5" y2="26.5"><stop stop-color="#ff2d95"/><stop offset="1" stop-color="#00f0ff"/></linearGradient></defs>
+            <circle cx="12.5" cy="16.5" r="1.2" fill="#07070f"/>
+            <circle cx="19.5" cy="16.5" r="1.2" fill="#07070f"/>
+            <rect x="13.5" y="19.5" width="5" height="3.6" rx="1.8" fill="#ff2d95" opacity="0.5"/>
+          </svg>
+          <span class="brand__name">NeoDonkey</span>
+        </a>
+
+        <nav class="site-nav__links" aria-label="Primary">
+          <a class="site-nav__link" href="/compare/sap.html">vs SAP</a>
+          <a class="site-nav__link" href="/compare/odoo.html">vs Odoo</a>
+          <a class="site-nav__link" href="/pricing.html">Pricing</a>
+          <a class="site-nav__link" href="/blog/">Blog</a>
+          <a class="site-nav__link" href="https://github.com/NeoDonkey/NeoDonkey-ERP" target="_blank" rel="noopener">GitHub</a>
+        </nav>
+
+        <button class="btn btn-primary" id="nav-login-btn" data-login>Log in</button>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero__bg"></div>
+        <div class="hero__grid"></div>
+        <div class="container hero__inner">
+          <div class="hero__copy">
+            <span class="eyebrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Headless ERP &middot; Local-first &middot; EUPL-1.2
+            </span>
+            <h1>Your ERP vendor just raised prices again.<br>What if you <em>owned</em> your software instead?</h1>
+            <p class="hero__lead">
+              NeoDonkey is the ERP that costs €0, runs on your machine, and can never be taken away.
+              No server fees. No subscription traps. No forced upgrades. Just your company's data,
+              cryptographically secured, in a git repository you control.
+            </p>
+            <div class="hero__actions">
+              <button class="btn btn-primary btn-lg" id="hero-login-btn" data-login>Log in and open a company</button>
+              <a class="btn btn-secondary btn-lg" href="https://github.com/NeoDonkey/NeoDonkey-ERP" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                Read the source
+              </a>
+            </div>
+            <ul class="hero__meta">
+              <li>No account on any server</li>
+              <li>No installation</li>
+              <li>Nothing leaves your browser</li>
+            </ul>
+          </div>
+
+          <!-- Not a screenshot: where the parts run, which is the actual claim. -->
+          <div class="hero__visual">
+            <figure class="hero-card">
+              <div class="hero-card__header">
+                <span class="hero-card__dot"></span>
+                <span class="hero-card__dot"></span>
+                <span class="hero-card__dot"></span>
+                <h4>Where the software runs</h4>
+              </div>
+              <ul>
+                <li>
+                  <strong>The ERP runtime</strong>
+                  <span>Plain ES modules. No framework, no build step, no dependencies.</span>
+                </li>
+                <li>
+                  <strong>Your company</strong>
+                  <span>A real git repository — every change a signed commit you can read with <code>git log</code>.</span>
+                </li>
+                <li>
+                  <strong>Your signing key</strong>
+                  <span>Ed25519, generated here, not extractable, never uploaded.</span>
+                </li>
+                <li>
+                  <strong>The Copilot <span style="color:var(--text-3);font-size:0.75rem;">(optional)</span></strong>
+                  <span>A quantised language model on your own GPU, where the hardware allows.</span>
+                </li>
+              </ul>
+              <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--bg-3);">
+                <p style="font-size:0.8125rem;color:var(--text-3);margin:0;"><strong style="color:var(--pink);">Not part of this system:</strong> application server, cloud tenant, vendor account, inference API. None of these exist — so none can be switched off, priced up, or subpoenaed.</p>
+              </div>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="trust">
+        <div class="container trust__inner">
+          <span class="trust__label">Built on</span>
+          <span class="trust__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+            Git, implemented in the runtime
+          </span>
+          <span class="trust__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true"><line x1="22" y1="12" x2="2" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" y1="16" x2="6.01" y2="16"/><line x1="10" y1="16" x2="10.01" y2="16"/></svg>
+            Origin Private File System
+          </span>
+          <span class="trust__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg>
+            WebGPU
+          </span>
+          <span class="trust__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Ed25519 signatures
+          </span>
+        </div>
+      </section>
+
+      <section class="pain-section">
+        <div class="container">
+          <h2>The ERP Industry Runs on <span class="gradient-text">Fear</span></h2>
+          <p>Three ways the big vendors keep you paying — and how NeoDonkey breaks the cycle.</p>
+          <div class="pain-grid">
+            <div class="pain-card">
+              <div class="pain-card__icon">🔒</div>
+              <h3>The Upgrade Hostage Crisis</h3>
+              <p>SAP ends support for your version. Your choice: pay €200K-€500K for the "upgrade" or lose security patches. This isn't maintenance. It's rent extraction with a gun to your head.</p>
+            </div>
+            <div class="pain-card">
+              <div class="pain-card__icon">💸</div>
+              <h3>The Hidden Subscription Tax</h3>
+              <p>That €50/user/month "cloud ERP"? It's €30K/year for a 50-person company. Forever. And they can raise prices whenever they want. You're not a customer. You're a revenue stream.</p>
+            </div>
+            <div class="pain-card">
+              <div class="pain-card__icon">🗄️</div>
+              <h3>The Data Lock-in Trap</h3>
+              <p>Your company's entire history lives in proprietary formats. Want to leave? That'll be €40K for the "data extraction service." And good luck translating those custom reports.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="how" class="steps-section">
+        <div class="container">
+          <header class="section-head">
+            <span class="eyebrow">How it works</span>
+            <h2>Log in, and the company is already there</h2>
+            <p>The whole of it happens on your machine, in the order below, and you can watch it happen in about ten seconds.</p>
+          </header>
+
+          <div class="steps">
+            <article class="step">
+              <span class="step__num">1</span>
+              <h3>You type your name</h3>
+              <p>That is the entire log-in. The browser generates an Ed25519 key pair whose private half cannot be exported, and that key is who you are from then on.</p>
+            </article>
+            <article class="step">
+              <span class="step__num">2</span>
+              <h3>A company is written</h3>
+              <p>The runtime reads an operating model — processes, roles, record types, written as markdown — and commits a working company into a git repository in your browser.</p>
+            </article>
+            <article class="step">
+              <span class="step__num">3</span>
+              <h3>You work, and it commits</h3>
+              <p>Every change is an atomic, signed commit. The log is a real git log, and the software is just something that reads and writes the folder.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="tco-section">
+        <div class="container">
+          <h2>5-Year Total Cost of <span class="gradient-text">Ownership</span></h2>
+          <p>Real numbers for a 50-person company. No tricks.</p>
+          <div class="tco-grid">
+            <div class="tco-card">
+              <div class="cost cost-sap">€850K</div>
+              <div class="label">SAP Business One</div>
+            </div>
+            <div class="tco-card">
+              <div class="cost cost-odoo">€60K</div>
+              <div class="label">Odoo Enterprise</div>
+            </div>
+            <div class="tco-card">
+              <div class="cost cost-erpnext">€24K</div>
+              <div class="label">ERPNext</div>
+            </div>
+            <div class="tco-card neon">
+              <div class="cost cost-neo">€0</div>
+              <div class="label">NeoDonkey</div>
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <a class="btn btn-secondary" href="/pricing.html">See the full breakdown →</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="features-section">
+        <div class="container">
+          <header class="section-head">
+            <span class="eyebrow">Why NeoDonkey</span>
+            <h2>The properties fall out of the architecture</h2>
+            <p>The core is headless and dependency-free. This site is one head among many — it exists to show what a richer one can do, and the plain one ships with the product.</p>
+          </header>
+
+          <div class="feature-grid">
+            <article class="feature-card">
+              <div class="feature-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              </div>
+              <h3>Headless by construction</h3>
+              <p>A zero-dependency ES-module core with no framework and no vendor. Attach the vanilla UI, this site, or a head of your own — the core cannot tell the difference.</p>
+            </article>
+
+            <article class="feature-card">
+              <div class="feature-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+              </div>
+              <h3>Git is the database</h3>
+              <p>Not "backed up to git" — the repository <em>is</em> the system of record, with history, signatures and merges that any git client on earth can read.</p>
+            </article>
+
+            <article class="feature-card">
+              <div class="feature-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </div>
+              <h3>Signed, not permissioned</h3>
+              <p>Every commit carries the author's signature. Authority is something you can verify from the repository, not a row in somebody else's access table.</p>
+            </article>
+
+            <article class="feature-card">
+              <div class="feature-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </div>
+              <h3>A Copilot with nowhere to send anything</h3>
+              <p>Where the hardware allows, a quantised model runs on your GPU, reads the repository, and answers by generating an interface. No API, no key, no request.</p>
+            </article>
+
+            <article class="feature-card">
+              <div class="feature-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </div>
+              <h3>Nothing to be locked out of</h3>
+              <p>The repository is a folder. Copy it to a USB stick and the whole system — data, history and the code that reads it — goes with you.</p>
+            </article>
+
+            <article class="feature-card">
+              <div class="feature-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              </div>
+              <h3>European, and licensed to stay that way</h3>
+              <p>EUPL-1.2. No servers to host, nothing to scale, nothing to pay for — for you or for us.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="copilot" class="section">
+        <div class="container copilot-banner">
+          <div class="copilot-banner__copy">
+            <p class="section__eyebrow">In-browser Copilot</p>
+            <h2 class="section__title">Ask your company a question. Watch the interface build itself.</h2>
+            <p class="section__lede">
+              A small quantised model is downloaded once and compiled to your GPU's own shaders.
+              It reads the repository at its current commit and answers with
+              <a href="https://a2ui.org/" target="_blank" rel="noopener">A2UI</a> — a JSON
+              description of an interface, which this site turns into DOM. It is offered only
+              where the hardware supports it, and it is never required.
+            </p>
+            <ul class="copilot-banner__list">
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="17" height="17" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Runs on your own graphics hardware over WebGPU
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="17" height="17" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Output constrained by a grammar, then sanitised, then rendered
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="17" height="17" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Weights fetched once, kept in this browser, deletable in one click
+              </li>
+            </ul>
+          </div>
+
+          <!-- The format, stated. Not a transcript of a session that never happened. -->
+          <figure class="a2ui-sample">
+            <figcaption>What the model is allowed to emit</figcaption>
+            <pre><code>{
+  "title": "Open amounts by supplier",
+  "layout": {
+    "type": "Container",
+    "children": [
+      { "type": "Metric",
+        "label": "Open total",
+        "value": "33 405.00 EUR" },
+      { "type": "Chart",
+        "chartType": "bar",
+        "data": [ … ] }
+    ]
+  }
+}</code></pre>
+            <p class="a2ui-sample__note">
+              The renderer that turns this into DOM is a few hundred lines in this repository. It
+              knows what a table is; it has never heard of an invoice.
+            </p>
+          </figure>
+        </div>
+      </section>
+
+      <section class="cta-section">
+        <div class="container">
+          <div class="cta-card">
+            <h2>Open a company in ten seconds.</h2>
+            <p>No account, no install, no server. Type your name, and a signed git repository with a working company in it appears in this browser.</p>
+            <div class="hero__actions" style="justify-content:center;">
+              <button class="btn btn-primary btn-lg" id="cta-login-btn" data-login>Log in</button>
+              <a class="btn btn-ghost btn-lg" href="https://github.com/NeoDonkey/NeoDonkey-ERP" target="_blank" rel="noopener">Read the source</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="site-footer__inner">
+          <div class="site-footer__brand">
+            <a class="brand" href="#top" aria-label="NeoDonkey">
+              <svg class="brand__mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect width="32" height="32" rx="8" fill="#07070f"/>
+                <path d="M13.5 12.5 L11.8 5.4 C11.6 4 13 3.2 13.9 4.1 L15.6 5.9 L15.8 12.5 Z" fill="#ff2d95"/>
+                <path d="M18.5 12.5 L20.2 5.4 C20.4 4 19 3.2 18.1 4.1 L16.4 5.9 L16.2 12.5 Z" fill="#00f0ff"/>
+                <path d="M8.5 12.5 L8.5 15.5 C8.5 23.5 11 26.5 16 26.5 C21 26.5 23.5 23.5 23.5 15.5 L23.5 12.5 C23.5 11.4 22.6 10.6 21.5 10.6 L10.5 10.6 C9.4 10.6 8.5 11.4 8.5 12.5 Z" fill="url(#gf)"/>
+                <defs><linearGradient id="gf" x1="8.5" y1="12.5" x2="23.5" y2="26.5"><stop stop-color="#ff2d95"/><stop offset="1" stop-color="#00f0ff"/></linearGradient></defs>
+                <circle cx="12.5" cy="16.5" r="1.2" fill="#07070f"/>
+                <circle cx="19.5" cy="16.5" r="1.2" fill="#07070f"/>
+                <rect x="13.5" y="19.5" width="5" height="3.6" rx="1.8" fill="#ff2d95" opacity="0.5"/>
+              </svg>
+              <span class="brand__name">NeoDonkey</span>
+            </a>
+            <p>Headless, local-first ERP for the browser. This site is one head among many.</p>
+          </div>
+          <div class="site-footer__col">
+            <h4>Product</h4>
+            <a href="https://github.com/NeoDonkey/NeoDonkey-ERP" target="_blank" rel="noopener">NeoDonkey-ERP</a>
+            <a href="https://github.com/NeoDonkey/NeoDonkey-ERP/blob/main/neodonkey-manifesto.md" target="_blank" rel="noopener">The manifesto</a>
+            <a href="https://github.com/NeoDonkey/NeoDonkey-ERP/issues" target="_blank" rel="noopener">Issues</a>
+          </div>
+          <div class="site-footer__col">
+            <h4>This site</h4>
+            <a href="#how">How it works</a>
+            <a href="#features">Why</a>
+            <a href="#copilot">Copilot</a>
+            <a href="https://github.com/NeoDonkey/NeoDonkey.github.io" target="_blank" rel="noopener">Its source</a>
+          </div>
+        </div>
+        <div class="site-footer__bottom">
+          <span>&copy; 2026 NeoDonkey &middot; EUPL-1.2</span>
+          <span id="erp-version-note">No tracking &middot; No telemetry &middot; No servers</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ============ THE ERP ============
+
+       The runtime from the pinned ref in erp.pin.json, in a frame, unmodified and with its own
+       stylesheet. Its first screen is the log-in: a name, and a key pair generated here. -->
+  <div id="app-root" class="app-root" hidden>
+
+    <header class="app-topbar">
+      <div class="container app-topbar__inner">
+        <button class="app-back" id="back-to-landing-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          Back to site
+        </button>
+
+        <div class="app-topbar__actions">
+          <span class="app-topbar__pin" id="erp-pin" hidden></span>
+
+          <div id="copilot-toggle-container" class="copilot-toggle" hidden>
+            <span class="copilot-toggle__label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Copilot
+            </span>
+            <label class="switch" for="copilot-checkbox">
+              <input type="checkbox" id="copilot-checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="app-body">
+      <main id="erp-root" class="erp-container">
+        <iframe id="erp-frame" class="erp-frame" title="NeoDonkey ERP"
+                allow="cross-origin-isolated"></iframe>
+      </main>
+
+      <aside id="copilot-drawer" class="copilot-drawer" hidden>
+        <header class="copilot-drawer__head">
+          <div class="copilot-drawer__title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Copilot
+            <span class="copilot-drawer__status" id="copilot-status">not running</span>
+          </div>
+          <button id="close-copilot-btn" class="btn-icon" aria-label="Close Copilot">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </header>
+
+        <div class="copilot-drawer__body">
+          <div id="copilot-setup" class="copilot-setup"></div>
+          <div id="copilot-messages" class="copilot-messages"></div>
+        </div>
+
+        <div class="copilot-drawer__foot" hidden>
+          <input type="text" id="copilot-input" class="copilot-input"
+                 placeholder="Ask about the company next door&hellip;" autocomplete="off" disabled />
+          <button id="copilot-send" class="btn btn-primary" disabled>Ask</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+</body>
+</html>
+<!-- built 2026-08-19T23:08:43+08:00 -->
