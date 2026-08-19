@@ -1,179 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NeoDonkey vs SAP: The Real Cost Comparison | Escape Vendor Lock-in</title>
-  <meta name="description" content="Compare NeoDonkey with SAP S/4HANA and Business One. Zero licensing fees, zero migration costs, zero vendor lock-in. See the true cost of SAP ownership vs NeoDonkey." />
-  <meta name="keywords" content="SAP alternative, SAP S/4HANA cost, escape SAP, open source ERP vs SAP, NeoDonkey vs SAP" />
-  <link rel="canonical" href="https://neodonkey.github.io/compare/sap/" />
-  <link rel="stylesheet" href="/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeoDonkey vs SAP S/4HANA: The Real Cost Comparison | 2026</title>
+  <meta name="description" content="Why companies are leaving SAP S/4HANA for NeoDonkey. Real cost comparison: €850K vs €0. No implementation failures, no forced upgrades, no vendor lock-in.">
+  <meta name="keywords" content="SAP alternative, SAP S/4HANA cost, open source ERP vs SAP, SAP migration failure, ERP cost comparison">
+  <link rel="canonical" href="https://neodonkey.github.io/compare/sap.html">
+  <link rel="stylesheet" href="/style.css">
+  
+  <!-- FAQ Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much does SAP S/4HANA really cost?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SAP S/4HANA costs €500K-€2M for implementation, plus €200K-€500K for mandatory upgrades every 3-5 years. Annual maintenance is 18-22% of license cost. For a 50-person company, total 5-year cost exceeds €850K."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why do SAP migrations fail?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "55-75% of SAP S/4HANA migrations fail due to: 1) Underestimated complexity (average 16-month delay), 2) Data migration issues, 3) Custom code incompatibility, 4) User resistance, 5) Budget overruns averaging 2.3x initial estimate."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I really replace SAP with open source ERP?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. NeoDonkey provides core ERP functionality (general ledger, accounts payable/receivable, inventory, procurement) without the cost and complexity of SAP. It's designed for companies that need ERP fundamentals without enterprise overhead."
+        }
+      }
+    ]
+  }
+  </script>
+  
   <style>
-    .compare-hero { padding: 120px 24px 60px; background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%); color: white; }
-    .compare-hero h1 { font-size: 3rem; margin-bottom: 16px; }
-    .compare-hero p { font-size: 1.25rem; opacity: 0.9; max-width: 640px; }
-    .compare-section { padding: 80px 24px; max-width: 960px; margin: 0 auto; }
-    .compare-section h2 { font-size: 2rem; margin-bottom: 24px; }
-    .cost-table { width: 100%; border-collapse: collapse; margin: 32px 0; }
-    .cost-table th { background: var(--surface-2); padding: 16px; text-align: left; font-weight: 600; }
-    .cost-table td { padding: 16px; border-bottom: 1px solid var(--border); }
-    .cost-table .sap { color: #ef4444; }
-    .cost-table .neo { color: #0d9488; font-weight: 600; }
-    .highlight-box { background: var(--surface-2); border-radius: 12px; padding: 32px; margin: 32px 0; border-left: 4px solid #0d9488; }
-    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin: 32px 0; }
-    .stat-card { text-align: center; padding: 24px; }
-    .stat-number { font-size: 2.5rem; font-weight: 700; color: #0d9488; }
-    .stat-label { color: var(--text-2); margin-top: 8px; }
-    .cta-banner { background: #0d9488; color: white; padding: 48px 24px; text-align: center; margin-top: 48px; }
-    .cta-banner h2 { margin-bottom: 16px; }
-    .cta-banner .btn { background: white; color: #0d9488; padding: 12px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-block; margin-top: 16px; }
+    .compare-hero { padding: 140px 24px 80px; text-align: center; background: linear-gradient(135deg, var(--bg-1) 0%, var(--surface) 100%); }
+    .compare-hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 16px; }
+    .compare-hero .lead { font-size: 1.25rem; color: var(--text-2); max-width: 640px; margin: 0 auto 32px; }
+    .cost-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; max-width: 1000px; margin: 0 auto 80px; padding: 0 24px; }
+    .cost-card { background: var(--surface); border: 1px solid var(--surface-border); border-radius: var(--radius); padding: 40px; position: relative; }
+    .cost-card.neo { border-color: var(--pink); }
+    .cost-card .label { font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; color: var(--text-3); }
+    .cost-card .amount { font-size: 3.5rem; font-weight: 800; margin-bottom: 8px; }
+    .cost-card .period { color: var(--text-3); font-size: 0.9375rem; }
+    .cost-card .details { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--surface-border); }
+    .cost-card .details li { color: var(--text-2); font-size: 0.875rem; margin-bottom: 8px; padding-left: 20px; position: relative; }
+    .cost-card .details li::before { content: "×"; position: absolute; left: 0; color: var(--text-3); }
+    .cost-card.neo .details li::before { content: "✓"; color: var(--green); }
+    
+    .section { padding: 80px 24px; }
+    .section-head { text-align: center; max-width: 640px; margin: 0 auto 48px; }
+    .comparison-table { max-width: 900px; margin: 0 auto; border-collapse: collapse; }
+    .comparison-table th, .comparison-table td { padding: 16px 24px; text-align: left; border-bottom: 1px solid var(--surface-border); }
+    .comparison-table th { font-weight: 600; color: var(--text-3); font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    .comparison-table td { color: var(--text-2); }
+    .comparison-table .winner { color: var(--green); font-weight: 600; }
+    
+    .faq-section { max-width: 720px; margin: 0 auto; padding: 80px 24px; }
+    .faq-item { margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--surface-border); }
+    .faq-item h3 { font-size: 1.25rem; margin-bottom: 12px; }
+    .faq-item p { color: var(--text-2); line-height: 1.7; }
+    
+    .cta-box { background: var(--surface); border: 1px solid var(--surface-border); border-radius: var(--radius); padding: 48px; text-align: center; max-width: 640px; margin: 0 auto 80px; }
+    .cta-box h2 { margin-bottom: 16px; }
+    .cta-box p { color: var(--text-2); margin-bottom: 24px; }
+    
+    @media (max-width: 640px) {
+      .compare-hero h1 { font-size: 2rem; }
+      .cost-card .amount { font-size: 2.5rem; }
+    }
   </style>
 </head>
 <body>
-  <header class="site-nav" style="background: #0f172a;">
+  <nav class="site-nav">
     <div class="container site-nav__inner">
-      <a class="brand" href="/" aria-label="NeoDonkey">
-        <svg class="brand__mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect width="32" height="32" rx="7" fill="#0d9488"/>
-          <path d="M13.5 12.5 L11.8 5.4 C11.6 4 13 3.2 13.9 4.1 L15.6 5.9 L15.8 12.5 Z" fill="#fff"/>
-          <path d="M18.5 12.5 L20.2 5.4 C20.4 4 19 3.2 18.1 4.1 L16.4 5.9 L16.2 12.5 Z" fill="#fff"/>
-          <path d="M8.5 12.5 L8.5 15.5 C8.5 23.5 11 26.5 16 26.5 C21 26.5 23.5 23.5 23.5 15.5 L23.5 12.5 C23.5 11.4 22.6 10.6 21.5 10.6 L10.5 10.6 C9.4 10.6 8.5 11.4 8.5 12.5 Z" fill="#fff"/>
-          <circle cx="12.5" cy="16.5" r="1.2" fill="#0d9488"/>
-          <circle cx="19.5" cy="16.5" r="1.2" fill="#0d9488"/>
-          <rect x="13.5" y="19.5" width="5" height="3.6" rx="1.8" fill="#ccfbf1"/>
-        </svg>
-        <span class="brand__name">NeoDonkey</span>
-      </a>
-      <nav class="site-nav__links" aria-label="Primary">
+      <a class="brand" href="/" aria-label="NeoDonkey"><span class="brand__name">NeoDonkey</span></a>
+      <div class="site-nav__links">
         <a class="site-nav__link" href="/">Home</a>
+        <a class="site-nav__link" href="/pricing.html">Pricing</a>
         <a class="site-nav__link" href="/blog/">Blog</a>
         <a class="site-nav__link" href="https://github.com/NeoDonkey/NeoDonkey-ERP" target="_blank" rel="noopener">GitHub</a>
-      </nav>
+      </div>
+    </div>
+  </nav>
+
+  <header class="compare-hero">
+    <div class="container">
+      <div class="eyebrow">Comparison</div>
+      <h1>NeoDonkey vs SAP S/4HANA</h1>
+      <p class="lead">Why companies are quietly replacing €850K SAP implementations with a €0 open-source alternative. No implementation failures. No forced upgrades. No vendor lock-in.</p>
     </div>
   </header>
 
-  <section class="compare-hero">
+  <section>
+    <div class="cost-grid">
+      <div class="cost-card">
+        <div class="label">SAP S/4HANA</div>
+        <div class="amount" style="color: var(--red);">€850K+</div>
+        <div class="period">5-year total cost (50 users)</div>
+        <ul class="details">
+          <li>Implementation: €500K-€2M</li>
+          <li>Annual maintenance: 18-22%</li>
+          <li>Mandatory upgrades: €200K-€500K</li>
+          <li>Per-user licensing: €1,500-€3,000/year</li>
+          <li>Consulting for customizations</li>
+          <li>Data extraction fees if leaving</li>
+        </ul>
+      </div>
+      <div class="cost-card neo">
+        <div class="label">NeoDonkey</div>
+        <div class="amount" style="color: var(--green);">€0</div>
+        <div class="period">Forever. No catch.</div>
+        <ul class="details">
+          <li>EUPL-1.2 open source</li>
+          <li>No per-user fees</li>
+          <li>No maintenance contracts</li>
+          <li>No forced upgrades</li>
+          <li>Self-hosted, your data</li>
+          <li>Community support</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background: var(--surface);">
     <div class="container">
-      <h1>SAP Costs €2.1M to Implement.<br>Then It Costs More to Keep.</h1>
-      <p>NeoDonkey costs zero. Forever. Here's the real comparison your SAP salesman won't show you.</p>
-    </div>
-  </section>
-
-  <section class="compare-section">
-    <div class="stat-grid">
-      <div class="stat-card">
-        <div class="stat-number">€2.1M</div>
-        <div class="stat-label">Average SAP S/4HANA implementation (200-person company)</div>
+      <div class="section-head">
+        <span class="eyebrow">Feature Comparison</span>
+        <h2>What You Actually Get</h2>
+        <p>Enterprise features without the enterprise price tag.</p>
       </div>
-      <div class="stat-card">
-        <div class="stat-number">18-24</div>
-        <div class="stat-label">Months to implement SAP</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">15-25%</div>
-        <div class="stat-label">Annual "maintenance" = upgrade tax</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">10-30%</div>
-        <div class="stat-label">Of SAP features actually used</div>
-      </div>
+      <table class="comparison-table">
+        <thead>
+          <tr><th>Feature</th><th>SAP S/4HANA</th><th>NeoDonkey</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>General Ledger</td><td>✓ Complex, over-engineered</td><td class="winner">✓ Clean, git-based</td></tr>
+          <tr><td>Accounts Payable/Receivable</td><td>✓ Included</td><td class="winner">✓ Included</td></tr>
+          <tr><td>Inventory Management</td><td>✓ With MRP</td><td class="winner">✓ Core feature</td></tr>
+          <tr><td>Multi-company</td><td>✓ Enterprise tier only</td><td class="winner">✓ Built-in</td></tr>
+          <tr><td>Custom Workflows</td><td>Requires ABAP developer</td><td class="winner">Markdown + JS</td></tr>
+          <tr><td>API</td><td>OData, complex auth</td><td class="winner">REST, git-based</td></tr>
+          <tr><td>Mobile Access</td><td>Separate app</td><td class="winner">Responsive PWA</td></tr>
+          <tr><td>Data Portability</td><td>€40K extraction fee</td><td class="winner">git clone</td></tr>
+          <tr><td>Audit Trail</td><td>Database logs</td><td class="winner">Signed git commits</td></tr>
+          <tr><td>Setup Time</td><td>12-18 months</td><td class="winner">10 seconds</td></tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
-  <section class="compare-section">
-    <h2>The True Cost Over 5 Years</h2>
-    <table class="cost-table">
-      <thead>
-        <tr>
-          <th>Cost Item</th>
-          <th>SAP S/4HANA</th>
-          <th>NeoDonkey</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Initial licenses</td>
-          <td class="sap">€180K - €500K</td>
-          <td class="neo">€0</td>
-        </tr>
-        <tr>
-          <td>Implementation</td>
-          <td class="sap">€800K - €2.1M</td>
-          <td class="neo">€0 (self-serve)</td>
-        </tr>
-        <tr>
-          <td>Annual maintenance (22%)</td>
-          <td class="sap">€40K - €110K/year</td>
-          <td class="neo">€0</td>
-        </tr>
-        <tr>
-          <td>Forced upgrade (every 3-5 years)</td>
-          <td class="sap">€200K - €500K</td>
-          <td class="neo">€0 (updates are free, instant)</td>
-        </tr>
-        <tr>
-          <td>Server/cloud infrastructure</td>
-          <td class="sap">€15K - €50K/year</td>
-          <td class="neo">€0 (runs on your hardware)</td>
-        </tr>
-        <tr>
-          <td>Consultant dependency</td>
-          <td class="sap">€200+/hour</td>
-          <td class="neo">Community + docs</td>
-        </tr>
-        <tr>
-          <td><strong>5-Year Total (200 users)</strong></td>
-          <td class="sap"><strong>€1.8M - €4.2M</strong></td>
-          <td class="neo"><strong>€0</strong></td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <section class="compare-section">
-    <h2>But the Money Isn't the Worst Part</h2>
-    
-    <div class="highlight-box">
-      <h3>The Migration Hostage Crisis</h3>
-      <p>SAP ends support for older versions on a predictable schedule. Your choice: pay for the "upgrade" (€200K-€500K) or lose security patches and compliance certifications. This isn't maintenance. It's <strong>rent extraction with a gun to your head</strong>.</p>
-    </div>
-
-    <div class="highlight-box">
-      <h3>The Data Lock-in</h3>
-      <p>Your company's entire operational history lives in proprietary SAP formats. Want to leave? The "data extraction service" starts at €40K. And that's before you discover half your custom reports won't translate.</p>
-    </div>
-
-    <div class="highlight-box">
-      <h3>The Complexity Tax</h3>
-      <p>SAP S/4HANA has 20,000+ features. The average mid-market company uses 300. You're paying for 19,700 features you don't need, while your employees struggle through UIs designed in 1998.</p>
-    </div>
-  </section>
-
-  <section class="compare-section">
-    <h2>NeoDonkey: The Anti-SAP</h2>
-    <p>We built NeoDonkey by asking one question: <em>What if an ERP worked like the rest of your software?</em></p>
-    
-    <ul style="margin: 24px 0; padding-left: 24px; line-height: 2;">
-      <li><strong>No licenses.</strong> EUPL-1.2 open source. The code is yours.</li>
-      <li><strong>No servers.</strong> Runs in your browser. Your data never leaves your network.</li>
-      <li><strong>No upgrades.</strong> Updates are git pulls. Roll back anytime. Zero downtime.</li>
-      <li><strong>No consultants.</strong> The system is designed to be understandable. Git log is your audit trail.</li>
-      <li><strong>No lock-in.</strong> Your company is a folder. Copy it, move it, fork it. It's yours.</li>
-    </ul>
-  </section>
-
-  <section class="cta-banner">
+  <section class="section">
     <div class="container">
-      <h2>Calculate What SAP Is Really Costing You</h2>
-      <p>A 200-person company pays €1.8M - €4.2M over 5 years for SAP. NeoDonkey costs zero. The math is simple.</p>
-      <a href="/" class="btn">See NeoDonkey in Action →</a>
+      <div class="section-head">
+        <span class="eyebrow">The Migration Risk</span>
+        <h2>Why SAP Projects Fail</h2>
+        <p>55-75% of SAP S/4HANA migrations fail. Here's why NeoDonkey doesn't.</p>
+      </div>
+      <div style="max-width: 720px; margin: 0 auto;">
+        <div style="background: var(--surface); border-radius: var(--radius); padding: 32px; margin-bottom: 24px; border-left: 3px solid var(--red);">
+          <h3 style="margin-bottom: 12px;">SAP Implementation Reality</h3>
+          <ul style="color: var(--text-2); line-height: 1.8;">
+            <li>Average project: <strong>16 months overdue</strong></li>
+            <li>Budget overrun: <strong>2.3x initial estimate</strong></li>
+            <li>Business disruption: <strong>3-6 months</strong></li>
+            <li>Consulting costs: <strong>€200K-€500K</strong></li>
+            <li>User adoption: <strong>40% after 1 year</strong></li>
+          </ul>
+        </div>
+        <div style="background: var(--surface); border-radius: var(--radius); padding: 32px; border-left: 3px solid var(--green);">
+          <h3 style="margin-bottom: 12px;">NeoDonkey Approach</h3>
+          <ul style="color: var(--text-2); line-height: 1.8;">
+            <li>Setup time: <strong>10 seconds</strong></li>
+            <li>Learning curve: <strong>Minimal (browser-based)</strong></li>
+            <li>Customization: <strong>Markdown config files</strong></li>
+            <li>Data migration: <strong>git push/pull</strong></li>
+            <li>Risk: <strong>Zero (it's free)</strong></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </section>
+
+  <section class="faq-section">
+    <span class="eyebrow">FAQ</span>
+    <h2 style="text-align: center; margin-bottom: 48px;">Common Questions</h2>
+    
+    <div class="faq-item">
+      <h3>How much does SAP S/4HANA really cost?</h3>
+      <p>For a 50-person company, expect €500K-€2M for initial implementation, plus €200K-€500K for mandatory upgrades every 3-5 years. Annual maintenance is 18-22% of license cost. Total 5-year cost typically exceeds €850K. Hidden costs include consulting, customization, training, and data extraction fees if you leave.</p>
+    </div>
+    
+    <div class="faq-item">
+      <h3>Why do SAP migrations fail?</h3>
+      <p>55-75% of SAP S/4HANA migrations fail due to: 1) Underestimated complexity and scope, 2) Data migration issues and dirty data, 3) Custom code incompatibility, 4) User resistance to change, 5) Budget overruns averaging 2.3x initial estimates. Most failures aren't technical—they're organizational and financial.</p>
+    </div>
+    
+    <div class="faq-item">
+      <h3>Can open source ERP really replace SAP?</h3>
+      <p>For small to mid-sized companies (10-200 employees), yes. NeoDonkey covers core ERP functionality: general ledger, AP/AR, inventory, procurement, and multi-company consolidation. What you don't get: industry-specific modules (pharma, aerospace), complex supply chain optimization, or global payroll. But you also don't get the €850K price tag.</p>
+    </div>
+    
+    <div class="faq-item">
+      <h3>What happens to my data if I stop using NeoDonkey?</h3>
+      <p>Your data is a git repository on your machine. Stop using NeoDonkey and you still have all your data in a standard format any developer can read. No extraction fees, no proprietary formats, no vendor approval needed.</p>
+    </div>
+  </section>
+
+  <div class="cta-box">
+    <h2>Ready to Escape SAP?</h2>
+    <p>Open a company in 10 seconds. No credit card. No sales call. No implementation project.</p>
+    <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+      <a href="/" class="btn btn-primary btn-lg">Try NeoDonkey Free</a>
+      <a href="/pricing.html" class="btn btn-secondary btn-lg">See Full Pricing</a>
+    </div>
+  </div>
 
   <footer class="site-footer">
     <div class="container">
       <div class="site-footer__bottom">
-        <span>&copy; 2026 NeoDonkey &middot; EUPL-1.2</span>
+        <span>© 2026 NeoDonkey · EUPL-1.2 · <a href="/" style="color: var(--text-3);">Home</a> · <a href="/pricing.html" style="color: var(--text-3);">Pricing</a> · <a href="/blog/" style="color: var(--text-3);">Blog</a></span>
       </div>
     </div>
   </footer>
