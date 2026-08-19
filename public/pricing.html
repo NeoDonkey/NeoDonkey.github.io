@@ -312,8 +312,8 @@
   <section class="pricing-hero">
     <div class="container">
       <div class="eyebrow">Transparent Pricing</div>
-      <h1>Own Your ERP.<br><em>Don't Rent It.</em></h1>
-      <p>Every other ERP vendor charges you monthly, forever. We don't. Here's how NeoDonkey's ownership model works — and why it terrifies the industry.</p>
+      <h1>No Per-User Tax.<br><em>Scale Your Business, Not Your Bill.</em></h1>
+      <p>Every traditional ERP charges per seat — a tax on growth. NeoDonkey scales by data volume, not headcount. Unlimited users. No surprises.</p>
     </div>
   </section>
 
@@ -323,15 +323,15 @@
       EUPL-1.2 Licensed
     </div>
     <div class="trust-bar__item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-      Self-Hosted
-    </div>
-    <div class="trust-bar__item">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      No Vendor Lock-in
+      Self-Hosted or Cloud
     </div>
     <div class="trust-bar__item">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+      Unlimited Users
+    </div>
+    <div class="trust-bar__item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
       GDPR Compliant
     </div>
   </div>
@@ -359,6 +359,7 @@
           <li>EUPL-1.2 license — fork it, modify it, sell it</li>
         </ul>
         <a href="https://github.com/NeoDonkey/NeoDonkey-ERP" class="btn btn-primary" target="_blank" rel="noopener">Get Started Free →</a>
+        <p style="margin-top: 12px; font-size: 0.8125rem; color: var(--text-3); text-align: center;">You manage: PostgreSQL, SSL, backups, compliance</p>
       </div>
       
       <div class="pricing-card">
@@ -429,6 +430,35 @@
         </tr>
       </tbody>
     </table>
+  </section>
+
+  <section class="faq-section" style="padding: 100px 24px; max-width: 800px; margin: 0 auto;">
+    <h2 style="font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 48px;">Procurement & Compliance FAQ</h2>
+    
+    <div class="faq-item" style="border-bottom: 1px solid var(--bg-3); padding: 24px 0;">
+      <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 8px; color: var(--text-1);">What does "self-hosted" mean for our compliance team?</h3>
+      <p style="color: var(--text-2); line-height: 1.7;">NeoDonkey runs entirely in your browser using the Origin Private File System. No data leaves your device unless you explicitly sync it to your own git remote. For SOC 2 or GDPR audits, you control the entire data lineage.</p>
+    </div>
+    
+    <div class="faq-item" style="border-bottom: 1px solid var(--bg-3); padding: 24px 0;">
+      <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 8px; color: var(--text-1);">How do we back up our data?</h3>
+      <p style="color: var(--text-2); line-height: 1.7;">Your entire company is a git repository. Back it up the same way you back up code: git push to GitHub, GitLab, or your private Gitea instance. Every transaction is cryptographically signed and immutable.</p>
+    </div>
+    
+    <div class="faq-item" style="border-bottom: 1px solid var(--bg-3); padding: 24px 0;">
+      <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 8px; color: var(--text-1);">What if we need to migrate from SAP/Odoo?</h3>
+      <p style="color: var(--text-2); line-height: 1.7;">NeoDonkey imports standard CSV/JSON formats. Most customers migrate master data in 2-3 days. Historical transactions can be imported as signed git commits, preserving your audit trail.</p>
+    </div>
+    
+    <div class="faq-item" style="border-bottom: 1px solid var(--bg-3); padding: 24px 0;">
+      <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 8px; color: var(--text-1);">Who maintains the software?</h3>
+      <p style="color: var(--text-2); line-height: 1.7;">NeoDonkey is EUPL-1.2 licensed open source. The core team maintains the project, but you're never dependent on us. You can fork, modify, and self-maintain. Or hire any JavaScript developer — no proprietary certifications required.</p>
+    </div>
+    
+    <div class="faq-item" style="padding: 24px 0;">
+      <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 8px; color: var(--text-1);">Is there a paid "Enterprise" version?</h3>
+      <p style="color: var(--text-2); line-height: 1.7;">No. There is only one version: the open source version. We don't hold features hostage. If you need managed hosting or custom development, contact us for consulting — but the software is always free.</p>
+    </div>
   </section>
 
   <section class="cta-section">

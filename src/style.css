@@ -5,28 +5,28 @@
    ============================================================ */
 
 :root {
-  /* Background layers */
-  --bg-0: #07070f;
-  --bg-1: #0a0a1a;
-  --bg-2: #12122a;
-  --bg-3: #1a1a3e;
+  /* Background layers - Premium charcoal, not pure black */
+  --bg-0: #0b0e12;
+  --bg-1: #0e1117;
+  --bg-2: #13161f;
+  --bg-3: #1a1e2a;
 
-  /* Neon accents — matching the logo */
+  /* Neon accents — 90-8-2 rule: 90% neutral, 8% cyan, 2% pink */
   --pink: #ff2d95;
-  --pink-soft: rgba(255, 45, 149, 0.15);
+  --pink-soft: rgba(255, 45, 149, 0.08);
   --cyan: #00f0ff;
-  --cyan-soft: rgba(0, 240, 255, 0.15);
-  --purple: #8b5cf6;
-  --purple-soft: rgba(139, 92, 246, 0.15);
+  --cyan-soft: rgba(0, 240, 255, 0.10);
+  --purple: #6366f1;
+  --purple-soft: rgba(99, 102, 241, 0.10);
 
-  /* Text */
-  --text-1: #ffffff;
-  --text-2: #a0a0c0;
-  --text-3: #606080;
+  /* Text - Silver/white hierarchy */
+  --text-1: #f0f0f5;
+  --text-2: #8a8fa3;
+  --text-3: #5a6070;
 
-  /* Surfaces */
-  --surface: rgba(18, 18, 42, 0.7);
-  --surface-border: rgba(255, 45, 149, 0.12);
+  /* Surfaces - Glassmorphism with subtle borders */
+  --surface: rgba(255, 255, 255, 0.02);
+  --surface-border: rgba(255, 255, 255, 0.05);
 
   /* System */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -198,10 +198,28 @@ body::after {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 20% 40%, rgba(255, 45, 149, 0.08) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 80% 60%, rgba(0, 240, 255, 0.06) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 40% at 50% 100%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
+    radial-gradient(ellipse 80% 60% at 20% 40%, rgba(0, 240, 255, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 60%, rgba(99, 102, 241, 0.03) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 100%, rgba(255, 45, 149, 0.03) 0%, transparent 50%);
   pointer-events: none;
+}
+
+/* Ambient glow orbs */
+.hero__glow {
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.15;
+  pointer-events: none;
+}
+.hero__glow--1 {
+  top: -200px; right: -200px;
+  background: var(--cyan);
+}
+.hero__glow--2 {
+  bottom: -200px; left: -200px;
+  background: var(--pink);
 }
 .hero__grid {
   position: absolute;
@@ -291,7 +309,7 @@ body::after {
   box-shadow: 0 0 8px var(--pink);
 }
 
-/* Hero visual card */
+/* Hero visual card - Premium glass */
 .hero__visual {
   position: relative;
 }
