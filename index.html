@@ -1,535 +1,340 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LH0F5GVV3G"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-LH0F5GVV3G');
-  </script>
-  
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NeoDonkey — The ERP That Costs Zero. Forever. | Escape Vendor Lock-in</title>
-  <meta name="description" content="Your SAP alternative that runs in your browser, costs nothing, and belongs to you. No servers. No subscriptions. No vendor lock-in. EUPL-1.2 open source." />
-  <meta name="keywords" content="SAP alternative, Oracle alternative, open source ERP, free ERP, no subscription ERP, digital sovereignty, vendor lock-in escape" />
-  <meta name="author" content="NeoDonkey" />
-  <meta name="robots" content="index, follow" />
-  
-  <!-- Open Graph / Social -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://neodonkey.github.io/" />
-  <meta property="og:title" content="NeoDonkey — The ERP That Belongs To You" />
-  <meta property="og:description" content="A headless ERP with no server, no cloud and no vendor. Your company is a git repository in your own browser." />
-  <meta property="og:image" content="https://neodonkey.github.io/og-image.png" />
-  <meta property="og:site_name" content="NeoDonkey" />
-  
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://neodonkey.github.io/" />
-  <meta property="twitter:title" content="NeoDonkey — The ERP That Belongs To You" />
-  <meta property="twitter:description" content="A headless ERP with no server, no cloud and no vendor. Your company is a git repository in your own browser." />
-  <meta property="twitter:image" content="https://neodonkey.github.io/og-image.png" />
-  
-  <!-- Canonical -->
-  <link rel="canonical" href="https://neodonkey.github.io/" />
-  
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "NeoDonkey ERP",
-    "description": "A headless ERP with no server, no cloud and no vendor. Your company is a git repository in your own browser.",
-    "url": "https://neodonkey.github.io/",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "Any modern web browser",
-    "softwareVersion": "0.1",
-    "license": "https://github.com/NeoDonkey/NeoDonkey-ERP/blob/main/LICENSE",
-    "sourceOrganization": {
-      "@type": "Organization",
-      "name": "NeoDonkey",
-      "url": "https://neodonkey.github.io/"
-    },
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "EUR"
-    }
-  }
-  </script>
-  
-  <meta name="theme-color" content="#ff2d95" />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2307070f'/%3E%3Cpath d='M13.5 12.5 L11.8 5.4 C11.6 4 13 3.2 13.9 4.1 L15.6 5.9 L15.8 12.5 Z' fill='%23ff2d95'/%3E%3Cpath d='M18.5 12.5 L20.2 5.4 C20.4 4 19 3.2 18.1 4.1 L16.4 5.9 L16.2 12.5 Z' fill='%2300f0ff'/%3E%3Cpath d='M8.5 12.5 L8.5 15.5 C8.5 23.5 11 26.5 16 26.5 C21 26.5 23.5 23.5 23.5 15.5 L23.5 12.5 C23.5 11.4 22.6 10.6 21.5 10.6 L10.5 10.6 C9.4 10.6 8.5 11.4 8.5 12.5 Z' fill='url(%23g)'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='8.5' y1='12.5' x2='23.5' y2='26.5'%3E%3Cstop stop-color='%23ff2d95'/%3E%3Cstop offset='1' stop-color='%2300f0ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='12.5' cy='16.5' r='1.2' fill='%2307070f'/%3E%3Ccircle cx='19.5' cy='16.5' r='1.2' fill='%2307070f'/%3E%3Crect x='13.5' y='19.5' width='5' height='3.6' rx='1.8' fill='%23ff2d95' opacity='0.5'/%3E%3C/svg%3E" />
-  <link rel="stylesheet" href="/style.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NeoDonkey. Your company is a git repository.</title>
+<meta name="description" content="An ERP with no server and no vendor. Every business fact is a signed commit in a folder you own, and git verifies the books.">
+<link rel="canonical" href="https://neodonkey.github.io/">
+<meta property="og:title" content="NeoDonkey. Your company is a git repository.">
+<meta property="og:description" content="Every business fact is a signed commit. git fsck verifies your accounting. No server, no vendor, no dependencies.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://neodonkey.github.io/">
+<meta property="og:image" content="https://neodonkey.github.io/brand/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@neodonkey">
+<link rel="icon" href="/brand/favicon.ico" sizes="any">
+<link rel="icon" href="/brand/mark-64.png" type="image/png">
+<link rel="apple-touch-icon" href="/brand/mark-180.png">
+<link rel="stylesheet" href="/brand/tokens.css">
+<style>
+/* ==========================================================================
+   Page styles. Native CSS, no framework, no build step.
+   The ERP this page sells has zero dependencies. A landing page that pulled in
+   three font files and a utility framework to say so would be arguing against
+   itself.
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.shell { width: min(100% - 2.5rem, var(--shell)); margin-inline: auto; }
+a { color: inherit; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 620; margin: 0; }
+
+/* ---- navigation. one line, 64px ---------------------------------------- */
+.nav {
+  position: sticky; top: 0; z-index: 20; height: 64px;
+  display: flex; align-items: center;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav__in { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; width: 100%; }
+.brand { display: flex; align-items: center; gap: .6rem; text-decoration: none; font-weight: 640; letter-spacing: -.015em; }
+.brand img { height: 28px; width: 28px; display: block; border-radius: 7px; }
+.nav__links { display: flex; align-items: center; gap: 1.6rem; font-size: var(--t-small); }
+.nav__links a { color: var(--ink-soft); text-decoration: none; transition: color .18s var(--ease); }
+.nav__links a:hover { color: var(--ink); }
+@media (max-width: 820px) { .nav__links a.opt { display: none; } }
+
+/* ---- buttons ------------------------------------------------------------ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; white-space: nowrap;
+  padding: .72rem 1.25rem; border-radius: var(--r-md);
+  font-size: var(--t-small); font-weight: 560; text-decoration: none;
+  border: 1px solid transparent;
+  transition: transform .16s var(--ease), background .18s var(--ease), border-color .18s var(--ease);
+}
+.btn--primary { background: var(--btn-bg); color: var(--btn-ink); }
+.btn--primary:hover { background: color-mix(in srgb, var(--btn-bg) 86%, var(--ink)); }
+.btn--ghost { border-color: var(--rule); color: var(--ink); }
+.btn--ghost:hover { border-color: var(--ink-faint); }
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* ---- hero. asymmetric, left weighted ------------------------------------ */
+.hero { padding-top: clamp(3.5rem, 8vw, 6rem); padding-bottom: var(--section); }
+.hero__grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
+@media (max-width: 900px) { .hero__grid { grid-template-columns: 1fr; } }
+.hero h1 { font-size: var(--t-hero); line-height: 1.02; letter-spacing: -.035em; max-width: 15ch; margin-bottom: 1.4rem; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero__sub { font-size: clamp(1.06rem, 1.5vw, 1.22rem); color: var(--ink-soft); max-width: 46ch; margin: 0 0 2.1rem; }
+.hero__cta { display: flex; gap: .75rem; flex-wrap: wrap; }
+
+/* the receipt. real output, quoted. not a simulated window ---------------- */
+.receipt {
+  background: var(--paper-sunk); border: 1px solid var(--rule); border-radius: var(--r-lg);
+  padding: 1.25rem 1.35rem; font-family: var(--font-mono);
+  font-size: .815rem; line-height: 1.85; overflow-x: auto;
+}
+.receipt__cmd { color: var(--ink-faint); margin-bottom: .7rem; }
+.receipt__cmd b { color: var(--ink); font-weight: 600; }
+.receipt pre { margin: 0; white-space: pre; }
+.ok { color: var(--verified); }
+.receipt__foot { margin-top: .9rem; padding-top: .8rem; border-top: 1px solid var(--rule); color: var(--ink-faint); font-size: .76rem; line-height: 1.5; }
+
+/* ---- generic section ---------------------------------------------------- */
+.section { padding-block: var(--section); border-top: 1px solid var(--rule); }
+.section h2 { font-size: var(--t-h2); line-height: 1.08; letter-spacing: -.028em; max-width: 20ch; }
+.section .lede { color: var(--ink-soft); max-width: var(--measure); margin-top: 1rem; }
+
+/* ---- consequences. asymmetric, deliberately not three equal cards -------- */
+.cons { display: grid; grid-template-columns: 1.6fr 1fr; gap: 1px; background: var(--rule);
+        border: 1px solid var(--rule); border-radius: var(--r-lg); overflow: hidden; margin-top: 3rem; }
+.cons > div { background: var(--paper); padding: clamp(1.6rem, 3vw, 2.4rem); }
+.cons__wide { grid-column: 1 / -1; }
+.cons h3 { font-size: var(--t-h3); letter-spacing: -.015em; margin-bottom: .55rem; }
+.cons p { color: var(--ink-soft); margin: 0; font-size: var(--t-small); max-width: 54ch; }
+.cons code { font-family: var(--font-mono); font-size: .86em; background: var(--accent-wash); color: var(--accent); padding: .1em .35em; border-radius: var(--r-sm); }
+@media (max-width: 820px) { .cons { grid-template-columns: 1fr; } }
+
+/* ---- the gate ----------------------------------------------------------- */
+.gate { margin-top: 2.75rem; border: 1px solid var(--rule); border-radius: var(--r-lg); overflow: hidden; }
+.gate__row { display: grid; grid-template-columns: 3rem 1fr auto; gap: 1rem; align-items: baseline;
+             padding: .95rem 1.25rem; border-top: 1px solid var(--rule); }
+.gate__row:first-child { border-top: 0; }
+.gate__n { font-family: var(--font-mono); font-size: var(--t-micro); color: var(--ink-faint); }
+.gate__t { font-size: var(--t-small); }
+.gate__s { font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: .06em; }
+.gate__s[data-s="met"]   { color: var(--verified); }
+.gate__s[data-s="part"]  { color: var(--ink-soft); }
+.gate__s[data-s="unmet"] { color: var(--accent); }
+.gate__note { color: var(--ink-soft); font-size: var(--t-small); max-width: var(--measure); margin-top: 1.6rem; }
+
+/* ---- audience ----------------------------------------------------------- */
+.who { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); margin-top: 2.75rem; }
+@media (max-width: 760px) { .who { grid-template-columns: 1fr; } }
+.who h3 { font-size: var(--t-h3); margin-bottom: .9rem; }
+.who ul { list-style: none; margin: 0; padding: 0; }
+.who li { padding: .6rem 0; border-top: 1px solid var(--rule); color: var(--ink-soft); font-size: var(--t-small); }
+
+/* ---- close and footer --------------------------------------------------- */
+.close h2 { max-width: 24ch; }
+.close .hero__cta { margin-top: 2rem; }
+.foot { border-top: 1px solid var(--rule); padding-block: 3rem; color: var(--ink-faint); font-size: var(--t-small); }
+.foot__in { display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+.foot a { color: var(--ink-soft); text-decoration: none; }
+.foot a:hover { color: var(--ink); }
+.foot__links { display: flex; gap: 1.4rem; flex-wrap: wrap; }
+
+/* ---- motion. reveal on entry, nothing loops ----------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+  .reveal.in { opacity: 1; transform: none; }
+  .hero h1, .hero__sub, .hero__cta, .hero__aside { animation: rise .8s var(--ease) both; }
+  .hero__sub   { animation-delay: .07s; }
+  .hero__cta   { animation-delay: .14s; }
+  .hero__aside { animation-delay: .2s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
 </head>
 <body>
 
-  <!-- ============ MARKETING LANDING ============
-
-       Nothing on this page is a picture of the product. The ERP is behind the log-in button and
-       nowhere else: a screenshot of an ERP is the one thing every ERP vendor's website already
-       has, and this one can hand over the real thing in ten seconds instead. -->
-  <div id="landing-root">
-
-    <header class="site-nav">
-      <div class="container site-nav__inner">
-        <a class="brand" href="#top" aria-label="NeoDonkey — back to top">
-          <svg class="brand__mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <rect width="32" height="32" rx="8" fill="#07070f"/>
-            <path d="M13.5 12.5 L11.8 5.4 C11.6 4 13 3.2 13.9 4.1 L15.6 5.9 L15.8 12.5 Z" fill="#ff2d95"/>
-            <path d="M18.5 12.5 L20.2 5.4 C20.4 4 19 3.2 18.1 4.1 L16.4 5.9 L16.2 12.5 Z" fill="#00f0ff"/>
-            <path d="M8.5 12.5 L8.5 15.5 C8.5 23.5 11 26.5 16 26.5 C21 26.5 23.5 23.5 23.5 15.5 L23.5 12.5 C23.5 11.4 22.6 10.6 21.5 10.6 L10.5 10.6 C9.4 10.6 8.5 11.4 8.5 12.5 Z" fill="url(#g)"/>
-            <defs><linearGradient id="g" x1="8.5" y1="12.5" x2="23.5" y2="26.5"><stop stop-color="#ff2d95"/><stop offset="1" stop-color="#00f0ff"/></linearGradient></defs>
-            <circle cx="12.5" cy="16.5" r="1.2" fill="#07070f"/>
-            <circle cx="19.5" cy="16.5" r="1.2" fill="#07070f"/>
-            <rect x="13.5" y="19.5" width="5" height="3.6" rx="1.8" fill="#ff2d95" opacity="0.5"/>
-          </svg>
-          <span class="brand__name">NeoDonkey</span>
-        </a>
-
-        <nav class="site-nav__links" aria-label="Primary">
-          <a class="site-nav__link" href="/compare/sap.html">vs SAP</a>
-          <a class="site-nav__link" href="/compare/odoo.html">vs Odoo</a>
-          <a class="site-nav__link" href="/compare/dynamics.html">vs Dynamics</a>
-          <a class="site-nav__link" href="/compare/netsuite.html">vs NetSuite</a>
-          <a class="site-nav__link" href="/compare/erpnext.html">vs ERPNext</a>
-          <a class="site-nav__link" href="/compare/infor.html">vs Infor</a>
-          <a class="site-nav__link" href="/compare/workday.html">vs Workday</a>
-          <a class="site-nav__link" href="/compare/epicor.html">vs Epicor</a>
-          <a class="site-nav__link" href="/compare/sage.html">vs Sage</a>
-          <a class="site-nav__link" href="/compare/acumatica.html">vs Acumatica</a>
-          <a class="site-nav__link" href="/compare/ifs.html">vs IFS</a>
-          <a class="site-nav__link" href="/compare/syspro.html">vs SYSPRO</a>
-          <a class="site-nav__link" href="/compare/unit4.html">vs Unit4</a>
-          <a class="site-nav__link" href="/compare/exact.html">vs Exact</a>
-          <a class="site-nav__link" href="/compare/qad.html">vs QAD</a>
-          <a class="site-nav__link" href="/compare/deltek.html">vs Deltek</a>
-          <a class="site-nav__link" href="/compare/priority.html">vs Priority</a>
-          <a class="site-nav__link" href="/compare/abas.html">vs abas</a>
-          <a class="site-nav__link" href="/compare/proalpha.html">vs ProAlpha</a>
-          <a class="site-nav__link" href="/pricing.html">Pricing</a>
-          <a class="site-nav__link" href="/blog/">Blog</a>
-          <a class="site-nav__link" href="https://github.com/NeoDonkey/NeoDonkey-ERP" target="_blank" rel="noopener">GitHub</a>
-        </nav>
-
-        <button class="btn btn-primary" id="nav-login-btn" data-login>Log in</button>
-      </div>
-    </header>
-
-    <main id="top">
-      <section class="hero">
-        <div class="hero__bg"></div>
-        <div class="hero__grid"></div>
-        <div class="hero__glow hero__glow--1"></div>
-        <div class="hero__glow hero__glow--2"></div>
-        <div class="container hero__inner">
-          <div class="hero__copy">
-            <span class="eyebrow" style="font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.15em;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:14px;height:14px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-              HEADLESS OPEN-SOURCE ERP
-            </span>
-            <h1>Escape Proprietary ERP Lock-In.<br><em>Scale Ledger Databases on Your Own Infrastructure.</em></h1>
-            <p class="hero__lead">
-              Automate multi-entity transactions and sync regional ledgers in real-time with a modern headless API — without paying a per-seat tax.
-            </p>
-            <div class="hero__actions">
-              <button class="btn btn-primary btn-lg" id="hero-login-btn" data-login style="background: linear-gradient(135deg, var(--cyan), #0891b2); box-shadow: 0 4px 20px rgba(0, 240, 255, 0.3);">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Deploy Locally
-              </button>
-              <a class="btn btn-ghost btn-lg" href="mailto:hallo@lilazebra.de?subject=NeoDonkey System Architecture Audit">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                Book System Audit
-              </a>
-            </div>
-            <div class="hero__trust" style="display: flex; gap: 24px; flex-wrap: wrap; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--surface-border);">
-              <span style="font-size: 0.8125rem; color: var(--text-3); display: flex; align-items: center; gap: 6px;">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14" style="color: var(--pink);"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                4.8★ on GitHub
-              </span>
-              <span style="font-size: 0.8125rem; color: var(--text-3); display: flex; align-items: center; gap: 6px;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                EUPL-1.2 Licensed
-              </span>
-              <span style="font-size: 0.8125rem; color: var(--text-3); display: flex; align-items: center; gap: 6px;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                SOC 2 Compliant
-              </span>
-            </div>
-          </div>
-
-          <!-- Interactive code preview -->
-          <div class="hero__visual">
-            <figure class="hero-card" style="background: rgba(11, 14, 18, 0.9); border: 1px solid rgba(0, 240, 255, 0.1);">
-              <div class="hero-card__header" style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                <span class="hero-card__dot" style="background: var(--pink);"></span>
-                <span class="hero-card__dot" style="background: var(--cyan);"></span>
-                <span class="hero-card__dot" style="background: var(--purple);"></span>
-                <h4 style="color: var(--cyan); font-family: var(--font-mono);">ledger.config.js</h4>
-              </div>
-              <pre style="margin: 0; padding: 20px 0; font-family: var(--font-mono); font-size: 0.8125rem; line-height: 1.8; color: var(--text-2); overflow-x: auto;"><code style="background: transparent; padding: 0;"><span style="color: var(--cyan);">import</span> { Company } <span style="color: var(--cyan);">from</span> <span style="color: var(--pink);">'@neodonkey/core'</span>;
-
-<span style="color: var(--text-3);">// Initialize with your operating model</span>
-<span style="color: var(--cyan);">const</span> company = <span style="color: var(--cyan);">await</span> Company.<span style="color: var(--cyan);">open</span>({
-  name: <span style="color: var(--pink);">'ACME Corp'</span>,
-  currency: <span style="color: var(--pink);">'EUR'</span>,
-  entities: [<span style="color: var(--pink);">'DE'</span>, <span style="color: var(--pink);">'FR'</span>, <span style="color: var(--pink);">'ES'</span>],
-  sync: <span style="color: var(--purple);">true</span>
-});
-
-<span style="color: var(--text-3);">// Every transaction is a signed git commit</span>
-<span style="color: var(--cyan);">await</span> company.invoice.<span style="color: var(--cyan);">create</span>({
-  customer: <span style="color: var(--pink);">'Global Logistics GmbH'</span>,
-  amount: <span style="color: var(--purple);">125000</span>,
-  currency: <span style="color: var(--pink);">'EUR'</span>
-});
-
-<span style="color: var(--text-3);">// Sync across regions in real-time</span>
-<span style="color: var(--cyan);">await</span> company.sync.<span style="color: var(--cyan);">push</span>();</code></pre>
-              <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; gap: 12px; align-items: center;">
-                <span style="font-size: 0.6875rem; color: var(--text-3); font-family: var(--font-mono);">$ git log --oneline</span>
-                <span style="font-size: 0.6875rem; color: var(--cyan); font-family: var(--font-mono);">a3f7d2e feat: invoice INV-2026-0819-001</span>
-              </div>
-            </figure>
-          </div>
-        </div>
-      </section>
-
-      <section class="trust">
-        <div class="container trust__inner">
-          <span class="trust__label">Built on</span>
-          <span class="trust__item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
-            Git, implemented in the runtime
-          </span>
-          <span class="trust__item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true"><line x1="22" y1="12" x2="2" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" y1="16" x2="6.01" y2="16"/><line x1="10" y1="16" x2="10.01" y2="16"/></svg>
-            Origin Private File System
-          </span>
-          <span class="trust__item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg>
-            WebGPU
-          </span>
-          <span class="trust__item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            Ed25519 signatures
-          </span>
-        </div>
-      </section>
-
-      <section class="pain-section">
-        <div class="container">
-          <h2>The ERP Industry Runs on <span class="gradient-text">Fear</span></h2>
-          <p>Three ways the big vendors keep you paying — and how NeoDonkey breaks the cycle.</p>
-          <div class="pain-grid">
-            <div class="pain-card">
-              <div class="pain-card__icon">🔒</div>
-              <h3>The Upgrade Hostage Crisis</h3>
-              <p>SAP ends support for your version. Your choice: pay €200K-€500K for the "upgrade" or lose security patches. This isn't maintenance. It's rent extraction with a gun to your head.</p>
-            </div>
-            <div class="pain-card">
-              <div class="pain-card__icon">💸</div>
-              <h3>The Hidden Subscription Tax</h3>
-              <p>That €50/user/month "cloud ERP"? It's €30K/year for a 50-person company. Forever. And they can raise prices whenever they want. You're not a customer. You're a revenue stream.</p>
-            </div>
-            <div class="pain-card">
-              <div class="pain-card__icon">🗄️</div>
-              <h3>The Data Lock-in Trap</h3>
-              <p>Your company's entire history lives in proprietary formats. Want to leave? That'll be €40K for the "data extraction service." And good luck translating those custom reports.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="how" class="steps-section">
-        <div class="container">
-          <header class="section-head">
-            <span class="eyebrow">How it works</span>
-            <h2>Log in, and the company is already there</h2>
-            <p>The whole of it happens on your machine, in the order below, and you can watch it happen in about ten seconds.</p>
-          </header>
-
-          <div class="steps">
-            <article class="step">
-              <span class="step__num">1</span>
-              <h3>You type your name</h3>
-              <p>That is the entire log-in. The browser generates an Ed25519 key pair whose private half cannot be exported, and that key is who you are from then on.</p>
-            </article>
-            <article class="step">
-              <span class="step__num">2</span>
-              <h3>A company is written</h3>
-              <p>The runtime reads an operating model — processes, roles, record types, written as markdown — and commits a working company into a git repository in your browser.</p>
-            </article>
-            <article class="step">
-              <span class="step__num">3</span>
-              <h3>You work, and it commits</h3>
-              <p>Every change is an atomic, signed commit. The log is a real git log, and the software is just something that reads and writes the folder.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="tco-section">
-        <div class="container">
-          <h2>5-Year Total Cost of <span class="gradient-text">Ownership</span></h2>
-          <p>Real numbers for a 50-person company. No tricks.</p>
-          <div class="tco-grid">
-            <div class="tco-card">
-              <div class="cost cost-sap">€850K</div>
-              <div class="label">SAP Business One</div>
-            </div>
-            <div class="tco-card">
-              <div class="cost cost-odoo">€60K</div>
-              <div class="label">Odoo Enterprise</div>
-            </div>
-            <div class="tco-card">
-              <div class="cost cost-erpnext">€24K</div>
-              <div class="label">ERPNext</div>
-            </div>
-            <div class="tco-card neon">
-              <div class="cost cost-neo">€0</div>
-              <div class="label">NeoDonkey</div>
-            </div>
-          </div>
-          <div style="text-align:center;">
-            <a class="btn btn-secondary" href="/pricing.html">See the full breakdown →</a>
-          </div>
-        </div>
-      </section>
-
-      <section id="features" class="features-section">
-        <div class="container">
-          <header class="section-head">
-            <span class="eyebrow">Why NeoDonkey</span>
-            <h2>The properties fall out of the architecture</h2>
-            <p>The core is headless and dependency-free. This site is one head among many — it exists to show what a richer one can do, and the plain one ships with the product.</p>
-          </header>
-
-          <div class="feature-grid">
-            <article class="feature-card">
-              <div class="feature-card__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-              </div>
-              <h3>Headless by construction</h3>
-              <p>A zero-dependency ES-module core with no framework and no vendor. Attach the vanilla UI, this site, or a head of your own — the core cannot tell the difference.</p>
-            </article>
-
-            <article class="feature-card">
-              <div class="feature-card__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
-              </div>
-              <h3>Git is the database</h3>
-              <p>Not "backed up to git" — the repository <em>is</em> the system of record, with history, signatures and merges that any git client on earth can read.</p>
-            </article>
-
-            <article class="feature-card">
-              <div class="feature-card__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              </div>
-              <h3>Signed, not permissioned</h3>
-              <p>Every commit carries the author's signature. Authority is something you can verify from the repository, not a row in somebody else's access table.</p>
-            </article>
-
-            <article class="feature-card">
-              <div class="feature-card__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-              </div>
-              <h3>A Copilot with nowhere to send anything</h3>
-              <p>Where the hardware allows, a quantised model runs on your GPU, reads the repository, and answers by generating an interface. No API, no key, no request.</p>
-            </article>
-
-            <article class="feature-card">
-              <div class="feature-card__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              </div>
-              <h3>Nothing to be locked out of</h3>
-              <p>The repository is a folder. Copy it to a USB stick and the whole system — data, history and the code that reads it — goes with you.</p>
-            </article>
-
-            <article class="feature-card">
-              <div class="feature-card__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-              </div>
-              <h3>European, and licensed to stay that way</h3>
-              <p>EUPL-1.2. No servers to host, nothing to scale, nothing to pay for — for you or for us.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="copilot" class="section">
-        <div class="container copilot-banner">
-          <div class="copilot-banner__copy">
-            <p class="section__eyebrow">In-browser Copilot</p>
-            <h2 class="section__title">Ask your company a question. Watch the interface build itself.</h2>
-            <p class="section__lede">
-              A small quantised model is downloaded once and compiled to your GPU's own shaders.
-              It reads the repository at its current commit and answers with
-              <a href="https://a2ui.org/" target="_blank" rel="noopener">A2UI</a> — a JSON
-              description of an interface, which this site turns into DOM. It is offered only
-              where the hardware supports it, and it is never required.
-            </p>
-            <ul class="copilot-banner__list">
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="17" height="17" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                Runs on your own graphics hardware over WebGPU
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="17" height="17" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                Output constrained by a grammar, then sanitised, then rendered
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="17" height="17" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                Weights fetched once, kept in this browser, deletable in one click
-              </li>
-            </ul>
-          </div>
-
-          <!-- The format, stated. Not a transcript of a session that never happened. -->
-          <figure class="a2ui-sample">
-            <figcaption>What the model is allowed to emit</figcaption>
-            <pre><code>{
-  "title": "Open amounts by supplier",
-  "layout": {
-    "type": "Container",
-    "children": [
-      { "type": "Metric",
-        "label": "Open total",
-        "value": "33 405.00 EUR" },
-      { "type": "Chart",
-        "chartType": "bar",
-        "data": [ … ] }
-    ]
-  }
-}</code></pre>
-            <p class="a2ui-sample__note">
-              The renderer that turns this into DOM is a few hundred lines in this repository. It
-              knows what a table is; it has never heard of an invoice.
-            </p>
-          </figure>
-        </div>
-      </section>
-
-      <section class="cta-section">
-        <div class="container">
-          <div class="cta-card">
-            <h2>Open a company in ten seconds.</h2>
-            <p>No account, no install, no server. Type your name, and a signed git repository with a working company in it appears in this browser.</p>
-            <div class="hero__actions" style="justify-content:center;">
-              <button class="btn btn-primary btn-lg" id="cta-login-btn" data-login>Log in</button>
-              <a class="btn btn-ghost btn-lg" href="https://github.com/NeoDonkey/NeoDonkey-ERP" target="_blank" rel="noopener">Read the source</a>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <div class="container">
-        <div class="site-footer__inner">
-          <div class="site-footer__brand">
-            <a class="brand" href="#top" aria-label="NeoDonkey">
-              <svg class="brand__mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect width="32" height="32" rx="8" fill="#07070f"/>
-                <path d="M13.5 12.5 L11.8 5.4 C11.6 4 13 3.2 13.9 4.1 L15.6 5.9 L15.8 12.5 Z" fill="#ff2d95"/>
-                <path d="M18.5 12.5 L20.2 5.4 C20.4 4 19 3.2 18.1 4.1 L16.4 5.9 L16.2 12.5 Z" fill="#00f0ff"/>
-                <path d="M8.5 12.5 L8.5 15.5 C8.5 23.5 11 26.5 16 26.5 C21 26.5 23.5 23.5 23.5 15.5 L23.5 12.5 C23.5 11.4 22.6 10.6 21.5 10.6 L10.5 10.6 C9.4 10.6 8.5 11.4 8.5 12.5 Z" fill="url(#gf)"/>
-                <defs><linearGradient id="gf" x1="8.5" y1="12.5" x2="23.5" y2="26.5"><stop stop-color="#ff2d95"/><stop offset="1" stop-color="#00f0ff"/></linearGradient></defs>
-                <circle cx="12.5" cy="16.5" r="1.2" fill="#07070f"/>
-                <circle cx="19.5" cy="16.5" r="1.2" fill="#07070f"/>
-                <rect x="13.5" y="19.5" width="5" height="3.6" rx="1.8" fill="#ff2d95" opacity="0.5"/>
-              </svg>
-              <span class="brand__name">NeoDonkey</span>
-            </a>
-            <p>Headless, local-first ERP for the browser. This site is one head among many.</p>
-          </div>
-          <div class="site-footer__col">
-            <h4>Product</h4>
-            <a href="https://github.com/NeoDonkey/NeoDonkey-ERP" target="_blank" rel="noopener">NeoDonkey-ERP</a>
-            <a href="https://github.com/NeoDonkey/NeoDonkey-ERP/blob/main/neodonkey-manifesto.md" target="_blank" rel="noopener">The manifesto</a>
-            <a href="https://github.com/NeoDonkey/NeoDonkey-ERP/issues" target="_blank" rel="noopener">Issues</a>
-          </div>
-          <div class="site-footer__col">
-            <h4>This site</h4>
-            <a href="#how">How it works</a>
-            <a href="#features">Why</a>
-            <a href="#copilot">Copilot</a>
-            <a href="https://github.com/NeoDonkey/NeoDonkey.github.io" target="_blank" rel="noopener">Its source</a>
-          </div>
-        </div>
-        <div class="site-footer__bottom">
-          <span>&copy; 2026 NeoDonkey &middot; EUPL-1.2</span>
-          <span id="erp-version-note">No tracking &middot; No telemetry &middot; No servers</span>
-        </div>
-      </div>
-    </footer>
-  </div>
-
-  <!-- ============ THE ERP ============
-
-       The runtime from the pinned ref in erp.pin.json, in a frame, unmodified and with its own
-       stylesheet. Its first screen is the log-in: a name, and a key pair generated here. -->
-  <div id="app-root" class="app-root" hidden>
-
-    <header class="app-topbar">
-      <div class="container app-topbar__inner">
-        <button class="app-back" id="back-to-landing-btn" type="button">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-          Back to site
-        </button>
-
-        <div class="app-topbar__actions">
-          <span class="app-topbar__pin" id="erp-pin" hidden></span>
-
-          <div id="copilot-toggle-container" class="copilot-toggle" hidden>
-            <span class="copilot-toggle__label">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-              Copilot
-            </span>
-            <label class="switch" for="copilot-checkbox">
-              <input type="checkbox" id="copilot-checkbox" />
-              <span class="slider"></span>
-            </label>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <div class="app-body">
-      <main id="erp-root" class="erp-container">
-        <iframe id="erp-frame" class="erp-frame" title="NeoDonkey ERP"
-                allow="cross-origin-isolated"></iframe>
-      </main>
-
-      <aside id="copilot-drawer" class="copilot-drawer" hidden>
-        <header class="copilot-drawer__head">
-          <div class="copilot-drawer__title">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            Copilot
-            <span class="copilot-drawer__status" id="copilot-status">not running</span>
-          </div>
-          <button id="close-copilot-btn" class="btn-icon" aria-label="Close Copilot">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          </button>
-        </header>
-
-        <div class="copilot-drawer__body">
-          <div id="copilot-setup" class="copilot-setup"></div>
-          <div id="copilot-messages" class="copilot-messages"></div>
-        </div>
-
-        <div class="copilot-drawer__foot" hidden>
-          <input type="text" id="copilot-input" class="copilot-input"
-                 placeholder="Ask about the company next door&hellip;" autocomplete="off" disabled />
-          <button id="copilot-send" class="btn btn-primary" disabled>Ask</button>
-        </div>
-      </aside>
+<nav class="nav">
+  <div class="shell nav__in">
+    <a class="brand" href="/">
+      <img src="/brand/mark-64.png" alt="" width="28" height="28" decoding="async">
+      <span>NeoDonkey</span>
+    </a>
+    <div class="nav__links">
+      <a class="opt" href="#proof">Proof</a>
+      <a class="opt" href="#status">Status</a>
+      <a href="/blog/">Writing</a>
+      <a href="https://github.com/NeoDonkey/NeoDonkey-ERP">Source</a>
     </div>
   </div>
+</nav>
 
-  <script type="module" src="/src/main.ts"></script>
+<header class="hero">
+  <div class="shell hero__grid">
+    <div>
+      <h1>Your company is a <em>git repository</em>.</h1>
+      <p class="hero__sub">
+        An ERP with no server and no vendor. Every business fact is a signed
+        commit in a folder you own.
+      </p>
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="https://github.com/NeoDonkey/NeoDonkey-ERP#readme">Run it yourself</a>
+        <a class="btn btn--ghost" href="https://github.com/NeoDonkey/NeoDonkey-ERP/blob/main/neodonkey-manifesto.md">Read the manifesto</a>
+      </div>
+    </div>
+
+    <aside class="hero__aside">
+      <div class="receipt">
+        <div class="receipt__cmd"><b>node demo/sarah.mjs</b></div>
+<pre><span class="ok">✓</span> git fsck --strict: clean
+<span class="ok">✓</span> git verifies all 14 commits
+   as good signatures
+<span class="ok">✓</span> every posting names the
+   written rule that authorized it
+<span class="ok">✓</span> checking out the first commit
+   yields a readable company
+
+0 servers
+0 dependencies
+0 accounts
+0 vendors</pre>
+        <div class="receipt__foot">Actual output. Real git and real ssh-keygen inspect the folder, and they have never met us.</div>
+      </div>
+    </aside>
+  </div>
+</header>
+
+<section class="section" id="proof">
+  <div class="shell">
+    <h2>The books verify themselves.</h2>
+    <p class="lede">
+      A company here is a folder under version control. Every posting is a signed
+      commit that names the written rule which authorized it, so an auditor does
+      not have to take our word for anything. Neither do you.
+    </p>
+
+    <div class="cons">
+      <div>
+        <h3>Checked by tools we did not write</h3>
+        <p>
+          <code>git fsck --strict</code> and <code>ssh-keygen -Y verify</code> read the
+          folder and confirm the chain. They have no stake in the claim and no
+          knowledge of this project.
+        </p>
+      </div>
+      <div>
+        <h3>History is the system</h3>
+        <p>Check out the first commit and you get a readable company, not a log file.</p>
+      </div>
+      <div class="cons__wide">
+        <h3>Nachvollziehbarkeit as a property, not a promise</h3>
+        <p>
+          German bookkeeping law asks whether a posting can be traced to the rule
+          that permitted it. Here that is enforced when the entry is written: an
+          operation no written rule governs is refused, and the rule that allowed
+          it is named in the commit. The demo prints the check on every run.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="status">
+  <div class="shell">
+    <h2>What does not work yet.</h2>
+    <p class="lede">
+      Version 1.0 has ten conditions. Five are met. We publish the whole scorecard,
+      because a vendor who shows you only the green rows has told you nothing.
+    </p>
+
+    <div class="gate">
+      <div class="gate__row"><span class="gate__n">01</span><span class="gate__t">Debits equal credits, structurally</span><span class="gate__s" data-s="met">MET</span></div>
+      <div class="gate__row"><span class="gate__n">02</span><span class="gate__t">No float in any monetary path</span><span class="gate__s" data-s="met">MET</span></div>
+      <div class="gate__row"><span class="gate__n">03</span><span class="gate__t">Authorisation is closed</span><span class="gate__s" data-s="met">MET</span></div>
+      <div class="gate__row"><span class="gate__n">04</span><span class="gate__t">Two machines sync, a destroyed company is recovered</span><span class="gate__s" data-s="met">MET</span></div>
+      <div class="gate__row"><span class="gate__n">05</span><span class="gate__t">Encrypted data, GDPR erasure by shredding a key</span><span class="gate__s" data-s="met">MET</span></div>
+      <div class="gate__row"><span class="gate__n">06</span><span class="gate__t">It speaks to the outside world. DATEV, XRechnung</span><span class="gate__s" data-s="unmet">NOT YET</span></div>
+      <div class="gate__row"><span class="gate__n">07</span><span class="gate__t">Scale measured and published, honest if unflattering</span><span class="gate__s" data-s="unmet">NOT YET</span></div>
+      <div class="gate__row"><span class="gate__n">08</span><span class="gate__t">A German auditor's questions have written answers</span><span class="gate__s" data-s="unmet">NOT YET</span></div>
+      <div class="gate__row"><span class="gate__n">09</span><span class="gate__t">An adversary tried, and a red team reported</span><span class="gate__s" data-s="unmet">NOT YET</span></div>
+      <div class="gate__row"><span class="gate__n">10</span><span class="gate__t">Every claim audited line by line</span><span class="gate__s" data-s="part">PARTIAL</span></div>
+    </div>
+
+    <p class="gate__note">
+      The scorecard is generated from the test suite rather than written by hand,
+      and it sits in the repository next to the code it grades. A row turns green
+      when something passes that did not pass before.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="shell">
+    <h2>Who this is for.</h2>
+    <div class="who">
+      <div>
+        <h3>A good fit</h3>
+        <ul>
+          <li>You have been quoted a seven figure migration and want to see the alternative</li>
+          <li>You can read a commit, or you employ someone who can</li>
+          <li>Your auditor asks questions you would rather answer with evidence</li>
+          <li>You want the option of leaving without asking anyone's permission</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Not a fit yet</h3>
+        <ul>
+          <li>You need DATEV or XRechnung export in production this quarter</li>
+          <li>You want a vendor to call when something breaks at midnight</li>
+          <li>You need published benchmarks before you will evaluate anything</li>
+          <li>You are looking for a hosted product with an account and a password</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section close">
+  <div class="shell">
+    <h2>Clone it. Run the demo. Decide for yourself.</h2>
+    <p class="lede">
+      It takes about a minute. It builds a company from nothing, then hands the
+      folder to real git and asks what it thinks.
+    </p>
+    <div class="hero__cta">
+      <a class="btn btn--primary" href="https://github.com/NeoDonkey/NeoDonkey-ERP#readme">Run it yourself</a>
+      <a class="btn btn--ghost" href="https://github.com/NeoDonkey/NeoDonkey-ERP/blob/main/docs/GATE.md">See the scorecard</a>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="shell foot__in">
+    <div>NeoDonkey. Licensed EUPL-1.2.</div>
+    <div class="foot__links">
+      <a href="https://github.com/NeoDonkey/NeoDonkey-ERP">Source</a>
+      <a href="https://x.com/neodonkey">X</a>
+      <a href="/blog/">Writing</a>
+      <a href="/brand/STYLEGUIDE.md">Brand</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Reveal on entry. IntersectionObserver, never a scroll listener.
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var targets = document.querySelectorAll('.section > .shell > *');
+  Array.prototype.forEach.call(targets, function (el) { el.classList.add('reveal'); });
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  Array.prototype.forEach.call(targets, function (el) { io.observe(el); });
+})();
+</script>
 </body>
 </html>
