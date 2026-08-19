@@ -3,207 +3,148 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Git Is the Database: How NeoDonkey Uses Cryptographic Commits as a System of Record — NeoDonkey</title>
-  <meta name="description" content="Why we chose git as our database, how Ed25519 signatures replace access control tables, and what this means for auditability and data sovereignty." />
-  <meta name="keywords" content="git database, Ed25519 signatures, local-first software, data sovereignty, cryptographic audit trail" />
-  <meta name="author" content="NeoDonkey" />
+  <title>Why Git Makes a Better ERP Database Than PostgreSQL — NeoDonkey Engineering</title>
+  <meta name="description" content="Every ERP uses PostgreSQL. We use git. Here's why a distributed version control system solves the hardest problems in enterprise resource planning." />
+  <meta name="keywords" content="git database, ERP architecture, immutable ledger, cryptographic audit trail, database design" />
+  <meta name="author" content="NeoDonkey Engineering" />
   <meta name="robots" content="index, follow" />
-  
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://neodonkey.github.io/blog/git-as-database.html" />
-  <meta property="og:title" content="Git Is the Database: How NeoDonkey Uses Cryptographic Commits" />
-  <meta property="og:description" content="Why git is our database and Ed25519 signatures replace access control." />
-  <meta property="og:site_name" content="NeoDonkey" />
-  <meta property="article:published_time" content="2026-08-18" />
-  
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:title" content="Git Is the Database: How NeoDonkey Uses Cryptographic Commits" />
-  <meta property="twitter:description" content="Why git is our database and Ed25519 signatures replace access control." />
-  
   <link rel="canonical" href="https://neodonkey.github.io/blog/git-as-database.html" />
   <link rel="stylesheet" href="/style.css" />
-  
   <style>
-    .post-container { max-width: 720px; margin: 0 auto; padding: 120px 24px 80px; }
-    .post-header { margin-bottom: 48px; }
-    .post-header h1 { font-size: 2.25rem; line-height: 1.2; margin-bottom: 16px; }
-    .post-meta { color: var(--text-3); font-size: 0.875rem; }
-    .post-meta span { margin-right: 16px; }
-    .post-content { font-size: 1.0625rem; line-height: 1.7; color: var(--text-1); }
-    .post-content h2 { font-size: 1.5rem; margin: 48px 0 20px; }
-    .post-content h3 { font-size: 1.25rem; margin: 32px 0 16px; }
-    .post-content p { margin-bottom: 20px; }
-    .post-content ul, .post-content ol { margin-bottom: 20px; padding-left: 24px; }
-    .post-content li { margin-bottom: 8px; }
-    .post-content blockquote { border-left: 3px solid var(--accent); padding-left: 20px; margin: 24px 0; color: var(--text-2); font-style: italic; }
-    .post-content code { background: var(--surface-2); padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
-    .post-content pre { background: var(--surface-2); padding: 16px; border-radius: 8px; overflow-x: auto; margin: 20px 0; }
-    .post-content pre code { background: none; padding: 0; }
-    .post-cta { background: var(--surface-2); border-radius: 12px; padding: 32px; margin: 48px 0; text-align: center; }
-    .post-cta h3 { margin-bottom: 12px; }
-    .post-cta p { color: var(--text-2); margin-bottom: 20px; }
-    .btn { display: inline-block; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; }
-    .btn-primary { background: var(--accent); color: white; }
+    .blog-post { max-width: 720px; margin: 0 auto; padding: 140px 24px 80px; }
+    .blog-post h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 16px; line-height: 1.2; }
+    .blog-post .meta { color: var(--text-3); font-size: 0.875rem; margin-bottom: 48px; }
+    .blog-post h2 { font-size: 1.5rem; font-weight: 700; margin: 48px 0 16px; }
+    .blog-post p { color: var(--text-2); line-height: 1.8; margin-bottom: 20px; }
+    .blog-post pre { background: var(--bg-2); padding: 20px; border-radius: var(--radius); overflow-x: auto; margin: 24px 0; }
+    .blog-post code { font-family: var(--font-mono); font-size: 0.875rem; color: var(--cyan); }
+    .blog-post blockquote { border-left: 3px solid var(--pink); padding-left: 20px; margin: 24px 0; color: var(--text-2); font-style: italic; }
+    .blog-post ul, .blog-post ol { color: var(--text-2); margin: 16px 0; padding-left: 24px; }
+    .blog-post li { margin: 8px 0; line-height: 1.7; }
   </style>
 </head>
 <body>
-  <header class="site-nav">
+  <nav class="site-nav">
     <div class="container site-nav__inner">
-      <a class="brand" href="/" aria-label="NeoDonkey">
-        <svg class="brand__mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect width="32" height="32" rx="7" fill="#0d9488"/>
-          <path d="M13.5 12.5 L11.8 5.4 C11.6 4 13 3.2 13.9 4.1 L15.6 5.9 L15.8 12.5 Z" fill="#fff"/>
-          <path d="M18.5 12.5 L20.2 5.4 C20.4 4 19 3.2 18.1 4.1 L16.4 5.9 L16.2 12.5 Z" fill="#fff"/>
-          <path d="M8.5 12.5 L8.5 15.5 C8.5 23.5 11 26.5 16 26.5 C21 26.5 23.5 23.5 23.5 15.5 L23.5 12.5 C23.5 11.4 22.6 10.6 21.5 10.6 L10.5 10.6 C9.4 10.6 8.5 11.4 8.5 12.5 Z" fill="#fff"/>
-          <circle cx="12.5" cy="16.5" r="1.2" fill="#0d9488"/>
-          <circle cx="19.5" cy="16.5" r="1.2" fill="#0d9488"/>
-          <rect x="13.5" y="19.5" width="5" height="3.6" rx="1.8" fill="#ccfbf1"/>
-        </svg>
-        <span class="brand__name">NeoDonkey</span>
-      </a>
-      <nav class="site-nav__links" aria-label="Primary">
+      <a class="brand" href="/"><svg class="brand__mark" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#07070f"/><path d="M13.5 12.5 L11.8 5.4 C11.6 4 13 3.2 13.9 4.1 L15.6 5.9 L15.8 12.5 Z" fill="#ff2d95"/><path d="M18.5 12.5 L20.2 5.4 C20.4 4 19 3.2 18.1 4.1 L16.4 5.9 L16.2 12.5 Z" fill="#00f0ff"/></svg><span>NeoDonkey</span></a>
+      <div class="site-nav__links">
         <a class="site-nav__link" href="/">Home</a>
         <a class="site-nav__link" href="/blog/">Blog</a>
-        <a class="site-nav__link" href="https://github.com/NeoDonkey/NeoDonkey-ERP" target="_blank" rel="noopener">GitHub</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="post-container">
-    <article>
-      <header class="post-header">
-        <h1>Git Is the Database: How NeoDonkey Uses Cryptographic Commits as a System of Record</h1>
-        <div class="post-meta">
-          <span>August 18, 2026</span>
-          <span>5 min read</span>
-        </div>
-      </header>
-
-      <div class="post-content">
-        <p>Every ERP needs a database. Most choose PostgreSQL, Oracle, or SQL Server. We chose <strong>git</strong>.</p>
-
-        <p>Not "git for version control of our PostgreSQL schema." Not "git for backup." Git <em>is</em> the database. Every business fact in NeoDonkey is a commit. Every commit is cryptographically signed. The log is a real git log, readable by any git client on earth.</p>
-
-        <p>Here's why we made this choice and what it means for security, auditability, and sovereignty.</p>
-
-        <h2>Why Git?</h2>
-
-        <p>Git has properties that traditional databases don't:</p>
-
-        <ul>
-          <li><strong>Immutable history.</strong> Once written, a commit cannot be altered without changing every subsequent commit's hash. This is tamper-evidence built into the data structure.</li>
-          <li><strong>Cryptographic integrity.</strong> Each commit is identified by a SHA-1 hash of its contents and its parent's hash. Change one bit, and the hash changes.</li>
-          <li><strong>Branching and merging.</strong> Business operations often need parallel work streams — closing books while preparing next quarter's forecast, for example. Git's branching model supports this natively.</li>
-          <li><strong>Universal tooling.</strong> Every developer knows git. Every CI system supports it. Every backup strategy works with it.</li>
-          <li><strong>Offline-first.</strong> The entire repository lives locally. No network required for reads or writes.</li>
-        </ul>
-
-        <h2>Ed25519: Signatures, Not Permissions</h2>
-
-        <p>Traditional ERPs use access control tables. User X has permission Y on resource Z. These tables live in the database, managed by administrators, and are vulnerable to privilege escalation, insider threats, and configuration errors.</p>
-
-        <p>NeoDonkey replaces access control tables with <strong>cryptographic signatures</strong>.</p>
-
-        <p>When you log in, your browser generates an Ed25519 key pair. The private key is non-extractable — it lives in the browser's Web Crypto API and cannot be exported. The public key becomes your identity.</p>
-
-        <p>Every commit you make is signed with your private key. Anyone can verify the signature with your public key. Authority is mathematical, not administrative.</p>
-
-        <pre><code># This is what a NeoDonkey commit looks like
-git log --show-signature
-
-commit a1b2c3d4... (HEAD -> main)
-gpg: Signature made Mon Aug 18 14:32:01 2026
-gpg:                using EDDSA key 3A7B8C9D...
-gpg: Good signature from "Marcus Weber &lt;marcus@company.de&gt;"
-
-    Add supplier invoice #2026-0842
-    
-    Amount: 12,450.00 EUR
-    Supplier: Acme Manufacturing GmbH
-    Signed by: Marcus Weber</code></pre>
-
-        <h2>What This Means for Auditability</h2>
-
-        <p>In a traditional ERP, auditing means running reports against a database and hoping the access logs weren't tampered with. In NeoDonkey, auditing means:</p>
-
-        <ul>
-          <li>Running <code>git log</code> to see every change ever made</li>
-          <li>Verifying signatures with <code>git verify-commit</code></li>
-          <li>Checking the hash chain for tampering</li>
-          <li>Using standard git tools: diff, blame, bisect</li>
-        </ul>
-
-        <p>No proprietary audit module. No vendor consultant. No "trust us, the logs are fine." The audit trail is the data structure itself.</p>
-
-        <h2>What This Means for Sovereignty</h2>
-
-        <p>Your company's data lives in a folder. It's a git repository. You can:</p>
-
-        <ul>
-          <li>Copy it to a USB stick</li>
-          <li>Push it to any git host (GitHub, GitLab, or your own server)</li>
-          <li>Encrypt it with GPG</li>
-          <li>Air-gap it on an offline machine</li>
-          <li>Read it with any git client, forever</li>
-        </ul>
-
-        <p>There's no vendor holding your data hostage. No proprietary format. No "export fee." The repository is yours in the most literal sense possible.</p>
-
-        <blockquote>
-          "The best time to ensure you own your data was when you chose your ERP. The second best time is now."
-        </blockquote>
-
-        <h2>The Technical Details</h2>
-
-        <p>NeoDonkey implements git directly in the browser using standard Web APIs:</p>
-
-        <ul>
-          <li><strong>Origin Private File System (OPFS):</strong> A private, sandboxed file system accessible only to this origin. Your repository lives here, invisible to other websites.</li>
-          <li><strong>Web Crypto API:</strong> Generates Ed25519 key pairs with <code>extractable: false</code>. The private key never leaves the browser.</li>
-          <li><strong>CompressionStream:</strong> Efficient packfile compression, matching native git performance.</li>
-          <li><strong>Plain ES modules:</strong> No framework, no build step, no dependencies. The git implementation is readable, auditable JavaScript.</li>
-        </ul>
-
-        <h2>The Trade-offs</h2>
-
-        <p>This architecture isn't for everyone. Git excels at append-only, versioned data. It's not ideal for:</p>
-
-        <ul>
-          <li>High-frequency transactional workloads (millions of writes per second)</li>
-          <li>Complex relational queries across many tables</li>
-          <li>Real-time collaborative editing (though branches and merges help)</li>
-        </ul>
-
-        <p>For most SMEs — the companies NeoDonkey targets — these trade-offs are acceptable. The auditability, sovereignty, and simplicity benefits far outweigh the costs.</p>
-
-        <div class="post-cta">
-          <h3>See It In Action</h3>
-          <p>Open a company in your browser. Every change you make becomes a signed git commit. Watch it happen in real-time.</p>
-          <a href="/" class="btn btn-primary">Try NeoDonkey →</a>
-        </div>
-
-        <h2>Conclusion</h2>
-
-        <p>Choosing git as our database wasn't a gimmick. It was a deliberate architectural decision based on three principles:</p>
-
-        <ol>
-          <li><strong>Data should be tamper-evident by default.</strong> Cryptographic hashes and signatures provide this.</li>
-          <li><strong>Authority should be mathematical, not administrative.</strong> Ed25519 signatures provide this.</li>
-          <li><strong>Data should be portable by design.</strong> Git's universal format provides this.</li>
-        </ol>
-
-        <p>In a world of cloud lock-in and proprietary formats, git offers something rare: a database format that's been battle-tested for 20 years, that's universally understood, and that puts control back in the hands of the people who own the data.</p>
-
-        <p>That's why git is our database.</p>
+        <a class="site-nav__link" href="/pricing.html">Pricing</a>
       </div>
-    </article>
-  </main>
+    </div>
+  </nav>
+
+  <article class="blog-post">
+    <div class="eyebrow">Engineering</div>
+    <h1>Why Git Makes a Better ERP Database Than PostgreSQL</h1>
+    <div class="meta">August 20, 2026 · 8 min read · NeoDonkey Engineering</div>
+
+    <p>Every ERP vendor uses PostgreSQL. SAP, Oracle, Odoo, ERPNext — they all store your company's data in relational tables, wrapped in ACID transactions, backed up nightly, and replicated across availability zones.</p>
+
+    <p>We chose git. And not as a backup mechanism — git <em>is</em> our database.</p>
+
+    <h2>The Problem with Database-First ERP</h2>
+
+    <p>Traditional ERP architecture assumes a central database is the source of truth. This creates three fundamental problems that every ERP user eventually faces:</p>
+
+    <ol>
+      <li><strong>The audit problem</strong> — You need an "audit table" that records every change, but it's separate from the actual data. If someone with admin access modifies both, you have no way to know.</li>
+      <li><strong>The migration problem</strong> — Your company's history lives in a proprietary schema. Want to leave? Pay €40K for "data extraction" and pray the CSV exports are complete.</li>
+      <li><strong>The collaboration problem</strong> — Two people can't edit the same record simultaneously. Database locks force serialization, creating bottlenecks in fast-moving operations.</li>
+    </ol>
+
+    <h2>Git Solves All Three</h2>
+
+    <h3>1. Immutable Audit Trail</h3>
+
+    <p>In git, every change is a commit. Every commit has an author, a timestamp, and a cryptographic hash. You cannot alter history without breaking every subsequent hash — it's mathematically infeasible.</p>
+
+    <pre><code>$ git log --oneline
+a3f7d2e feat: invoice INV-2026-0819-001 (+€12,500.00)
+8e9c1b4 fix: correct VAT rate for DE transactions
+7d4f8a2 feat: add new supplier "Global Logistics GmbH"
+...</code></pre>
+
+    <p>No separate audit table. No "last_modified_by" column that can be backdated. The commit history <em>is</em> the audit trail, and it's cryptographically protected.</p>
+
+    <h3>2. Portable, Open Data Format</h3>
+
+    <p>A git repository is just a folder with a specific structure. Clone it, and you have everything — data, history, and the code that reads it. No proprietary formats, no extraction fees, no vendor dependency.</p>
+
+    <pre><code>$ git clone https://github.com/your-company/ledger.git
+$ cd ledger
+$ ls
+2026/
+  08/
+    19/
+      invoices/
+      journal/
+      suppliers/
+operating-model.md
+signing-keys/
+...</code></pre>
+
+    <h3>3. Conflict Resolution, Not Locking</h3>
+
+    <p>When two people edit the same record in a database, one waits or gets an error. In git, both create commits, and the system merges them — just like developers collaborate on code.</p>
+
+    <pre><code># Alice creates an invoice
+$ git commit -m "feat: invoice INV-2026-001"
+
+# Bob adds a supplier
+$ git commit -m "feat: supplier Global Logistics"
+
+# Sync merges both changes
+$ git pull --rebase
+# No conflicts — changes are in different files
+$ git push</code></pre>
+
+    <h2>But What About Queries?</h2>
+
+    <p>This is the first question every database engineer asks. "How do you run SELECT SUM(amount) FROM invoices WHERE status='open'?"</p>
+
+    <p>Answer: You index. Just like PostgreSQL builds B-trees on disk, NeoDonkey builds indexes in memory from the git objects. The difference: our indexes are derived data, not the source of truth. If an index corrupts, rebuild it from the commits. If a PostgreSQL index corrupts, you might not notice until it's too late.</p>
+
+    <pre><code>// Build an index from the git history
+const index = {
+  'suppliers': new Map(),
+  'open-invoices': new Set(),
+  'account-balances': new Map()
+};
+
+// Replay every commit to build current state
+for (const commit of commits) {
+  apply(commit, index);
+}
+
+// O(1) lookups
+const balance = index['account-balances'].get('1200');</code></pre>
+
+    <h2>The Trade-Offs</h2>
+
+    <p>We're not claiming git is <em>always</em> better than PostgreSQL. If you need sub-millisecond latency on 10,000 concurrent transactions, use a database. If you need complex ad-hoc queries across terabytes of data, use a database.</p>
+
+    <p>But for most SMEs — companies with 5-500 employees, hundreds of transactions per day, not millions — git is not just sufficient. It's <em>superior</em> for the things that matter: auditability, portability, and collaboration.</p>
+
+    <blockquote>
+      "The best time to choose git over PostgreSQL was when you started your ERP. The second best time is now."
+    </blockquote>
+
+    <h2>Try It</h2>
+
+    <p>NeoDonkey creates a git repository in your browser. Every invoice, every journal entry, every supplier change is a signed commit. Open your browser's developer tools and run <code>git log</code> — it's a real repository.</p>
+
+    <p><a href="/" class="btn btn-primary">Try NeoDonkey Free →</a></p>
+
+    <hr style="border: none; border-top: 1px solid var(--bg-3); margin: 48px 0;">
+
+    <p style="font-size: 0.875rem; color: var(--text-3);">Published by NeoDonkey Engineering. <a href="https://github.com/NeoDonkey/NeoDonkey-ERP" style="color: var(--cyan);">View source on GitHub</a>.</p>
+  </article>
 
   <footer class="site-footer">
-    <div class="container">
-      <div class="site-footer__bottom">
-        <span>&copy; 2026 NeoDonkey &middot; EUPL-1.2</span>
-      </div>
+    <div class="container site-footer__bottom" style="text-align: center; padding: 32px 0;">
+      <span>&copy; 2026 NeoDonkey &middot; EUPL-1.2 &middot; <a href="/" style="color: var(--text-3);">Home</a> &middot; <a href="/blog/" style="color: var(--text-3);">Blog</a></span>
     </div>
   </footer>
 </body>
