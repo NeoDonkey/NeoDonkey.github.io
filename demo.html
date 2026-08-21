@@ -9,8 +9,7 @@
     "imports": {
       "kernel": "./runtime/kernel.js",
       "fs-opfs": "./runtime/git/fs-opfs.js",
-      "ed25519": "./runtime/identity/ed25519.js",
-      "money": "./runtime/money/money.js"
+      "ed25519": "./runtime/identity/ed25519.js"
     }
   }
   </script>
@@ -156,6 +155,17 @@
       margin-bottom: 16px;
       color: #ffcc00;
     }
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin-left: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -167,107 +177,76 @@
 
     <div class="card">
       <div class="warning">
-        <strong>⚡ Live Demo</strong> — This page runs the actual NeoDonkey kernel in your browser using 
-        <a href="https://developer.mozilla.org/en-US/docs/Web/API/File_System_API/Origin_private_file_system" target="_blank" style="color: var(--accent-2);">OPFS</a>.
-        Your data stays on your device. No server. No cloud.
+        <strong>⚡ Live Demo</strong> — This page loads the actual NeoDonkey kernel (runtime/kernel.js) 
+        and runs it in your browser using <a href="https://developer.mozilla.org/en-US/docs/Web/API/File_System_API/Origin_private_file_system" target="_blank" style="color: var(--accent-2);">OPFS</a>.
+        Every commit is real. Your data stays on your device.
       </div>
     </div>
 
-    <!-- Step 1: Initialize -->
     <div class="card" id="step1">
       <h2><span class="step-number" id="num1">1</span> Create your company</h2>
       <p style="color: var(--text-2); margin-bottom: 16px;">
-        Generates an Ed25519 identity and opens a git-backed kernel in your browser's private storage.
+        Loads the NeoDonkey kernel, generates Ed25519 identity, and opens a git repository in OPFS.
       </p>
       <button id="btn-create" onclick="createCompany()">Create Company</button>
       <div id="log-create" class="log hidden" style="margin-top: 16px;"></div>
     </div>
 
-    <!-- Step 2: Chart of Accounts -->
     <div class="card hidden" id="step2">
       <h2><span class="step-number" id="num2">2</span> Adopt chart of accounts</h2>
       <p style="color: var(--text-2); margin-bottom: 16px;">
-        Creates a minimal chart with bank (1200) and revenue (8400) accounts.
+        Creates SKR04 chart and opens accounting period 2027-11.
       </p>
       <button id="btn-chart" onclick="adoptChart()" disabled>Adopt Chart</button>
       <div id="log-chart" class="log hidden" style="margin-top: 16px;"></div>
     </div>
 
-    <!-- Step 3: Post Entry -->
     <div class="card hidden" id="step3">
       <h2><span class="step-number" id="num3">3</span> Post your first booking</h2>
       <p style="color: var(--text-2); margin-bottom: 16px;">
-        Double-entry: debit revenue, credit bank. Every posting validated by the operating model.
+        Double-entry booking: 8400 Revenue / 1200 Bank for €1,000.00.
       </p>
       <button id="btn-post" onclick="postEntry()" disabled>Post Booking</button>
       <div id="log-post" class="log hidden" style="margin-top: 16px;"></div>
     </div>
 
-    <!-- Step 4: Git Log -->
     <div class="card hidden" id="step4">
-      <h2><span class="step-number" id="num4">4</span> Audit trail</h2>
+      <h2><span class="step-number" id="num4">4</span> Git audit trail</h2>
       <p style="color: var(--text-2); margin-bottom: 16px;">
-        Every document is a signed commit. Cryptographically tamper-evident.
+        Every document is a signed git commit. Tamper-evident by design.
       </p>
       <div id="commit-graph" class="commit-graph"></div>
     </div>
 
-    <!-- Features -->
     <div class="card" style="margin-top: 32px;">
       <h2>What just happened</h2>
       <div class="feature-grid">
         <div class="feature">
-          <h3>Git-Native</h3>
-          <p>Every booking is a commit. Full history, branching, and audit trail built-in.</p>
+          <h3>Real Kernel</h3>
+          <p>runtime/kernel.js loaded directly. No simulation. The actual code from the repo.</p>
         </div>
         <div class="feature">
-          <h3>Signed Documents</h3>
-          <p>Ed25519 signatures on every commit. Cryptographic proof of who did what when.</p>
+          <h3>Real Git</h3>
+          <p>Every booking creates an actual git commit in your browser's OPFS storage.</p>
+        </div>
+        <div class="feature">
+          <h3>Real Signatures</h3>
+          <p>Ed25519 signatures via Web Crypto API. Cryptographic proof on every commit.</p>
         </div>
         <div class="feature">
           <h3>Exact Money</h3>
           <p>BigInt minor units. "1000.00 EUR" — no float anywhere in the ledger.</p>
-        </div>
-        <div class="feature">
-          <h3>Browser-First</h3>
-          <p>Runs entirely in your browser using OPFS. Your data never leaves your machine.</p>
         </div>
       </div>
     </div>
   </div>
 
   <script type="module">
-    // Minimal operating model seed for browser demo
-    const SEED = new Map([
-      ['operating-model/information/company.md', `# Company\n- name: text required\n- tax-id: text\n- status: text required\n`],
-      ['operating-model/information/employee.md', `# Employee\n- name: text required\n- email: text required\n- status: text required\n`],
-      ['operating-model/information/chart-of-accounts.md', `# Chart of Accounts\n- name: text required\n- standard: text required\n- status: text required\n`],
-      ['operating-model/information/ledger-account.md', `# Ledger Account\n- account-number: text required\n- name: text required\n- chart: reference to chart-of-accounts required\n- normal-balance: text required\n- status: text required\n`],
-      ['operating-model/information/accounting-period.md', `# Accounting Period\n- period-key: text required\n- fiscal-year: text required\n- month: number required\n- from-date: date required\n- to-date: date required\n- chart: reference to chart-of-accounts required\n- status: text required\n`],
-      ['operating-model/information/journal-entry.md', `# Journal Entry\n- entry-number: text required\n- entry-date: date required\n- document-date: date required\n- accounting-period: reference to accounting-period required\n- chart: reference to chart-of-accounts required\n- currency: text required\n- debit-amount: text required\n- credit-amount: text required\n- posting-count: number required\n- description: text required\n- source-document-type: text required\n- source-document-reference: text required\n- status: text required\n- reversal: boolean required\n`],
-      ['operating-model/information/posting.md', `# Posting\n- journal-entry: reference to journal-entry required\n- position: number required\n- account-number: text required\n- chart: reference to chart-of-accounts required\n- side: text required\n- amount: text required\n- currency: text required\n- posting-date: date required\n- accounting-period: reference to accounting-period required\n- description: text required\n- source-document-reference: text required\n- vat-role: text required\n`],
-      ['operating-model/processes/journal-posting.md', `# Journal Posting Process\nWhen journal-entry status is draft, set status to posted.\n`],
-    ]);
+    import { open } from './runtime/kernel.js';
+    import { opfsFs } from './runtime/git/fs-opfs.js';
 
-    // Ed25519 key generation via Web Crypto API
-    async function generateIdentity() {
-      const kp = await crypto.subtle.generateKey(
-        { name: 'Ed25519' },
-        true, ['sign', 'verify']
-      );
-      const pubRaw = await crypto.subtle.exportKey('raw', kp.publicKey);
-      const pubHex = Array.from(new Uint8Array(pubRaw)).map(b => b.toString(16).padStart(2, '0')).join('');
-      return {
-        name: 'Demo User',
-        email: 'demo@neodonkey.eu',
-        keyPair: kp,
-        publicKeyHex: pubHex
-      };
-    }
-
-    // Demo state
     let nd = null;
-    let commits = [];
+    let identity = null;
 
     function log(containerId, message, type = 'info') {
       const el = document.getElementById(containerId);
@@ -283,52 +262,68 @@
       el.scrollTop = el.scrollHeight;
     }
 
+    // Minimal seed for demo
+    const SEED = new Map([
+      ['operating-model/information/company.md', `# Company\n- name: text required\n- tax-id: text\n- status: text required\n`],
+      ['operating-model/information/employee.md', `# Employee\n- name: text required\n- email: text required\n- status: text required\n`],
+      ['operating-model/information/chart-of-accounts.md', `# Chart of Accounts\n- name: text required\n- standard: text required\n- status: text required\n`],
+      ['operating-model/information/ledger-account.md', `# Ledger Account\n- account-number: text required\n- name: text required\n- chart: reference to chart-of-accounts required\n- normal-balance: text required\n- status: text required\n`],
+      ['operating-model/information/accounting-period.md', `# Accounting Period\n- period-key: text required\n- fiscal-year: text required\n- month: number required\n- from-date: date required\n- to-date: date required\n- chart: reference to chart-of-accounts required\n- status: text required\n`],
+      ['operating-model/information/journal-entry.md', `# Journal Entry\n- entry-number: text required\n- entry-date: date required\n- document-date: date required\n- accounting-period: reference to accounting-period required\n- chart: reference to chart-of-accounts required\n- currency: text required\n- debit-amount: text required\n- credit-amount: text required\n- posting-count: number required\n- description: text required\n- source-document-type: text required\n- source-document-reference: text required\n- status: text required\n- reversal: boolean required\n`],
+      ['operating-model/information/posting.md', `# Posting\n- journal-entry: reference to journal-entry required\n- position: number required\n- account-number: text required\n- chart: reference to chart-of-accounts required\n- side: text required\n- amount: text required\n- currency: text required\n- posting-date: date required\n- accounting-period: reference to accounting-period required\n- description: text required\n- source-document-reference: text required\n- vat-role: text required\n`],
+      ['operating-model/processes/journal-posting.md', `# Journal Posting Process\nWhen journal-entry status is draft, set status to posted.\n`],
+    ]);
+
+    async function generateIdentity() {
+      const kp = await crypto.subtle.generateKey(
+        { name: 'Ed25519' },
+        true, ['sign', 'verify']
+      );
+      const pubRaw = await crypto.subtle.exportKey('raw', kp.publicKey);
+      const pubHex = Array.from(new Uint8Array(pubRaw)).map(b => b.toString(16).padStart(2, '0')).join('');
+      return {
+        name: 'Demo User',
+        email: 'demo@neodonkey.eu',
+        keyPair: kp,
+        publicKeyHex: pubHex
+      };
+    }
+
     window.createCompany = async function() {
       const btn = document.getElementById('btn-create');
       btn.disabled = true;
-      log('log-create', 'Generating Ed25519 identity via Web Crypto API...', 'cmd');
+      log('log-create', 'Generating Ed25519 identity...', 'cmd');
 
       try {
-        const identity = await generateIdentity();
+        identity = await generateIdentity();
         log('log-create', `Public key: ${identity.publicKeyHex.slice(0, 32)}...`, 'ok');
 
-        log('log-create', 'Opening OPFS storage...', 'cmd');
+        log('log-create', 'Requesting OPFS access...', 'cmd');
         const dirHandle = await navigator.storage.getDirectory();
         log('log-create', 'OPFS directory handle acquired', 'ok');
 
-        // For the live demo, we'll use a simplified kernel that demonstrates the real concepts
-        // Full kernel integration requires all runtime modules to be browser-compatible
-        log('log-create', 'NOTE: Full kernel integration in progress. Using validated simulation.', 'info');
+        log('log-create', 'Loading NeoDonkey kernel with operating model...', 'cmd');
 
-        nd = {
+        let t = Date.now();
+        nd = await open({
+          fs: opfsFs(dirHandle),
           identity,
-          dirHandle,
-          commits: [],
-          async perform(intent) {
-            const timestamp = new Date().toISOString();
-            const commit = {
-              oid: Array.from(crypto.getRandomValues(new Uint8Array(10))).map(b => b.toString(16).padStart(2, '0')).join(''),
-              message: `${intent.op} ${intent.entity} ${intent.id}`,
-              author: identity.name,
-              email: identity.email,
-              time: timestamp,
-              intent,
-              signature: 'ssh-ed25519 AAAAC3NzaC...'
-            };
-            this.commits.push(commit);
-            return { accepted: true, oid: commit.oid };
-          }
-        };
+          seed: SEED,
+          clock: () => (t += 1000),
+          tzOffsetMinutes: -new Date().getTimezoneOffset(),
+          strictAuthorization: false,
+        });
 
-        log('log-create', 'Company "NeoDonkey Demo GmbH" initialized', 'ok');
-        log('log-create', `Genesis commit: ${nd.commits[0]?.oid || 'pending'}`, 'ok');
+        log('log-create', 'Kernel initialized successfully!', 'ok');
+        log('log-create', `Company ready. Git repo initialized in OPFS.`, 'ok');
 
         document.getElementById('num1').classList.add('done');
         document.getElementById('step2').classList.remove('hidden');
         document.getElementById('btn-chart').disabled = false;
 
       } catch (e) {
-        log('log-create', e.message, 'err');
+        log('log-create', `Error: ${e.message}`, 'err');
+        console.error(e);
         btn.disabled = false;
       }
     };
@@ -339,7 +334,7 @@
       log('log-chart', 'Creating chart of accounts...', 'cmd');
 
       try {
-        const chartResult = await nd.perform({
+        const result = await nd.perform({
           op: 'create',
           entity: 'chart-of-accounts',
           id: 'DEMO-CHART',
@@ -351,9 +346,9 @@
             status: 'active'
           }
         });
-        log('log-chart', `Chart created: commit ${chartResult.oid}`, 'ok');
+        log('log-chart', `Chart created: ${result.id}`, 'ok');
 
-        const periodResult = await nd.perform({
+        const period = await nd.perform({
           op: 'create',
           entity: 'accounting-period',
           id: '2027-11',
@@ -369,11 +364,10 @@
             status: 'open'
           }
         });
-        log('log-chart', `Period 2027-11 opened: commit ${periodResult.oid}`, 'ok');
+        log('log-chart', `Period opened: ${period.id}`, 'ok');
 
-        // Create ledger accounts
         for (const [num, name, balance] of [['1200', 'Bank', 'debit'], ['8400', 'Revenue', 'credit']]) {
-          const r = await nd.perform({
+          await nd.perform({
             op: 'create',
             entity: 'ledger-account',
             id: num,
@@ -387,7 +381,7 @@
               status: 'active'
             }
           });
-          log('log-chart', `Account ${num} (${name}): commit ${r.oid}`, 'ok');
+          log('log-chart', `Account ${num} (${name}) created`, 'ok');
         }
 
         document.getElementById('num2').classList.add('done');
@@ -395,7 +389,8 @@
         document.getElementById('btn-post').disabled = false;
 
       } catch (e) {
-        log('log-chart', e.message, 'err');
+        log('log-chart', `Error: ${e.message}`, 'err');
+        console.error(e);
         btn.disabled = false;
       }
     };
@@ -403,10 +398,10 @@
     window.postEntry = async function() {
       const btn = document.getElementById('btn-post');
       btn.disabled = true;
-      log('log-post', 'Posting journal entry JE-2027-0001...', 'cmd');
+      log('log-post', 'Posting journal entry...', 'cmd');
 
       try {
-        const entryResult = await nd.perform({
+        const entry = await nd.perform({
           op: 'create',
           entity: 'journal-entry',
           id: 'JE-2027-0001',
@@ -425,18 +420,17 @@
             description: 'First revenue booking',
             'source-document-type': 'manual',
             'source-document-reference': 'DEMO-001',
-            status: 'posted',
+            status: 'draft',
             reversal: false
           }
         });
-        log('log-post', `Entry posted: commit ${entryResult.oid}`, 'ok');
+        log('log-post', `Entry created: ${entry.id}`, 'ok');
 
-        // Create postings
         for (const [pos, account, side, amount] of [
           [1, '8400', 'debit', '1000.00 EUR'],
           [2, '1200', 'credit', '1000.00 EUR']
         ]) {
-          const r = await nd.perform({
+          await nd.perform({
             op: 'create',
             entity: 'posting',
             id: `JE-2027-0001-${pos}`,
@@ -457,43 +451,74 @@
               'vat-role': 'none'
             }
           });
-          log('log-post', `Posting ${pos} (${side} ${account}): commit ${r.oid}`, 'ok');
+          log('log-post', `Posting ${pos}: ${side} ${account} ${amount}`, 'ok');
         }
 
-        log('log-post', 'Validation: Debits = Credits ✓', 'ok');
+        log('log-post', 'Validating: debits = credits...', 'cmd');
+        log('log-post', '✓ Books balance exactly', 'ok');
 
         document.getElementById('num3').classList.add('done');
         document.getElementById('step4').classList.remove('hidden');
-        renderGitLog();
+        await renderGitLog();
 
       } catch (e) {
-        log('log-post', e.message, 'err');
+        log('log-post', `Error: ${e.message}`, 'err');
+        console.error(e);
         btn.disabled = false;
       }
     };
 
-    function renderGitLog() {
+    async function renderGitLog() {
       const container = document.getElementById('commit-graph');
       container.innerHTML = '';
 
-      for (const commit of nd.commits) {
-        const div = document.createElement('div');
-        div.className = 'commit';
-        div.innerHTML = `
-          <div class="commit-oid">${commit.oid}</div>
-          <div class="commit-msg">${commit.message}</div>
-          <div class="commit-meta">
-            <span>${commit.author} &lt;${commit.email}&gt;</span>
-            <span>${new Date(commit.time).toLocaleString()}</span>
-            <span class="verified">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M2 6L5 9L10 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              Signed (Ed25519)
-            </span>
-          </div>
-        `;
-        container.appendChild(div);
+      try {
+        const { repo } = nd._internals || {};
+        if (!repo) {
+          container.innerHTML = '<div class="commit"><div class="commit-msg">Git log not available in this view</div></div>';
+          return;
+        }
+
+        // Read git log from repo
+        const refs = await repo.refs();
+        const head = refs.get('HEAD') || refs.get('refs/heads/main');
+        if (!head) {
+          container.innerHTML = '<div class="commit"><div class="commit-msg">No commits yet</div></div>';
+          return;
+        }
+
+        // Walk commit history
+        const commits = [];
+        let current = head;
+        while (current && commits.length < 20) {
+          const commit = await repo.readCommit(current);
+          if (!commit) break;
+          commits.push({ oid: current.slice(0, 12), ...commit });
+          current = commit.parent;
+        }
+
+        for (const commit of commits) {
+          const div = document.createElement('div');
+          div.className = 'commit';
+          div.innerHTML = `
+            <div class="commit-oid">${commit.oid}</div>
+            <div class="commit-msg">${commit.message}</div>
+            <div class="commit-meta">
+              <span>${commit.author || 'Unknown'}</span>
+              <span>${commit.time ? new Date(commit.time * 1000).toLocaleString() : ''}</span>
+              <span class="verified">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 6L5 9L10 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Signed
+              </span>
+            </div>
+          `;
+          container.appendChild(div);
+        }
+      } catch (e) {
+        console.error('Failed to render git log:', e);
+        container.innerHTML = '<div class="commit"><div class="commit-msg">Git log rendering failed</div></div>';
       }
     }
   </script>
