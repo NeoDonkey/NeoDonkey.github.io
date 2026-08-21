@@ -7,9 +7,9 @@
   <script type="importmap">
   {
     "imports": {
-      "kernel": "./runtime/kernel.js",
-      "fs-opfs": "./runtime/git/fs-opfs.js",
-      "ed25519": "./runtime/identity/ed25519.js"
+      "kernel": "./erp/runtime/kernel.js",
+      "fs-opfs": "./erp/runtime/git/fs-opfs.js",
+      "ed25519": "./erp/runtime/identity/ed25519.js"
     }
   }
   </script>
@@ -242,8 +242,8 @@
   </div>
 
   <script type="module">
-    import { open } from './runtime/kernel.js';
-    import { opfsFs } from './runtime/git/fs-opfs.js';
+    import { open } from './erp/runtime/kernel.js';
+    import { opfsFs } from './erp/runtime/git/fs-opfs.js';
 
     let nd = null;
     let identity = null;

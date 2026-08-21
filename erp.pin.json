@@ -1,12 +1,8 @@
 {
   "repository": "NeoDonkey/NeoDonkey-ERP",
-  "ref": "41100ca1591febd4d3115cca0a540e95beff2013",
+  "ref": "4c3f34d7bf5d72d86932eed30f8310f9330455f1",
   "why": [
-    "The demo must show a known version of the ERP and must not break because something was",
-    "merged upstream an hour ago (docs/CONTEXT.md, PRD-001 R2). The ERP publishes no tags yet,",
-    "so this pin is a commit SHA. Move it to a tag name the moment one exists.",
-    "Nothing here is a fork: scripts/vendor-erp.mjs copies these files in unmodified and",
-    "public/erp/ is not committed."
+    "Updated to include DATEV EXTF export and XRechnung XML generator (Wave 3 features)."
   ],
   "copy": [
     "index.html",
