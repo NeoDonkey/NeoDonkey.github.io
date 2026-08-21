@@ -5,19 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- ===========================================================================
-     GUIDED DEMO. A tour of the ERP itself, in six chapters. Every capture
-     is the real vendored runtime (see erp.pin.json), photographed headless
-     against this site and shipped as data URIs in /demo/shots-*.css (the
-     publish pipeline cannot write binary files). No mockups, no stock, and
-     no JavaScript required to read the page. The live program is one click
-     away at /erp/index.html.
+     GUIDED DEMO. A tour of the ERP itself, in six chapters. The figures are
+     minimal schematics traced from the running program (the publish pipeline
+     for this site cannot write binary screenshots); the program itself is one
+     click away at /erp/index.html, so no figure asks to be trusted. No
+     JavaScript required to read the page.
      ======================================================================== -->
 
 <title>The demo is the product. NeoDonkey</title>
-<meta name="description" content="A guided tour of NeoDonkey itself: the same runtime that ships in the ERP repository, vendored unmodified into this site. Every screenshot is the program, and every claim links to the file that backs it.">
+<meta name="description" content="A guided tour of NeoDonkey itself: the same runtime that ships in the ERP repository, vendored unmodified into this site. Every claim links to the file that backs it.">
 <link rel="canonical" href="https://neodonkey.github.io/demo.html">
 <meta property="og:title" content="The demo is the product.">
-<meta property="og:description" content="A guided tour of the ERP itself: real runtime, real git, real captures.">
+<meta property="og:description" content="A guided tour of the ERP itself: real runtime, real git, one click from checking every claim.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://neodonkey.github.io/demo.html">
 <meta property="og:image" content="https://neodonkey.github.io/brand/og.png">
@@ -26,9 +25,6 @@
 <link rel="icon" href="/brand/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/brand/mark-180.png">
 <link rel="stylesheet" href="/brand/tokens.css">
-<link rel="stylesheet" href="/demo/shots-a.css">
-<link rel="stylesheet" href="/demo/shots-b.css">
-<link rel="stylesheet" href="/demo/shots-c.css">
 <style>
 /* Native CSS, tokens only. The accent appears in exactly four places on this
    page: the glow word in the hero, the primary button, the focus ring and the
@@ -98,9 +94,8 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 680; margin: 0; }
 
 /* ---- figures ------------------------------------------------------------ */
 figure { margin: 0; }
-.shot { display: block; width: 100%; border-radius: var(--r-lg);
-        border: 1px solid var(--rule); background-color: #f4f5f7;
-        background-size: cover; background-position: top left; }
+.shot { display: block; width: 100%; height: auto; border-radius: var(--r-lg);
+        border: 1px solid var(--rule); background: #14161d; }
 figcaption { font-family: var(--font-mono); font-size: var(--t-micro); color: var(--ink-faint);
              margin-top: .7rem; line-height: 1.6; }
 
@@ -153,9 +148,9 @@ figcaption { font-family: var(--font-mono); font-size: var(--t-micro); color: va
     <h1>The demo is <span class="glow">the product.</span></h1>
     <p class="hero__sub">
       This page walks through NeoDonkey itself: the same runtime that ships in the
-      ERP repository, vendored unmodified into this site and captured in a real browser.
-      Every screenshot below is the program, not a picture of it, and every claim links
-      to the file that backs it.
+      ERP repository, vendored unmodified into this site. The figures are minimal
+      schematics traced from the running program, every claim links to the file that
+      backs it, and the program itself is one click away if you want to check.
     </p>
     <div class="hero__cta">
       <a class="btn btn--primary" href="/erp/index.html">Open the ERP</a>
@@ -187,7 +182,19 @@ figcaption { font-family: var(--font-mono); font-size: var(--t-micro); color: va
       </div>
     </div>
     <figure class="reveal">
-      <div class="shot shot--welcome" role="img" aria-label="The first screen of the ERP. It asks for your name and offers two choices: choose a folder and start, or use browser storage instead."></div>
+      <svg class="shot" viewBox="0 0 640 400" role="img" aria-label="Schematic of the first screen of the ERP: a card that asks for your name, with two storage choices.">
+  <rect width="640" height="400" fill="#14161d"/>
+  <rect x="150" y="70" width="340" height="260" rx="14" fill="#1c1f2a" stroke="#2c3140"/>
+  <text x="186" y="118" fill="#eceef4" font-size="19" font-weight="600">Welcome to NeoDonkey</text>
+  <text x="186" y="146" fill="#9aa1b2" font-size="11">No account to create, no server to log in to.</text>
+  <text x="186" y="164" fill="#9aa1b2" font-size="11">Your company will be a folder, on your machine.</text>
+  <text x="186" y="205" fill="#7d8494" font-size="10" font-family="ui-monospace,monospace">What is your name?</text>
+  <rect x="186" y="216" width="268" height="30" rx="7" fill="#14161d" stroke="#2c3140"/>
+  <rect x="186" y="266" width="200" height="34" rx="8" fill="#2f5d8c"/>
+  <text x="206" y="287" fill="#eef2f8" font-size="11">Choose a folder and start</text>
+  <rect x="186" y="308" width="180" height="14" rx="3" fill="none"/>
+  <text x="186" y="318" fill="#7d8494" font-size="10">Use browser storage instead</text>
+</svg>
       <figcaption>The whole onboarding. One question, two storage choices, no sign-up form.</figcaption>
     </figure>
   </div>
@@ -212,7 +219,26 @@ figcaption { font-family: var(--font-mono); font-size: var(--t-micro); color: va
       </div>
     </div>
     <figure class="reveal">
-      <div class="shot shot--overview" role="img" aria-label="The company overview. Four counters read 36 kinds of document, 48 rules in force, 13 roles and 0 documents, above a generated table listing every document kind with its field count and what your role may do."></div>
+      <svg class="shot" viewBox="0 0 640 360" role="img" aria-label="Schematic of the company overview: four counters (36 kinds of document, 48 rules in force, 13 roles, 0 documents) above a generated table of document kinds.">
+  <rect width="640" height="360" fill="#14161d"/>
+  <g font-family="ui-monospace,monospace">
+    <rect x="32" y="28" width="132" height="56" rx="9" fill="#1c1f2a" stroke="#2c3140"/><text x="48" y="54" fill="#eceef4" font-size="20">36</text><text x="48" y="72" fill="#7d8494" font-size="9">kinds of document</text>
+    <rect x="180" y="28" width="132" height="56" rx="9" fill="#1c1f2a" stroke="#2c3140"/><text x="196" y="54" fill="#eceef4" font-size="20">48</text><text x="196" y="72" fill="#7d8494" font-size="9">rules in force</text>
+    <rect x="328" y="28" width="132" height="56" rx="9" fill="#1c1f2a" stroke="#2c3140"/><text x="344" y="54" fill="#eceef4" font-size="20">13</text><text x="344" y="72" fill="#7d8494" font-size="9">roles</text>
+    <rect x="476" y="28" width="132" height="56" rx="9" fill="#1c1f2a" stroke="#2c3140"/><text x="492" y="54" fill="#eceef4" font-size="20">0</text><text x="492" y="72" fill="#7d8494" font-size="9">documents</text>
+  </g>
+  <rect x="32" y="104" width="576" height="224" rx="10" fill="#1c1f2a" stroke="#2c3140"/>
+  <text x="52" y="130" fill="#eceef4" font-size="13" font-weight="600">This company</text>
+  <text x="52" y="148" fill="#7d8494" font-size="10">Everything below is generated from the operating model.</text>
+  <g font-size="10" fill="#9aa1b2" font-family="ui-monospace,monospace">
+    <text x="52" y="178">Accounting period</text><text x="500" y="178" fill="#7d8494">0</text>
+    <text x="52" y="206">Article</text><text x="500" y="206" fill="#7d8494">0</text>
+    <text x="52" y="234">Bank statement</text><text x="500" y="234" fill="#7d8494">0</text>
+    <text x="52" y="262">Chart of accounts</text><text x="500" y="262" fill="#7d8494">0</text>
+    <text x="52" y="290">Invoice</text><text x="500" y="290" fill="#7d8494">0</text>
+    <text x="52" y="318" fill="#5c6373">... 31 more kinds, all empty, all ruled</text>
+  </g>
+</svg>
       <figcaption>A brand-new company: the model is in force, the document counts are honestly zero.</figcaption>
     </figure>
   </div>
@@ -236,7 +262,27 @@ figcaption { font-family: var(--font-mono); font-size: var(--t-micro); color: va
       </div>
     </div>
     <figure class="reveal">
-      <div class="shot shot--operating-model" role="img" aria-label="The operating model browser inside the ERP. Cards list the folders: forty information files, thirteen organisation files, thirty process files, each entry naming its markdown path."></div>
+      <svg class="shot" viewBox="0 0 640 300" role="img" aria-label="Schematic of the operating model browser: cards for the folders information (40 files), organisation (13), processes (30).">
+  <rect width="640" height="300" fill="#14161d"/>
+  <text x="32" y="44" fill="#eceef4" font-size="17" font-weight="600">Operating model</text>
+  <text x="32" y="64" fill="#7d8494" font-size="10">Ninety-three markdown files. Each entry is a file in git.</text>
+  <g font-family="ui-monospace,monospace">
+    <rect x="32" y="88" width="180" height="176" rx="10" fill="#1c1f2a" stroke="#2c3140"/>
+    <text x="50" y="116" fill="#eceef4" font-size="12">information/</text><text x="50" y="134" fill="#7d8494" font-size="9">40 files</text>
+    <text x="50" y="162" fill="#9aa1b2" font-size="9">invoice.md</text>
+    <text x="50" y="182" fill="#9aa1b2" font-size="9">journal-entry.md</text>
+    <text x="50" y="202" fill="#9aa1b2" font-size="9">goods-receipt.md</text>
+    <rect x="230" y="88" width="180" height="176" rx="10" fill="#1c1f2a" stroke="#2c3140"/>
+    <text x="248" y="116" fill="#eceef4" font-size="12">organisation/</text><text x="248" y="134" fill="#7d8494" font-size="9">13 files</text>
+    <text x="248" y="162" fill="#9aa1b2" font-size="9">accountant.md</text>
+    <text x="248" y="182" fill="#9aa1b2" font-size="9">managing-director.md</text>
+    <rect x="428" y="88" width="180" height="176" rx="10" fill="#1c1f2a" stroke="#2c3140"/>
+    <text x="446" y="116" fill="#eceef4" font-size="12">processes/</text><text x="446" y="134" fill="#7d8494" font-size="9">30 files</text>
+    <text x="446" y="162" fill="#9aa1b2" font-size="9">journal-posting.md</text>
+    <text x="446" y="182" fill="#9aa1b2" font-size="9">invoice-issuance.md</text>
+    <text x="446" y="202" fill="#9aa1b2" font-size="9">goods-receipt.md</text>
+  </g>
+</svg>
       <figcaption>The model, browsable inside the program. Each entry is a file in git.</figcaption>
     </figure>
   </div>
@@ -252,7 +298,7 @@ figcaption { font-family: var(--font-mono); font-size: var(--t-micro); color: va
         Each business event becomes one git commit, signed with the key from
         chapter 1. The transaction log shows the chain, and the page offers the same
         check with tools we did not write: <b>git log --show-signature</b> and
-        <b>git fsck --strict</b> in the company folder. The capture shows a new
+        <b>git fsck --strict</b> in the company folder. The figure traces a new
         company's first commit: Demo User starts a company.
       </p>
       <div class="check">
@@ -260,7 +306,22 @@ figcaption { font-family: var(--font-mono); font-size: var(--t-micro); color: va
       </div>
     </div>
     <figure class="reveal">
-      <div class="shot shot--transaction-log" role="img" aria-label="The transaction log view. A panel titled Do not take our word for it lists the git commands to verify the chain yourself, above a table with the genesis commit: Demo User starts a company."></div>
+      <svg class="shot" viewBox="0 0 640 300" role="img" aria-label="Schematic of the transaction log: the git verification commands printed on the page, and one genesis commit that reads Demo User starts a company.">
+  <rect width="640" height="300" fill="#14161d"/>
+  <text x="32" y="44" fill="#eceef4" font-size="17" font-weight="600">Transaction log</text>
+  <text x="32" y="64" fill="#7d8494" font-size="10">1 commit. Each one is a business event, signed with your key.</text>
+  <rect x="32" y="82" width="576" height="118" rx="10" fill="#1c1f2a" stroke="#2c3140"/>
+  <text x="52" y="108" fill="#eceef4" font-size="11" font-weight="600">Do not take our word for it</text>
+  <g font-family="ui-monospace,monospace" font-size="10" fill="#9aa1b2">
+    <text x="52" y="134">git log --show-signature</text>
+    <text x="52" y="152">git verify-commit HEAD</text>
+    <text x="52" y="170">git fsck --strict</text>
+  </g>
+  <rect x="32" y="216" width="576" height="56" rx="10" fill="#1c1f2a" stroke="#2c3140"/>
+  <text x="52" y="240" fill="#9aa1b2" font-size="10" font-family="ui-monospace,monospace">f9e218a4  GENESIS</text>
+  <text x="52" y="258" fill="#eceef4" font-size="11">Demo User starts a company</text>
+  <text x="470" y="240" fill="#5c6373" font-size="10" font-family="ui-monospace,monospace">14:49 UTC</text>
+</svg>
       <figcaption>One commit so far. The verification commands are printed on the page itself.</figcaption>
     </figure>
   </div>
@@ -273,7 +334,7 @@ figcaption { font-family: var(--font-mono); font-size: var(--t-micro); color: va
       <div class="kicker">Chapter 5</div>
       <h2>Authorization is a rule, not a hidden button</h2>
       <p>
-        The demo user in this capture holds no role, and the journal entry form says
+        The demo user in this figure holds no role, and the journal entry form says
         so before a single keypress: you may fill it in, and the operating model will
         refuse the write. It names the two lines that decide. Authorization is data
         in the repository, evaluated on every write, not a flag painted onto a
@@ -285,7 +346,34 @@ figcaption { font-family: var(--font-mono); font-size: var(--t-micro); color: va
       </div>
     </div>
     <figure class="reveal">
-      <div class="shot shot--journal-entry" role="img" aria-label="The new journal entry form. A notice at the top reads: your role may not create a journal-entry, and names the two lines in journal-posting.md that decide. Below, every field cites the line of the operating model that defines it."></div>
+      <svg class="shot" viewBox="0 0 640 340" role="img" aria-label="Schematic of the journal entry form: a notice that your role may not create a journal entry, naming the two deciding lines, above fields that each cite their line in the model.">
+  <rect width="640" height="340" fill="#14161d"/>
+  <rect x="32" y="26" width="576" height="66" rx="10" fill="#2a2415" stroke="#4a3f1e"/>
+  <text x="50" y="50" fill="#e8d9a0" font-size="11" font-weight="600">Your role may not create a journal-entry.</text>
+  <text x="50" y="68" fill="#b3a97f" font-size="9" font-family="ui-monospace,monospace">decided by journal-posting.md:40 and journal-posting.md:273</text>
+  <g font-family="ui-monospace,monospace">
+    <g font-size="9" fill="#7d8494">
+      <text x="32" y="122">Entry number</text><text x="228" y="122">Entry date</text><text x="424" y="122">Document date</text>
+    </g>
+    <rect x="32" y="130" width="180" height="30" rx="7" fill="#1c1f2a" stroke="#2c3140"/>
+    <rect x="228" y="130" width="180" height="30" rx="7" fill="#1c1f2a" stroke="#2c3140"/>
+    <rect x="424" y="130" width="184" height="30" rx="7" fill="#1c1f2a" stroke="#2c3140"/>
+    <text x="44" y="149" font-size="10" fill="#9aa1b2">JE-0001</text>
+    <g font-size="8" fill="#5c6373">
+      <text x="32" y="176">journal-entry.md:27</text><text x="228" y="176">journal-entry.md:29</text><text x="424" y="176">journal-entry.md:33</text>
+    </g>
+    <g font-size="9" fill="#7d8494">
+      <text x="32" y="208">Debit amount</text><text x="228" y="208">Credit amount</text><text x="424" y="208">Posting count</text>
+    </g>
+    <rect x="32" y="216" width="180" height="30" rx="7" fill="#1c1f2a" stroke="#2c3140"/>
+    <rect x="228" y="216" width="180" height="30" rx="7" fill="#1c1f2a" stroke="#2c3140"/>
+    <rect x="424" y="216" width="184" height="30" rx="7" fill="#1c1f2a" stroke="#2c3140"/>
+    <g font-size="8" fill="#5c6373">
+      <text x="32" y="262">journal-entry.md:36</text><text x="228" y="262">journal-entry.md:37</text><text x="424" y="262">journal-entry.md:38</text>
+    </g>
+    <text x="32" y="312" font-size="9" fill="#5c6373">Every field cites the line of the operating model that defines it.</text>
+  </g>
+</svg>
       <figcaption>The refusal is the feature: it names the rule and the file it lives in.</figcaption>
     </figure>
   </div>
@@ -310,7 +398,31 @@ figcaption { font-family: var(--font-mono); font-size: var(--t-micro); color: va
       </div>
     </div>
     <figure class="reveal">
-      <div class="shot shot--invoice-xrechnung" role="img" aria-label="The middle of the invoice form: net, VAT and gross amounts, VAT breakdown, payment means code and an XRechnung profile field, each with a citation to its line in invoice.md."></div>
+      <svg class="shot" viewBox="0 0 640 320" role="img" aria-label="Schematic of the invoice form: net, VAT and gross amounts, VAT breakdown, payment means code and an XRechnung profile field.">
+  <rect width="640" height="320" fill="#14161d"/>
+  <g font-family="ui-monospace,monospace">
+    <g font-size="9" fill="#7d8494">
+      <text x="32" y="50">Net amount</text><text x="228" y="50">VAT amount</text><text x="424" y="50">Gross amount</text>
+    </g>
+    <rect x="32" y="58" width="180" height="30" rx="7" fill="#1c1f2a" stroke="#2c3140"/>
+    <rect x="228" y="58" width="180" height="30" rx="7" fill="#1c1f2a" stroke="#2c3140"/>
+    <rect x="424" y="58" width="184" height="30" rx="7" fill="#1c1f2a" stroke="#2c3140"/>
+    <g font-size="8" fill="#5c6373">
+      <text x="32" y="104">invoice.md: money, 2 decimals</text><text x="228" y="104">invoice.md</text><text x="424" y="104">invoice.md</text>
+    </g>
+    <text x="32" y="140" font-size="9" fill="#7d8494">VAT breakdown</text>
+    <rect x="32" y="148" width="576" height="30" rx="7" fill="#1c1f2a" stroke="#2c3140"/>
+    <text x="44" y="167" font-size="9" fill="#5c6373">rate, base, amount per EN 16931 VAT category</text>
+    <g font-size="9" fill="#7d8494">
+      <text x="32" y="214">Payment means code</text><text x="32" y="262">XRechnung profile</text>
+    </g>
+    <rect x="32" y="222" width="280" height="26" rx="7" fill="#1c1f2a" stroke="#2c3140"/>
+    <text x="44" y="239" font-size="9" fill="#9aa1b2">58 - SEPA credit transfer</text>
+    <rect x="32" y="270" width="280" height="26" rx="7" fill="#1c1f2a" stroke="#2c3140"/>
+    <text x="44" y="287" font-size="9" fill="#9aa1b2">XRECHNUNG 3.0</text>
+    <text x="424" y="287" font-size="8" fill="#5c6373">rendered by runtime/export/xrechnung.js</text>
+  </g>
+</svg>
       <figcaption>An invoice is a document whose fields are the standard's fields.</figcaption>
     </figure>
   </div>
@@ -328,7 +440,7 @@ figcaption { font-family: var(--font-mono); font-size: var(--t-micro); color: va
       <li><b>Exports are modules, not yet buttons.</b> The XRechnung and DATEV
         exporters run in the runtime today; the browser interface does not expose
         them as a menu item yet.</li>
-      <li><b>The company in these captures is empty.</b> Zero documents, and a user
+      <li><b>The company in these figures is empty.</b> Zero documents, and a user
         with no roles granted, which is why chapter 5 shows a refusal. That is the
         honest first minute with the program, not a staged dataset.</li>
       <li><b>The scorecard has the last word.</b> What works and what does not is
