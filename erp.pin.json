@@ -1,6 +1,6 @@
 {
   "repository": "NeoDonkey/NeoDonkey-ERP",
-  "ref": "4c3f34d7bf5d72d86932eed30f8310f9330455f1",
+  "ref": "592a844f7071bccde0f57cbf563b285e88d752b2",
   "why": [
     "Updated to include DATEV EXTF export and XRechnung XML generator (Wave 3 features)."
   ],
