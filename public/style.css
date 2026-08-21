@@ -3,39 +3,37 @@
  * Palette: Neon pink (#ff2d95), cyan (#00f0ff), deep purple (#0a0a1a)
  */
 
+@import url('/brand/tokens.css');
+
+/* ============================================================================
+   Legacy stylesheet for the published archive under /blog. The palette is no
+   longer defined here: every value below is an alias onto brand/tokens.css, so
+   one colour change moves the archive with the rest of the site, dark mode and
+   light mode together. Do not add new colours here. New pages link
+   brand/tokens.css and brand/post.css directly.
+   ========================================================================= */
 :root {
-  /* Core palette */
-  --bg-0: #07070f;
-  --bg-1: #0a0a1a;
-  --bg-2: #12122a;
-  --bg-3: #1a1a3e;
-  
-  /* Neon accents */
-  --pink: #ff2d95;
-  --pink-glow: rgba(255, 45, 149, 0.4);
-  --cyan: #00f0ff;
-  --cyan-glow: rgba(0, 240, 255, 0.3);
-  --purple: #8b5cf6;
-  --purple-glow: rgba(139, 92, 246, 0.3);
-  
-  /* Text */
-  --text-1: #ffffff;
-  --text-2: #a0a0c0;
-  --text-3: #606080;
-  
-  /* Surfaces */
-  --surface: rgba(18, 18, 42, 0.8);
-  --surface-border: rgba(255, 45, 149, 0.15);
-  
-  /* Backward compat for old inline styles */
-  --surface-2: var(--bg-2);
-  --border: var(--bg-3);
-  
-  /* System */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-  --radius: 12px;
-  --shadow-neon: 0 0 20px var(--pink-glow), 0 0 40px var(--cyan-glow);
+  --bg-0: var(--paper);
+  --bg-1: var(--paper);
+  --bg-2: var(--paper-sunk);
+  --bg-3: var(--paper-lift);
+  --pink: var(--accent);
+  --pink-glow: var(--accent-wash);
+  --cyan: var(--accent);
+  --cyan-glow: var(--accent-wash);
+  --purple: var(--accent);
+  --purple-glow: var(--accent-wash);
+  --text-1: var(--ink);
+  --text-2: var(--ink-soft);
+  --text-3: var(--ink-faint);
+  --surface: var(--paper-sunk);
+  --surface-border: var(--rule);
+  --surface-2: var(--paper-lift);
+  --border: var(--rule);
+  --font-sans: var(--font-body);
+  --radius: var(--r-md);
+  /* the mark glows; the interface does not. see brand/STYLEGUIDE.md section 3 */
+  --shadow-neon: none;
 }
 
 /* Reset & base */

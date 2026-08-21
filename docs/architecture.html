@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architecture — NeoDonkey</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="canonical" href="https://neodonkey.github.io/docs/architecture.html">
+    <meta name="description" content="How NeoDonkey works: Git-native ERP architecture, zero dependencies, cryptographically signed commits.">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-brand">
+            <a href="/">NeoDonkey</a>
+        </div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/docs/">Docs</a>
+            <a href="/blog/">Blog</a>
+            <a href="https://github.com/NeoDonkey/NeoDonkey-ERP">GitHub</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <article class="post">
+            <header class="post-header">
+                <h1>NeoDonkey Architecture</h1>
+                <p class="post-meta">How the system is built, and why</p>
+            </header>
+
+            <div class="post-content">
+                <h2>The Core Bet</h2>
+                <p>The whole system rests on one claim: <strong>a browser, using nothing but web standards, can write a real Git repository with cryptographically verifiable commits.</strong></p>
+                
+                <p>That claim is proven. Real git — software written by other people over twenty years, which has never heard of NeoDonkey — accepts our output as its own:</p>
+                
+                <pre><code>$ git fsck --strict
+$ git log --show-signature --format='%G? %GS %s'
+G sarah@neodonkey.eu goods-receipt GR-0001 created</code></pre>
+                
+                <p><code>G</code> is git's own verdict: <em>good signature</em>. That commit was produced by <code>crypto.subtle</code> (Ed25519), <code>CompressionStream('deflate')</code> (zlib, the format git stores), and a fifty-line SHA-1. No libgit2, no isomorphic-git, no npm install.</p>
+
+                <h2>Layers</h2>
+                <pre>
+                    ┌──────────────────────────────────────────────────┐
+  disposable        │  UI (generated per role/task)   AI   MCP   CLI   │   Principle 7
+                    └───────────────────────┬──────────────────────────┘
+                                            │  one API, no exceptions
+                    ┌───────────────────────▼──────────────────────────┐
+  the core          │              runtime/kernel.js                   │
+                    └───┬──────────┬──────────┬──────────┬─────────────┘
+                        │          │          │          │
+              ┌─────────▼──┐  ┌────▼─────┐  ┌─▼───────┐ ┌▼──────────────┐
+              │  polism/   │  │  live/   │  │ read/   │ │  identity/    │
+              │ the company│  │  CRDT    │  │ view    │ │  Ed25519 +    │
+              │ as rules   │  │  RAM     │  │ index   │ │  SSHSIG       │
+              └─────────┬──┘  └────┬─────┘  └─┬───────┘ └┬──────────────┘
+                        │          │          │          │
+                    ┌───▼──────────▼──────────▼──────────▼─────────────┐
+                    │              storage/ OPFS / git                 │
+                    └──────────────────────────────────────────────────┘
+                </pre>
+
+                <h2>Kernel</h2>
+                <p><code>kernel.js</code> is the single entry point. It loads the operating model, validates it against the grammar, and exposes one API to every layer above. There are no exceptions: if a call is not in the kernel's API, it is not possible.</p>
+
+                <h2>Polism — The Company as Rules</h2>
+                <p>A process is a page of text — prose at the top for humans, rules below for the runtime:</p>
+                
+                <pre><code>If Create goods-receipt under condition
+  quantity > 0 and
+  order exists and
+  order not already fully delivered
+then
+  Create goods-receipt-fact and
+  Update stock with +quantity and
+  Update order-line with status "delivered"
+
+## Authorized by
+warehouse-clerk or warehouse-management</code></pre>
+
+                <p>When a rule refuses something, it says which sentence refused it, by file and line. When a posting is made, the commit records the rule that authorized it — inside the signed payload.</p>
+
+                <h2>Live — CRDT + Hybrid Logical Clocks</h2>
+                <p>Multiple machines edit the same company concurrently. Each machine timestamps its commits with an HLC (hybrid logical clock) that captures both wall-clock time and causal ordering. When two commits conflict, the CRDT merge function resolves them deterministically — no consensus protocol, no coordinator, no "last write wins" data loss.</p>
+
+                <h2>Identity — Ed25519 + SSHSIG</h2>
+                <p>Every actor (person, machine, or process) has an Ed25519 keypair. The private key lives in the browser's WebAuthn/OPFS storage and never leaves the device. The public key is recorded in the repository's <code>organisation/</code> directory, with roles assigned to it.</p>
+                
+                <p>Commits are signed with sshsig format, so you can verify them with OpenSSH alone:</p>
+                
+                <pre><code>ssh-keygen -Y verify -f allowed_signers -I sarah@neodonkey.eu \
+           -n git -s commit.sig < commit.canonical
+# → Good "git" signature</code></pre>
+
+                <h2>Read — The View Index</h2>
+                <p>The read layer maintains an index of all documents, their current state, and the relationships between them. It is a cache: it can be rebuilt from the git history at any time. The kernel keeps it consistent, updating it after every verified commit.</p>
+
+                <h2>Storage — OPFS + Git</h2>
+                <p>The company lives in the browser's Origin Private File System (OPFS) — a persistent filesystem that survives browser restarts and is invisible to other origins. The <code>.git</code> directory is a real git repository, byte-for-byte compatible with what <code>git</code> itself produces.</p>
+
+                <h2>Zero Dependencies</h2>
+                <p>There is no <code>dependencies</code> field in <code>package.json</code> and there never will be one in the core. Everything is written against:</p>
+                <ul>
+                    <li><code>crypto.subtle</code> — cryptography</li>
+                    <li><code>CompressionStream</code> — zlib/deflate</li>
+                    <li><code>TextEncoder</code> — string encoding</li>
+                    <li><code>FileSystemDirectoryHandle</code> — file access</li>
+                    <li><code>WebRTC</code> — peer sync</li>
+                </ul>
+                
+                <p>Standards owned by nobody, stable for decades, only ever extended.</p>
+
+                <h2>Release Security</h2>
+                <p>The runtime is signed. The signing key is pinned on your machine at first install. Afterwards your installation refuses any runtime not signed by that key — including one served by us, and including one served by us under a court order.</p>
+                
+                <p>Updates are offered, never applied. The accountant runs version 2 while the warehouse still runs version 1 and both exchange the same facts.</p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <p>NeoDonkey — The ERP that belongs to you. And to Europe.</p>
+        <p><a href="https://github.com/NeoDonkey/NeoDonkey-ERP">GitHub</a> · <a href="https://x.com/neodonkey">X</a></p>
+    </footer>
+</body>
+</html>

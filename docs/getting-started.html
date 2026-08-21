@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started — NeoDonkey</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="canonical" href="https://neodonkey.github.io/docs/getting-started.html">
+    <meta name="description" content="Get started with NeoDonkey: run the demo, create your first company, and understand the folder structure.">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-brand">
+            <a href="/">NeoDonkey</a>
+        </div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/docs/">Docs</a>
+            <a href="/blog/">Blog</a>
+            <a href="https://github.com/NeoDonkey/NeoDonkey-ERP">GitHub</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <article class="post">
+            <header class="post-header">
+                <h1>Getting Started</h1>
+                <p class="post-meta">From clone to first booking in five minutes</p>
+            </header>
+
+            <div class="post-content">
+                <h2>Prerequisites</h2>
+                <ul>
+                    <li>Node.js 18+</li>
+                    <li>Git</li>
+                    <li>A modern browser (Chrome, Firefox, Safari, Edge)</li>
+                </ul>
+
+                <h2>1. Clone the Repository</h2>
+                <pre><code>git clone https://github.com/NeoDonkey/NeoDonkey-ERP.git
+cd NeoDonkey-ERP</code></pre>
+
+                <h2>2. Run the Demo</h2>
+                <pre><code>node demo/sarah.mjs</code></pre>
+                <p>This creates a complete company ("Sarah's Bike Shop"), books a goods receipt through the company's own written rules, has the company refuse an invalid one, changes the business by editing a sentence — and then hands the folder to <strong>real git</strong> and <strong>real ssh-keygen</strong> and asks them what they think.</p>
+
+                <h2>3. Verify the Output</h2>
+                <pre><code>cd demo-company/
+git fsck --strict          → clean
+git status --porcelain     → empty      (it is simply a folder)
+git log --show-signature   → G          (good signature, on every commit)</code></pre>
+                
+                <p><code>G</code> is git's own verdict: <em>good signature</em>. Software written by other people over twenty years accepts our commits as genuine and verifies our signatures.</p>
+
+                <h2>4. Run the Tests</h2>
+                <pre><code>npm test</code></pre>
+                <p>The full test suite runs in about 30 seconds and covers the kernel, Polism grammar, CRDT merge, cryptographic signing, and DATEV serialization.</p>
+
+                <h2>5. Start the UI</h2>
+                <pre><code>npm run ui</code></pre>
+                <p>Open <a href="http://localhost:8080">http://localhost:8080</a> in your browser. The UI is generated from the operating model — what you see depends on the roles defined in your company.</p>
+
+                <h2>Folder Structure</h2>
+                <pre><code>your-company/
+├── index.html              ← the app shell. served, not double-clicked
+├── runtime/                ← the software, readable, in the repo, next to the data
+├── operating-model/        ← your company, as text. this IS the program.
+│   ├── processes/          ← goods-receipt.md, invoice-issuance.md …
+│   ├── organisation/       ← the roles and who may authorize what
+│   ├── locations/          ← warehouses, offices, shops
+│   ├── information/        ← charts of accounts, tax codes
+│   ├── suppliers/          ← supplier master data
+│   └── management-system/  ← quality, safety, compliance
+├── documents/              ← the facts: articles, orders, invoices, stock
+└── .git/                   ← the truth: signed, append-only, yours</code></pre>
+
+                <h2>Creating Your First Company</h2>
+                <p>Companies are created by the <code>kernel.js</code> module. The process:</p>
+                <ol>
+                    <li>Generate an Ed25519 keypair for the founder</li>
+                    <li>Write the operating model (processes, organisation, locations)</li>
+                    <li>Initialize the git repository</li>
+                    <li>Sign the initial commit</li>
+                </ol>
+
+                <h2>Posting Your First Booking</h2>
+                <p>Bookings are created through the Polism rule engine:</p>
+                <ol>
+                    <li>The user initiates a <code>Create goods-receipt</code> action</li>
+                    <li>The kernel validates the action against the operating model</li>
+                    <li>If valid, a new document is created in <code>documents/</code></li>
+                    <li>The document is committed to git with the founder's signature</li>
+                    <li>The read index is updated to reflect the new state</li>
+                </ol>
+
+                <h2>Next Steps</h2>
+                <ul>
+                    <li>Read the <a href="/docs/architecture.html">Architecture</a> overview</li>
+                    <li>Study the <a href="https://github.com/NeoDonkey/NeoDonkey-ERP/blob/main/neodonkey-manifesto.md">Manifesto</a></li>
+                    <li>Understand <a href="https://github.com/NeoDonkey/NeoDonkey-ERP/blob/main/docs/COMPROMISES.md">what v0.1 does not do</a></li>
+                </ul>
+            </div>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <p>NeoDonkey — The ERP that belongs to you. And to Europe.</p>
+        <p><a href="https://github.com/NeoDonkey/NeoDonkey-ERP">GitHub</a> · <a href="https://x.com/neodonkey">X</a></p>
+    </footer>
+</body>
+</html>

@@ -9,10 +9,11 @@
 
 import { CopilotPanel } from './copilot/copilotPanel';
 import { hasExistingIdentity } from './erp/workspace';
-import '@fontsource-variable/inter';
-import '@fontsource/jetbrains-mono/400.css';
-import '@fontsource/jetbrains-mono/500.css';
-import './style.css';
+
+// No webfont is loaded, on purpose. This product ships zero dependencies, and a page that pulled
+// three font files in order to say so would be arguing with itself. The type stack lives in
+// brand/tokens.css. See brand/STYLEGUIDE.md section 4.
+
 
 const ERP_URL = new URL('erp/index.html', document.baseURI).href;
 

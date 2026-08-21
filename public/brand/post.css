@@ -1,0 +1,79 @@
+/* ============================================================================
+   Post styles. Shared by every article and by blog/_template.html.
+   Depends on brand/tokens.css for every colour and every size. Nothing here
+   hardcodes a value; change tokens.css and the archive follows.
+   ========================================================================= */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: var(--font-body); font-size: var(--t-body); line-height: 1.72;
+  -webkit-font-smoothing: antialiased;
+}
+.shell { width: min(100% - 2.5rem, 720px); margin-inline: auto; }
+a { color: inherit; }
+
+.nav { position: sticky; top: 0; z-index: 20; height: 64px; display: flex; align-items: center;
+       background: color-mix(in srgb, var(--paper) 88%, transparent);
+       backdrop-filter: saturate(180%) blur(14px); border-bottom: 1px solid var(--rule); }
+.nav__in { display: flex; align-items: center; justify-content: space-between; width: min(100% - 2.5rem, var(--shell)); margin-inline: auto; }
+.brand { display: flex; align-items: center; gap: .6rem; text-decoration: none; font-weight: 640; letter-spacing: -.015em; }
+.brand img { height: 28px; width: 28px; display: block; border-radius: 7px; }
+.nav__links { display: flex; gap: 1.6rem; font-size: var(--t-small); }
+.nav__links a { color: var(--ink-soft); text-decoration: none; }
+.nav__links a:hover { color: var(--ink); }
+
+article { padding-block: clamp(3rem, 7vw, 5rem) var(--section); }
+.meta { font-family: var(--font-mono); font-size: var(--t-micro); color: var(--ink-faint); letter-spacing: .02em; }
+h1 { font-family: var(--font-display); font-weight: 620; font-size: clamp(2.1rem, 4.6vw, 3.2rem);
+     line-height: 1.06; letter-spacing: -.032em; margin: 1rem 0 1.1rem; }
+.dek { font-size: 1.16rem; color: var(--ink-soft); margin: 0 0 2.5rem; }
+
+article h2 { font-family: var(--font-display); font-weight: 620; font-size: 1.5rem; letter-spacing: -.02em;
+             line-height: 1.2; margin: 3rem 0 .9rem; }
+article h3 { font-family: var(--font-display); font-weight: 620; font-size: 1.15rem; margin: 2.2rem 0 .6rem; }
+article p { margin: 0 0 1.35rem; }
+article ul, article ol { margin: 0 0 1.35rem; padding-left: 1.2rem; color: var(--ink-soft); }
+article li { margin-bottom: .5rem; }
+article a { color: var(--accent); text-underline-offset: 3px; }
+
+blockquote { margin: 2rem 0; padding-left: 1.2rem; border-left: 2px solid var(--accent);
+             color: var(--ink-soft); font-size: 1.08rem; }
+
+pre { background: var(--paper-sunk); border: 1px solid var(--rule); border-radius: var(--r-lg);
+      padding: 1.1rem 1.25rem; overflow-x: auto; font-family: var(--font-mono);
+      font-size: .82rem; line-height: 1.8; margin: 0 0 1.6rem; }
+code { font-family: var(--font-mono); font-size: .88em; }
+p code, li code { background: var(--accent-wash); color: var(--accent); padding: .1em .35em; border-radius: var(--r-sm); }
+pre code { background: none; color: inherit; padding: 0; }
+
+hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+.endnote { margin-top: 3.5rem; padding-top: 1.6rem; border-top: 1px solid var(--rule);
+           color: var(--ink-faint); font-size: var(--t-small); }
+.endnote a { color: var(--ink-soft); }
+
+.foot { border-top: 1px solid var(--rule); padding-block: 3rem; color: var(--ink-faint); font-size: var(--t-small); }
+.foot__in { display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+            width: min(100% - 2.5rem, var(--shell)); margin-inline: auto; }
+.foot a { color: var(--ink-soft); text-decoration: none; }
+
+/* ---- tables ---------------------------------------------------------------
+   Only the converted archive posts use these. A table can be wider than the
+   measure, so it scrolls inside its own rail and the page never does.        */
+.tablewrap { overflow-x: auto; margin: 2rem 0; border: 1px solid var(--rule);
+             border-radius: var(--r-lg); }
+.tablewrap::-webkit-scrollbar { height: 6px; }
+.tablewrap::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }
+table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: var(--t-small); }
+thead th { background: var(--paper-sunk); color: var(--ink); font-weight: 620; text-align: left;
+           font-size: var(--t-micro); letter-spacing: .04em; text-transform: uppercase;
+           padding: .85rem 1rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tbody td { padding: .85rem 1rem; border-bottom: 1px solid var(--rule); color: var(--ink-soft);
+           vertical-align: top; line-height: 1.6; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody td strong { color: var(--ink); }
+
+article h4 { font-family: var(--font-display); font-weight: 620; font-size: 1.02rem; margin: 1.8rem 0 .5rem; }
+article strong { color: var(--ink); font-weight: 620; }

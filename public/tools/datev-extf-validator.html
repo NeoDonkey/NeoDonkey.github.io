@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DATEV EXTF v700 Validator — NeoDonkey</title>
+<meta name="description" content="Validate and preview DATEV EXTF v700 files in your browser. Zero upload — everything runs locally.">
+<link rel="canonical" href="https://neodonkey.github.io/tools/datev-extf-validator.html">
+<link rel="icon" href="/brand/favicon.ico" sizes="any">
+<link rel="stylesheet" href="/brand/tokens.css">
+<style>
+body { font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 2rem; background: #0a0a0f; color: #e4e4e7; }
+.container { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+.subtitle { color: #a1a1aa; margin-bottom: 2rem; }
+.dropzone { border: 2px dashed #3f3f46; border-radius: 12px; padding: 3rem 2rem; text-align: center; cursor: pointer; transition: all 0.2s; background: #18181b; }
+.dropzone:hover, .dropzone.dragover { border-color: #f59e0b; background: #1f1f23; }
+.dropzone input { display: none; }
+.results { margin-top: 2rem; }
+.record { background: #18181b; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; border-left: 3px solid #22c55e; }
+.record.error { border-left-color: #ef4444; }
+.record-header { font-weight: 600; color: #f59e0b; margin-bottom: 0.5rem; }
+.field { display: grid; grid-template-columns: 250px 1fr; gap: 1rem; padding: 0.25rem 0; border-bottom: 1px solid #27272a; }
+.field:last-child { border-bottom: none; }
+.field-name { color: #a1a1aa; font-size: 0.875rem; }
+.field-value { font-family: ui-monospace, monospace; font-size: 0.875rem; }
+.stats { display: flex; gap: 2rem; margin-bottom: 2rem; }
+.stat { background: #18181b; padding: 1rem 1.5rem; border-radius: 8px; }
+.stat-value { font-size: 1.5rem; font-weight: 700; color: #f59e0b; }
+.stat-label { font-size: 0.875rem; color: #a1a1aa; }
+.footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #27272a; text-align: center; color: #71717a; font-size: 0.875rem; }
+.footer a { color: #f59e0b; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🔍 DATEV EXTF v700 Validator</h1>
+  <p class="subtitle">Drop a DATEV EXTF file to validate and preview its contents. <strong>Zero upload</strong> — everything runs in your browser.</p>
+
+  <div class="dropzone" id="dropzone">
+    <input type="file" id="fileInput" accept=".txt,.extf,.csv">
+    <div>📁 Drop DATEV file here or click to browse</div>
+    <div style="font-size: 0.875rem; color: #71717a; margin-top: 0.5rem;">Supports .txt, .extf files</div>
+  </div>
+
+  <div id="results" class="results" style="display: none;">
+    <div class="stats">
+      <div class="stat"><div class="stat-value" id="statRecords">0</div><div class="stat-label">Records</div></div>
+      <div class="stat"><div class="stat-value" id="statErrors">0</div><div class="stat-label">Errors</div></div>
+      <div class="stat"><div class="stat-value" id="statVersion">—</div><div class="stat-label">Version</div></div>
+    </div>
+    <div id="records"></div>
+  </div>
+
+  <div class="footer">
+    <p>Built by <a href="https://neodonkey.github.io">NeoDonkey</a> — Open-source ERP with native DATEV export</p>
+    <p><a href="https://github.com/NeoDonkey/NeoDonkey-ERP/blob/main/runtime/export/datev.js">View serializer source</a> · <a href="/blog/datev-extf-v700-zero-dependency-serializer.html">Read the technical deep-dive</a></p>
+  </div>
+</div>
+
+<script>
+// DATEV EXTF v700 column definitions (subset of most common fields)
+const COLUMNS = [
+  { name: 'Umsatz (ohne Soll/Haben-Kz)', pos: 0, len: 13 },
+  { name: 'Soll/Haben-Kennzeichen', pos: 13, len: 1 },
+  { name: 'WKZ Umsatz', pos: 14, len: 3 },
+  { name: 'Kurs', pos: 17, len: 12 },
+  { name: 'Basis-Umsatz', pos: 29, len: 13 },
+  { name: 'WKZ Basis-Umsatz', pos: 42, len: 3 },
+  { name: 'Konto', pos: 45, len: 9 },
+  { name: 'Gegenkonto (ohne BU-Schlüssel)', pos: 54, len: 9 },
+  { name: 'BU-Schlüssel', pos: 63, len: 2 },
+  { name: 'Belegdatum', pos: 65, len: 8 },
+  { name: 'Belegfeld 1', pos: 73, len: 12 },
+  { name: 'Belegfeld 2', pos: 85, len: 12 },
+  { name: 'Skonto', pos: 97, len: 11 },
+  { name: 'Buchungstext', pos: 108, len: 60 },
+  { name: 'Postensperre', pos: 168, len: 1 },
+  { name: 'Diverse Adressnummer', pos: 169, len: 9 },
+  { name: 'Geschäftspartnername', pos: 178, len: 40 },
+  { name: 'Adress-Typ', pos: 218, len: 1 },
+  { name: 'Straße', pos: 219, len: 36 },
+  { name: 'Postleitzahl', pos: 255, len: 10 },
+  { name: 'Ort', pos: 265, len: 40 },
+  { name: 'Land', pos: 305, len: 2 },
+  { name: 'Telefon', pos: 307, len: 16 },
+  { name: 'Bankschlüssel', pos: 323, len: 8 },
+  { name: 'Bankkonto', pos: 331, len: 10 },
+  { name: 'Bankleitzahl', pos: 341, len: 15 },
+  { name: 'IBAN', pos: 356, len: 34 },
+  { name: 'BIC', pos: 390, len: 11 },
+  { name: 'Leerfeld', pos: 401, len: 2 },
+  { name: 'Mandatsreferenz', pos: 403, len: 35 },
+  { name: 'Gläubiger-ID', pos: 438, len: 35 },
+  { name: 'Abw. Kontoinhaber', pos: 473, len: 70 },
+  { name: 'Zusatzinformationen', pos: 543, len: 140 },
+];
+
+function parseHeader(line) {
+  return {
+    format: line.substring(0, 4),
+    version: line.substring(4, 11).trim(),
+    producer: line.substring(11, 17).trim(),
+    consultant: line.substring(17, 22).trim(),
+    client: line.substring(22, 27).trim(),
+    fiscalYear: line.substring(27, 31).trim(),
+    batch: line.substring(31, 33).trim(),
+  };
+}
+
+function parseRecord(line) {
+  const record = {};
+  for (const col of COLUMNS) {
+    const val = line.substring(col.pos, col.pos + col.len).trim();
+    if (val) record[col.name] = val;
+  }
+  return record;
+}
+
+function validateFile(content) {
+  const lines = content.split('\n').filter(l => l.trim());
+  const results = { records: [], errors: [], version: null };
+
+  if (lines.length === 0) {
+    results.errors.push('File is empty');
+    return results;
+  }
+
+  // Parse header
+  const header = parseHeader(lines[0]);
+  if (header.format !== 'EXTF') {
+    results.errors.push(`Invalid format identifier: expected EXTF, got ${header.format || 'empty'}`);
+  }
+  results.version = header.version;
+
+  if (!/^700$/.test(header.version)) {
+    results.errors.push(`Version ${header.version} detected. This validator is built for EXTF v700.`);
+  }
+
+  results.records.push({ type: 'header', data: header, raw: lines[0] });
+
+  // Parse data records
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i];
+    if (line.trim().startsWith('#') || line.trim() === '') continue;
+
+    const record = parseRecord(line);
+    const hasAmount = record['Umsatz (ohne Soll/Haben-Kz)'];
+    const hasAccount = record['Konto'];
+
+    const errors = [];
+    if (!hasAmount) errors.push('Missing amount');
+    if (!hasAccount) errors.push('Missing account number');
+    if (!record['Belegdatum'] || !/^\d{8}$/.test(record['Belegdatum'])) {
+      errors.push('Invalid date format (expected DDMMYYYY)');
+    }
+
+    results.records.push({
+      type: 'booking',
+      data: record,
+      raw: line,
+      line: i + 1,
+      errors: errors
+    });
+
+    if (errors.length) {
+      results.errors.push(`Line ${i + 1}: ${errors.join(', ')}`);
+    }
+  }
+
+  return results;
+}
+
+function renderResults(results) {
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('statRecords').textContent = results.records.filter(r => r.type === 'booking').length;
+  document.getElementById('statErrors').textContent = results.errors.length;
+  document.getElementById('statVersion').textContent = results.version || '—';
+
+  const container = document.getElementById('records');
+  container.innerHTML = '';
+
+  for (const record of results.records) {
+    const div = document.createElement('div');
+    div.className = 'record' + (record.errors?.length ? ' error' : '');
+
+    if (record.type === 'header') {
+      div.innerHTML = `<div class="record-header">📋 Header Record</div>` +
+        Object.entries(record.data).map(([k, v]) =>
+          `<div class="field"><div class="field-name">${k}</div><div class="field-value">${v || '<em>empty</em>'}</div></div>`
+        ).join('');
+    } else {
+      const errorBadge = record.errors?.length ? `<span style="color:#ef4444">⚠ ${record.errors.join(', ')}</span>` : '<span style="color:#22c55e">✓ Valid</span>';
+      div.innerHTML = `<div class="record-header">📝 Booking Record (Line ${record.line}) — ${errorBadge}</div>` +
+        Object.entries(record.data).map(([k, v]) =>
+          `<div class="field"><div class="field-name">${k}</div><div class="field-value">${v}</div></div>`
+        ).join('');
+    }
+
+    container.appendChild(div);
+  }
+}
+
+// Event handlers
+const dropzone = document.getElementById('dropzone');
+const fileInput = document.getElementById('fileInput');
+
+dropzone.addEventListener('click', () => fileInput.click());
+
+dropzone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dropzone.classList.add('dragover');
+});
+
+dropzone.addEventListener('dragleave', () => {
+  dropzone.classList.remove('dragover');
+});
+
+dropzone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropzone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file) handleFile(file);
+});
+
+fileInput.addEventListener('change', (e) => {
+  if (e.target.files[0]) handleFile(e.target.files[0]);
+});
+
+function handleFile(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const content = e.target.result;
+    const results = validateFile(content);
+    renderResults(results);
+  };
+  reader.readAsText(file);
+}
+</script>
+
+</body>
+</html>

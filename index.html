@@ -1,477 +1,961 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LH0F5GVV3G"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-LH0F5GVV3G');
-  </script>
-  
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NeoDonkey — The ERP That Costs Zero. Forever. | Escape Vendor Lock-in</title>
-  <meta name="description" content="Your SAP alternative that runs in your browser, costs nothing, and belongs to you. No servers. No subscriptions. No vendor lock-in. EUPL-1.2 open source." />
-  <meta name="keywords" content="SAP alternative, Oracle alternative, open source ERP, free ERP, no subscription ERP, digital sovereignty, vendor lock-in escape" />
-  <meta name="author" content="NeoDonkey" />
-  <meta name="robots" content="index, follow" />
-  
-  <!-- Open Graph / Social -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://neodonkey.github.io/" />
-  <meta property="og:title" content="NeoDonkey — The ERP That Belongs To You" />
-  <meta property="og:description" content="A headless ERP with no server, no cloud and no vendor. Your company is a git repository in your own browser." />
-  <meta property="og:image" content="https://neodonkey.github.io/og-image.png" />
-  <meta property="og:site_name" content="NeoDonkey" />
-  
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://neodonkey.github.io/" />
-  <meta property="twitter:title" content="NeoDonkey — The ERP That Belongs To You" />
-  <meta property="twitter:description" content="A headless ERP with no server, no cloud and no vendor. Your company is a git repository in your own browser." />
-  <meta property="twitter:image" content="https://neodonkey.github.io/og-image.png" />
-  
-  <!-- Canonical -->
-  <link rel="canonical" href="https://neodonkey.github.io/" />
-  
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "NeoDonkey ERP",
-    "description": "A headless ERP with no server, no cloud and no vendor. Your company is a git repository in your own browser.",
-    "url": "https://neodonkey.github.io/",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "Any modern web browser",
-    "softwareVersion": "0.1",
-    "license": "https://github.com/NeoDonkey/NeoDonkey-ERP/blob/main/LICENSE",
-    "sourceOrganization": {
-      "@type": "Organization",
-      "name": "NeoDonkey",
-      "url": "https://neodonkey.github.io/"
-    },
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "EUR"
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NeoDonkey. Your next ERP is your last.</title>
+<meta name="description" content="Updates add, they never break, and a document written today still opens in thirty years. No migration project, no data centre, no integration project. From one laptop to ten thousand employees, the same system.">
+<link rel="canonical" href="https://neodonkey.github.io/">
+<meta property="og:title" content="Your next ERP is your last.">
+<meta property="og:description" content="Updates add, they never break, and a document written today still opens in thirty years. There is no next migration.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://neodonkey.github.io/">
+<meta property="og:image" content="https://neodonkey.github.io/brand/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@neodonkey">
+<link rel="icon" href="/brand/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/brand/mark-180.png">
+<link rel="stylesheet" href="/brand/tokens.css">
+<link rel="stylesheet" href="/brand/app.css">
+<script src="/analytics.js"></script>
+<style>
+/* ==========================================================================
+   Landing. Native CSS, no framework, no build step.
+   The application shell is styled by brand/app.css and owned by src/main.ts.
+
+   Four diagrams carry the argument, and each one animates because the thing it
+   is describing is a thing that happens over time: a machine dropping out, a
+   document surviving a version change, a translation at a boundary, an
+   interface being replaced. A still picture of any of those is just a chart.
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: var(--font-body); font-size: var(--t-body); line-height: 1.6;
+  -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+.shell { width: min(100% - 2.5rem, var(--shell)); margin-inline: auto; }
+a { color: inherit; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 680; margin: 0; }
+
+/* ---- nav ---------------------------------------------------------------- */
+.nav { position: sticky; top: 0; z-index: 30; height: 66px; display: flex; align-items: center;
+       background: color-mix(in srgb, var(--paper) 86%, transparent);
+       backdrop-filter: saturate(180%) blur(16px); border-bottom: 1px solid var(--rule); }
+.nav__in { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+.brand { display: flex; align-items: center; gap: .65rem; text-decoration: none; font-weight: 700;
+         letter-spacing: -.02em; font-size: 1.06rem; }
+.brand img { height: 30px; width: 30px; display: block; border-radius: 8px; }
+.nav__right { display: flex; align-items: center; gap: 1.5rem; font-size: var(--t-small); }
+.nav__right a { color: var(--ink-soft); text-decoration: none; transition: color .18s var(--ease); }
+.nav__right a:hover { color: var(--ink); }
+@media (max-width: 980px) { .nav__right a.opt { display: none; } }
+
+/* ---- buttons ------------------------------------------------------------ */
+.btn { display: inline-flex; align-items: center; gap: .5rem; justify-content: center; white-space: nowrap;
+       padding: .9rem 1.6rem; border-radius: var(--r-md); font-family: inherit; font-size: 1rem;
+       font-weight: 620; text-decoration: none; cursor: pointer; border: 1px solid transparent;
+       transition: transform .16s var(--ease), background .2s var(--ease), border-color .2s var(--ease); }
+/* Doubled class on purpose. `.nav__right a` is a class plus a type selector, so it
+   outranks a single class and would otherwise paint the nav CTA's label soft violet on
+   cyan. Caught by reading the computed colour, not by looking at it. */
+.btn.btn--primary { background: var(--btn-bg); color: var(--btn-ink); }
+.btn.btn--primary:hover { background: color-mix(in srgb, var(--btn-bg) 88%, var(--ink)); }
+.btn.btn--ghost { border-color: var(--rule); color: var(--ink); }
+.btn.btn--ghost:hover { border-color: var(--accent); color: var(--accent); }
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.btn--sm { padding: .55rem 1.05rem; font-size: var(--t-small); }
+
+/* ---- section furniture -------------------------------------------------- */
+.section { padding-block: var(--section); border-top: 1px solid var(--rule); }
+.band { background: var(--paper-sunk); border-block: 1px solid var(--rule); padding-block: var(--section); }
+.kicker { font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: .12em;
+          text-transform: uppercase; color: var(--accent); margin-bottom: 1.1rem; }
+h2 { font-size: var(--t-h2); line-height: 1.04; letter-spacing: -.038em; max-width: 19ch; }
+.lede { color: var(--ink-soft); max-width: var(--measure); margin: 1.2rem 0 0; font-size: 1.1rem; }
+.note { color: var(--ink-faint); font-size: var(--t-small); max-width: var(--measure); margin-top: 1.4rem; }
+.head2 { display: grid; grid-template-columns: 1.25fr 1fr; gap: clamp(1.5rem, 4vw, 3.5rem); align-items: end; }
+@media (max-width: 900px) { .head2 { grid-template-columns: 1fr; } .head2 .lede { margin-top: 1rem; } }
+
+/* ---- hero --------------------------------------------------------------- */
+.hero { padding-top: clamp(2.5rem, 6vw, 4.5rem); padding-bottom: clamp(3rem, 6vw, 4.5rem); }
+.hero__grid { display: grid; grid-template-columns: 1.02fr 1fr; gap: clamp(2rem, 4vw, 3.5rem); align-items: center; }
+@media (max-width: 980px) { .hero__grid { grid-template-columns: 1fr; } }
+.hero h1 { font-size: clamp(2.8rem, 6.6vw, 5.6rem); line-height: .96; letter-spacing: -.048em;
+           margin-bottom: 1.4rem; max-width: 13ch; }
+.hero h1 .glow { color: var(--accent); }
+.hero__sub { font-size: clamp(1.08rem, 1.5vw, 1.3rem); color: var(--ink-soft); max-width: 52ch;
+             margin: 0 0 2.2rem; line-height: 1.55; }
+.hero__cta { display: flex; gap: .8rem; flex-wrap: wrap; align-items: center; }
+.hero__note { margin-top: 1.1rem; font-size: var(--t-small); color: var(--ink-faint); }
+
+/* ---- diagrams, shared --------------------------------------------------- */
+.dia { width: 100%; height: auto; display: block; overflow: visible; }
+.dia text { font-family: var(--font-mono); }
+.dia .lbl { fill: var(--ink-faint); font-size: 12px; }
+.dia .lbl-on { fill: var(--accent); font-size: 12px; }
+.dia .lbl-lg { fill: var(--ink-soft); font-size: 13px; }
+.dia .wire { stroke: var(--rule); stroke-width: 1.4; fill: none; }
+.dia .wire-on { stroke: var(--accent); stroke-width: 1.6; fill: none; opacity: .4; }
+.dia .box { fill: none; stroke: var(--rule); stroke-width: 1.3; }
+.dia .box-on { fill: none; stroke: var(--accent); stroke-width: 1.5; }
+.dia .fillsoft { fill: var(--paper-sunk); }
+.dia .dot { fill: var(--accent); }
+.dia .dot-off { fill: none; stroke: var(--ink-faint); stroke-width: 1.4; }
+/* The three wide diagrams carry mono labels sized for a 900 unit viewBox. Below about
+   720px the whole thing scales past the point of being readable, so instead of shrinking
+   it we let it keep its size and scroll inside its own rail. The page never scrolls
+   sideways; only the rail does. */
+.diarail { overflow-x: auto; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; }
+.diarail > .dia { min-width: 760px; }
+.diarail::-webkit-scrollbar { height: 6px; }
+.diarail::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }
+.diarail + .railnote { display: none; font-family: var(--font-mono); font-size: var(--t-micro);
+                       color: var(--ink-faint); margin: .6rem 0 0; }
+@media (max-width: 780px) { .diarail + .railnote { display: block; } }
+
+.diacap { display: flex; gap: 1.4rem; flex-wrap: wrap; margin-top: 1rem; font-size: var(--t-micro);
+          color: var(--ink-faint); font-family: var(--font-mono); }
+.diacap b { color: var(--accent); font-weight: 500; }
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes draw    { to { stroke-dashoffset: 0; } }
+  @keyframes pop     { to { opacity: 1; } }
+  @keyframes travel  { 0% { offset-distance: 0%; } 100% { offset-distance: 100%; } }
+}
+
+/* ---- diagram 1: the mesh ------------------------------------------------ */
+.mesh .edge { stroke: var(--rule); stroke-width: 1.4; fill: none; }
+.mesh .edge.live { stroke: var(--accent); opacity: .34; }
+.mesh .node { fill: var(--paper-sunk); stroke: var(--accent); stroke-width: 1.6; }
+.mesh .core { fill: var(--accent); stroke: none; }
+/* The mesh sits in the narrow hero column, so its viewBox scales down by about a
+   third. These sizes are set for the rendered result, not for the coordinate space. */
+.mesh .lbl { fill: var(--ink-faint); font-size: 16px; }
+.mesh .pulse { fill: var(--accent); }
+.mesh .halo { fill: var(--accent); opacity: .1; }
+/* The field is the rest of the company. It is not labelled and not meant to be
+   counted: it is there so the labelled machines read as a sample of something larger. */
+.mesh .field circle { fill: var(--accent); opacity: .38; }
+.mesh .field path { stroke: var(--accent); stroke-width: .9; fill: none; opacity: .16; }
+.mesh .verdict { fill: var(--accent); font-size: 21px; opacity: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .mesh .edge { stroke-dasharray: 260; stroke-dashoffset: 260; animation: draw 1.1s var(--ease) forwards; }
+  .mesh .node, .mesh .lbl { opacity: 0; animation: pop .5s var(--ease) forwards; }
+  .mesh .pulse { animation: travel 3.4s linear infinite; }
+  .mesh .halo { animation: breathe 3.6s ease-in-out infinite; }
+  .mesh .field circle { opacity: 0; animation: settle .9s var(--ease) forwards; }
+  .mesh .field path { stroke-dasharray: 90; stroke-dashoffset: 90;
+                      animation: draw 1.4s var(--ease) 1.1s forwards; }
+  /* One machine drops out and the mesh carries on. This is the whole point of the picture,
+     so it is annotated: the sentence appears exactly while the node is dark. */
+  .mesh .faulty  { animation: fail 9s ease-in-out infinite; }
+  .mesh .reroute { animation: draw 1.1s var(--ease) forwards, rerouted 9s ease-in-out infinite; }
+  .mesh .verdict { animation: verdict 9s ease-in-out infinite; }
+  @keyframes breathe { 0%,100% { opacity: .07; transform: scale(1); } 50% { opacity: .16; transform: scale(1.06); } }
+  @keyframes settle  { to { opacity: .38; } }
+  @keyframes fail    { 0%,50% { opacity: 1; } 57%,84% { opacity: .16; } 92%,100% { opacity: 1; } }
+  @keyframes rerouted{ 0%,53% { opacity: .34; stroke-width: 1.4; } 61%,82% { opacity: .95; stroke-width: 3; } 91%,100% { opacity: .34; stroke-width: 1.4; } }
+  @keyframes verdict { 0%,55% { opacity: 0; } 63%,80% { opacity: 1; } 88%,100% { opacity: 0; } }
+}
+.mesh .pulse { offset-rotate: 0deg; }
+.mesh .p1 { offset-path: path('M 250 240 L 430 270'); }
+.mesh .p2 { offset-path: path('M 430 270 L 610 240'); animation-delay: .7s; }
+.mesh .p3 { offset-path: path('M 430 270 L 340 450'); animation-delay: 1.4s; }
+.mesh .p4 { offset-path: path('M 610 240 L 700 440'); animation-delay: 2.1s; }
+.mesh .p5 { offset-path: path('M 250 240 L 160 420'); animation-delay: 2.8s; }
+.mesh .p6 { offset-path: path('M 470 130 L 430 270'); animation-delay: 1.0s; }
+
+/* ---- diagram 2: two lanes through time ---------------------------------- */
+.lanes .lane { stroke: var(--rule); stroke-width: 1.4; }
+.lanes .lane-on { stroke: var(--accent); stroke-width: 1.6; opacity: .5; }
+.lanes .tick { stroke: var(--rule); stroke-width: 1.2; }
+.lanes .tick-on { stroke: var(--accent); stroke-width: 1.2; opacity: .45; }
+.lanes .wall { stroke: var(--ink-faint); stroke-width: 3.4; }
+.lanes .barred { stroke: var(--ink-faint); stroke-width: 1.6; opacity: .8; }
+.lanes .guide { stroke: var(--rule); stroke-width: 1; stroke-dasharray: 2 6; }
+.lanes .stopped { fill: var(--ink-soft); font-size: 12px; opacity: 0; }
+.lanes .wallcap { fill: var(--ink-faint); font-size: 10.5px; }
+.lanes .doc { fill: var(--ink-faint); }
+.lanes .doc-on { fill: var(--accent); }
+.lanes .laneName { fill: var(--ink-soft); font-size: 12.5px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The dead lane's document sets off and is stopped by the first wall. It never arrives,
+     which is the whole argument, so its keyframes stall against the barrier and the word
+     appears at the moment of impact rather than sitting there as a caption. */
+  .lanes .doc { animation: stall 6s cubic-bezier(.25,.8,.35,1) infinite; }
+  .lanes .doc-on { animation: travel 6s linear infinite; }
+  .lanes .stopped { animation: stopped 6s ease-in-out infinite; }
+  .lanes .wall { stroke-dasharray: 60; stroke-dashoffset: 60; animation: draw .6s var(--ease) forwards; }
+  @keyframes stall {
+    0%    { offset-distance: 0%;   opacity: 0; }
+    5%    { offset-distance: 1%;   opacity: 1; }
+    38%   { offset-distance: 24%;  opacity: 1; }
+    41%   { offset-distance: 23.2%; opacity: 1; }
+    44%   { offset-distance: 24%;  opacity: 1; }
+    47%   { offset-distance: 23.4%; opacity: 1; }
+    52%   { offset-distance: 24%;  opacity: 1; }
+    72%   { offset-distance: 24%;  opacity: 1; }
+    84%   { offset-distance: 24%;  opacity: 0; }
+    100%  { offset-distance: 24%;  opacity: 0; }
   }
-  </script>
-  
-  <meta name="theme-color" content="#ff2d95" />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2307070f'/%3E%3Cpath d='M13.5 12.5 L11.8 5.4 C11.6 4 13 3.2 13.9 4.1 L15.6 5.9 L15.8 12.5 Z' fill='%23ff2d95'/%3E%3Cpath d='M18.5 12.5 L20.2 5.4 C20.4 4 19 3.2 18.1 4.1 L16.4 5.9 L16.2 12.5 Z' fill='%2300f0ff'/%3E%3Cpath d='M8.5 12.5 L8.5 15.5 C8.5 23.5 11 26.5 16 26.5 C21 26.5 23.5 23.5 23.5 15.5 L23.5 12.5 C23.5 11.4 22.6 10.6 21.5 10.6 L10.5 10.6 C9.4 10.6 8.5 11.4 8.5 12.5 Z' fill='url(%23g)'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='8.5' y1='12.5' x2='23.5' y2='26.5'%3E%3Cstop stop-color='%23ff2d95'/%3E%3Cstop offset='1' stop-color='%2300f0ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='12.5' cy='16.5' r='1.2' fill='%2307070f'/%3E%3Ccircle cx='19.5' cy='16.5' r='1.2' fill='%2307070f'/%3E%3Crect x='13.5' y='19.5' width='5' height='3.6' rx='1.8' fill='%23ff2d95' opacity='0.5'/%3E%3C/svg%3E" />
-  <link rel="stylesheet" href="/style.css" />
-</head>
-<body>
-
-  <!-- ============ MARKETING LANDING ============
-
-       Nothing on this page is a picture of the product. The ERP is behind the log-in button and
-       nowhere else: a screenshot of an ERP is the one thing every ERP vendor's website already
-       has, and this one can hand over the real thing in ten seconds instead. -->
-  <div id="landing-root">
-
-    <header class="site-nav">
-      <div class="container site-nav__inner">
-        <a class="brand" href="#top" aria-label="NeoDonkey — back to top">
-          <svg class="brand__mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <rect width="32" height="32" rx="8" fill="#07070f"/>
-            <path d="M13.5 12.5 L11.8 5.4 C11.6 4 13 3.2 13.9 4.1 L15.6 5.9 L15.8 12.5 Z" fill="#ff2d95"/>
-            <path d="M18.5 12.5 L20.2 5.4 C20.4 4 19 3.2 18.1 4.1 L16.4 5.9 L16.2 12.5 Z" fill="#00f0ff"/>
-            <path d="M8.5 12.5 L8.5 15.5 C8.5 23.5 11 26.5 16 26.5 C21 26.5 23.5 23.5 23.5 15.5 L23.5 12.5 C23.5 11.4 22.6 10.6 21.5 10.6 L10.5 10.6 C9.4 10.6 8.5 11.4 8.5 12.5 Z" fill="url(#g)"/>
-            <defs><linearGradient id="g" x1="8.5" y1="12.5" x2="23.5" y2="26.5"><stop stop-color="#ff2d95"/><stop offset="1" stop-color="#00f0ff"/></linearGradient></defs>
-            <circle cx="12.5" cy="16.5" r="1.2" fill="#07070f"/>
-            <circle cx="19.5" cy="16.5" r="1.2" fill="#07070f"/>
-            <rect x="13.5" y="19.5" width="5" height="3.6" rx="1.8" fill="#ff2d95" opacity="0.5"/>
-          </svg>
-          <span class="brand__name">NeoDonkey</span>
-        </a>
-
-        <nav class="site-nav__links" aria-label="Primary">
-          <a class="site-nav__link" href="/compare/sap.html">vs SAP</a>
-          <a class="site-nav__link" href="/compare/odoo.html">vs Odoo</a>
-          <a class="site-nav__link" href="/compare/dynamics.html">vs Dynamics</a>
-          <a class="site-nav__link" href="/compare/netsuite.html">vs NetSuite</a>
-          <a class="site-nav__link" href="/compare/erpnext.html">vs ERPNext</a>
-          <a class="site-nav__link" href="/compare/infor.html">vs Infor</a>
-          <a class="site-nav__link" href="/compare/workday.html">vs Workday</a>
-          <a class="site-nav__link" href="/compare/epicor.html">vs Epicor</a>
-          <a class="site-nav__link" href="/compare/sage.html">vs Sage</a>
-          <a class="site-nav__link" href="/compare/acumatica.html">vs Acumatica</a>
-          <a class="site-nav__link" href="/compare/ifs.html">vs IFS</a>
-          <a class="site-nav__link" href="/compare/syspro.html">vs SYSPRO</a>
-          <a class="site-nav__link" href="/compare/unit4.html">vs Unit4</a>
-          <a class="site-nav__link" href="/compare/exact.html">vs Exact</a>
-          <a class="site-nav__link" href="/compare/qad.html">vs QAD</a>
-          <a class="site-nav__link" href="/compare/deltek.html">vs Deltek</a>
-          <a class="site-nav__link" href="/compare/priority.html">vs Priority</a>
-          <a class="site-nav__link" href="/compare/abas.html">vs abas</a>
-          <a class="site-nav__link" href="/compare/proalpha.html">vs ProAlpha</a>
-          <a class="site-nav__link" href="/pricing.html">Pricing</a>
-          <a class="site-nav__link" href="/blog/">Blog</a>
-          <a class="site-nav__link" href="https://github.com/NeoDonkey/NeoDonkey-ERP" target="_blank" rel="noopener">GitHub</a>
-        </nav>
-
-        <button class="btn btn-primary" id="nav-login-btn" data-login>Log in</button>
-      </div>
-    </header>
-
-    <main id="top">
-      <section class="hero">
-        <div class="hero__bg"></div>
-        <div class="hero__grid"></div>
-        <div class="hero__glow hero__glow--1"></div>
-        <div class="hero__glow hero__glow--2"></div>
-        <div class="container hero__inner">
-          <div class="hero__copy">
-            <span class="eyebrow" style="font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.15em;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:14px;height:14px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-              HEADLESS OPEN-SOURCE ERP
-            </span>
-            <h1>Escape Proprietary ERP Lock-In.<br><em>Scale Ledger Databases on Your Own Infrastructure.</em></h1>
-            <p class="hero__lead">
-              Automate multi-entity transactions and sync regional ledgers in real-time with a modern headless API — without paying a per-seat tax.
-            </p>
-            <div class="hero__actions">
-              <button class="btn btn-primary btn-lg" id="hero-login-btn" data-login style="background: linear-gradient(135deg, var(--cyan), #0891b2); box-shadow: 0 4px 20px rgba(0, 240, 255, 0.3);">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Deploy Locally
-              </button>
-              <a class="btn btn-ghost btn-lg" href="mailto:hallo@lilazebra.de?subject=NeoDonkey System Architecture Audit">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                Book System Audit
-              </a>
-            </div>
-            <div class="hero__trust" style="display: flex; gap: 24px; flex-wrap: wrap; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--surface-border);">
-              <span style="font-size: 0.8125rem; color: var(--text-3); display: flex; align-items: center; gap: 6px;">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14" style="color: var(--pink);"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                4.8★ on GitHub
-              </span>
-              <span style="font-size: 0.8125rem; color: var(--text-3); display: flex; align-items: center; gap: 6px;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                EUPL-1.2 Licensed
-              </span>
-              <span style="font-size: 0.8125rem; color: var(--text-3); display: flex; align-items: center; gap: 6px;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                SOC 2 Compliant
-              </span>
-            </div>
-          </div>
-
-          <!-- Interactive code preview -->
-          <div class="hero__visual">
-            <figure class="hero-card" style="background: rgba(11, 14, 18, 0.9); border: 1px solid rgba(0, 240, 255, 0.1);">
-              <div class="hero-card__header" style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                <span class="hero-card__dot" style="background: var(--pink);"></span>
-                <span class="hero-card__dot" style="background: var(--cyan);"></span>
-                <span class="hero-card__dot" style="background: var(--purple);"></span>
-                <h4 style="color: var(--cyan); font-family: var(--font-mono);">ledger.config.js</h4>
-              </div>
-              <pre style="margin: 0; padding: 20px 0; font-family: var(--font-mono); font-size: 0.8125rem; line-height: 1.8; color: var(--text-2); overflow-x: auto;"><code style="background: transparent; padding: 0;"><span style="color: var(--cyan);">import</span> { Company } <span style="color: var(--cyan);">from</span> <span style="color: var(--pink);">'@neodonkey/core'</span>;
-
-<span style="color: var(--text-3);">// Initialize with your operating model</span>
-<span style="color: var(--cyan);">const</span> company = <span style="color: var(--cyan);">await</span> Company.<span style="color: var(--cyan);">open</span>({
-  name: <span style="color: var(--pink);">'ACME Corp'</span>,
-  currency: <span style="color: var(--pink);">'EUR'</span>,
-  entities: [<span style="color: var(--pink);">'DE'</span>, <span style="color: var(--pink);">'FR'</span>, <span style="color: var(--pink);">'ES'</span>],
-  sync: <span style="color: var(--purple);">true</span>
-});
-
-<span style="color: var(--text-3);">// Every transaction is a signed git commit</span>
-<span style="color: var(--cyan);">await</span> company.invoice.<span style="color: var(--cyan);">create</span>({
-  customer: <span style="color: var(--pink);">'Global Logistics GmbH'</span>,
-  amount: <span style="color: var(--purple);">125000</span>,
-  currency: <span style="color: var(--pink);">'EUR'</span>
-});
-
-<span style="color: var(--text-3);">// Sync across regions in real-time</span>
-<span style="color: var(--cyan);">await</span> company.sync.<span style="color: var(--cyan);">push</span>();</code></pre>
-              <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; gap: 12px; align-items: center;">
-                <span style="font-size: 0.6875rem; color: var(--text-3); font-family: var(--font-mono);">$ git log --oneline</span>
-                <span style="font-size: 0.6875rem; color: var(--cyan); font-family: var(--font-mono);">a3f7d2e feat: invoice INV-2026-0819-001</span>
-              </div>
-            </figure>
-          </div>
-        </div>
-      </section>
-
-      <section class="trust">
-        <div class="container trust__inner">
-          <span class="trust__label">Built on</span>
-          <span class="trust__item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
-            Git, implemented in the runtime
-          </span>
-          <span class="trust__item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true"><line x1="22" y1="12" x2="2" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" y1="16" x2="6.01" y2="16"/><line x1="10" y1="16" x2="10.01" y2="16"/></svg>
-            Origin Private File System
-          </span>
-          <span class="trust__item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg>
-            WebGPU
-          </span>
-          <span class="trust__item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            Ed25519 signatures
-          </span>
-        </div>
-      </section>
-
-      <section class="pain-section">
-        <div class="container">
-          <h2>The ERP Industry Runs on <span class="gradient-text">Fear</span></h2>
-          <p>Three ways the big vendors keep you paying — and how NeoDonkey breaks the cycle.</p>
-          <div class="pain-grid">
-            <div class="pain-card">
-              <div class="pain-card__icon">🔒</div>
-              <h3>The Upgrade Hostage Crisis</h3>
-              <p>SAP ends support for your version. Your choice: pay €200K-€500K for the "upgrade" or lose security patches. This isn't maintenance. It's rent extraction with a gun to your head.</p>
-            </div>
-            <div class="pain-card">
-              <div class="pain-card__icon">💸</div>
-              <h3>The Hidden Subscription Tax</h3>
-              <p>That €50/user/month "cloud ERP"? It's €30K/year for a 50-person company. Forever. And they can raise prices whenever they want. You're not a customer. You're a revenue stream.</p>
-            </div>
-            <div class="pain-card">
-              <div class="pain-card__icon">🗄️</div>
-              <h3>The Data Lock-in Trap</h3>
-              <p>Your company's entire history lives in proprietary formats. Want to leave? That'll be €40K for the "data extraction service." And good luck translating those custom reports.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="how" class="steps-section">
-        <div class="container">
-          <header class="section-head">
-            <span class="eyebrow">How it works</span>
-            <h2>Log in, and the company is already there</h2>
-            <p>The whole of it happens on your machine, in the order below, and you can watch it happen in about ten seconds.</p>
-          </header>
-
-          <div class="steps">
-            <article class="step">
-              <span class="step__num">1</span>
-              <h3>You type your name</h3>
-              <p>That is the entire log-in. The browser generates an Ed25519 key pair whose private half cannot be exported, and that key is who you are from then on.</p>
-            </article>
-            <article class="step">
-              <span class="step__num">2</span>
-              <h3>A company is written</h3>
-              <p>The runtime reads an operating model — processes, roles, record types, written as markdown — and commits a working company into a git repository in your browser.</p>
-            </article>
-            <article class="step">
-              <span class="step__num">3</span>
-              <h3>You work, and it commits</h3>
-              <p>Every change is an atomic, signed commit. The log is a real git log, and the software is just something that reads and writes the folder.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="tco-section">
-        <div class="container">
-          <h2>5-Year Total Cost of <span class="gradient-text">Ownership</span></h2>
-          <p>Real numbers for a 50-person company. No tricks.</p>
-          <div class="tco-grid">
-            <div class="tco-card">
-              <div class="cost cost-sap">€850K</div>
-              <div class="label">SAP Business One</div>
-            </div>
-            <div class="tco-card">
-              <div class="cost cost-odoo">€60K</div>
-              <div class="label">Odoo Enterprise</div>
-            </div>
-            <div class="tco-card">
-              <div class="cost cost-erpnext">€24K</div>
-              <div class="label">ERPNext</div>
-            </div>
-            <div class="tco-card neon">
-              <div class="cost cost-neo">€0</div>
-              <div class="label">NeoDonkey</div>
-            </div>
-          </div>
-          <div style="text-align:center;">
-            <a class="btn btn-secondary" href="/pricing.html">See the full breakdown →</a>
-          </div>
-        </div>
-      </section>
-
-      <section id="features" class="features-section">
-        <div class="container">
-          <header class="section-head">
-            <span class="eyebrow">Why NeoDonkey</span>
-            <h2>The properties fall out of the architecture</h2>
-            <p>The core is headless and dependency-free. This site is one head among many — it exists to show what a richer one can do, and the plain one ships with the product.</p>
-          </header>
-
-          <div class="feature-grid">
-            <article class="feature-card">
-              <div class="feature-card__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-              </div>
-              <h3>Headless by construction</h3>
-              <p>A zero-dependency ES-module core with no framework and no vendor. Attach the vanilla UI, this site, or a head of your own — the core cannot tell the difference.</p>
-            </article>
-
-            <article class="feature-card">
-              <div class="feature-card__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
-              </div>
-              <h3>Git is the database</h3>
-              <p>Not "backed up to git" — the repository <em>is</em> the system of record, with history, signatures and merges that any git client on earth can read.</p>
-            </article>
-
-            <article class="feature-card">
-              <div class="feature-card__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              </div>
-              <h3>Signed, not permissioned</h3>
-              <p>Every commit carries the author's signature. Authority is something you can verify from the repository, not a row in somebody else's access table.</p>
-            </article>
-
-            <article class="feature-card">
-              <div class="feature-card__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-              </div>
-              <h3>A Copilot with nowhere to send anything</h3>
-              <p>Where the hardware allows, a quantised model runs on your GPU, reads the repository, and answers by generating an interface. No API, no key, no request.</p>
-            </article>
-
-            <article class="feature-card">
-              <div class="feature-card__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              </div>
-              <h3>Nothing to be locked out of</h3>
-              <p>The repository is a folder. Copy it to a USB stick and the whole system — data, history and the code that reads it — goes with you.</p>
-            </article>
-
-            <article class="feature-card">
-              <div class="feature-card__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-              </div>
-              <h3>European, and licensed to stay that way</h3>
-              <p>EUPL-1.2. No servers to host, nothing to scale, nothing to pay for — for you or for us.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="copilot" class="section">
-        <div class="container copilot-banner">
-          <div class="copilot-banner__copy">
-            <p class="section__eyebrow">In-browser Copilot</p>
-            <h2 class="section__title">Ask your company a question. Watch the interface build itself.</h2>
-            <p class="section__lede">
-              A small quantised model is downloaded once and compiled to your GPU's own shaders.
-              It reads the repository at its current commit and answers with
-              <a href="https://a2ui.org/" target="_blank" rel="noopener">A2UI</a> — a JSON
-              description of an interface, which this site turns into DOM. It is offered only
-              where the hardware supports it, and it is never required.
-            </p>
-            <ul class="copilot-banner__list">
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="17" height="17" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                Runs on your own graphics hardware over WebGPU
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="17" height="17" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                Output constrained by a grammar, then sanitised, then rendered
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="17" height="17" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                Weights fetched once, kept in this browser, deletable in one click
-              </li>
-            </ul>
-          </div>
-
-          <!-- The format, stated. Not a transcript of a session that never happened. -->
-          <figure class="a2ui-sample">
-            <figcaption>What the model is allowed to emit</figcaption>
-            <pre><code>{
-  "title": "Open amounts by supplier",
-  "layout": {
-    "type": "Container",
-    "children": [
-      { "type": "Metric",
-        "label": "Open total",
-        "value": "33 405.00 EUR" },
-      { "type": "Chart",
-        "chartType": "bar",
-        "data": [ … ] }
-    ]
+  @keyframes stopped {
+    0%,40%   { opacity: 0; }
+    50%,74%  { opacity: 1; }
+    84%,100% { opacity: 0; }
   }
-}</code></pre>
-            <p class="a2ui-sample__note">
-              The renderer that turns this into DOM is a few hundred lines in this repository. It
-              knows what a table is; it has never heard of an invoice.
-            </p>
-          </figure>
-        </div>
-      </section>
+}
+.lanes .doc, .lanes .doc-on { offset-rotate: 0deg; }
+.lanes .d1 { offset-path: path('M 92 128 L 848 128'); }
+.lanes .f1 { offset-path: path('M 92 288 L 848 288'); }
+.lanes .f2 { offset-path: path('M 848 288 L 92 288'); animation-delay: 3.5s; }
 
-      <section class="cta-section">
-        <div class="container">
-          <div class="cta-card">
-            <h2>Open a company in ten seconds.</h2>
-            <p>No account, no install, no server. Type your name, and a signed git repository with a working company in it appears in this browser.</p>
-            <div class="hero__actions" style="justify-content:center;">
-              <button class="btn btn-primary btn-lg" id="cta-login-btn" data-login>Log in</button>
-              <a class="btn btn-ghost btn-lg" href="https://github.com/NeoDonkey/NeoDonkey-ERP" target="_blank" rel="noopener">Read the source</a>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
+/* ---- diagram 3: dialects ------------------------------------------------ */
+.dial .spoke { stroke: var(--rule); stroke-width: 1.3; fill: none; }
+.dial .hub { fill: var(--accent); }
+.dial .hubring { fill: none; stroke: var(--accent); stroke-width: 1.4; opacity: .35; }
+.dial .sat { fill: var(--paper-sunk); stroke: var(--rule); stroke-width: 1.3; }
+.dial .gate { fill: var(--paper); stroke: var(--accent); stroke-width: 1.3; }
+.dial .gatelbl { fill: var(--accent); font-size: 9.5px; }
+.dial .pkt { fill: var(--accent); }
 
-    <footer class="site-footer">
-      <div class="container">
-        <div class="site-footer__inner">
-          <div class="site-footer__brand">
-            <a class="brand" href="#top" aria-label="NeoDonkey">
-              <svg class="brand__mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect width="32" height="32" rx="8" fill="#07070f"/>
-                <path d="M13.5 12.5 L11.8 5.4 C11.6 4 13 3.2 13.9 4.1 L15.6 5.9 L15.8 12.5 Z" fill="#ff2d95"/>
-                <path d="M18.5 12.5 L20.2 5.4 C20.4 4 19 3.2 18.1 4.1 L16.4 5.9 L16.2 12.5 Z" fill="#00f0ff"/>
-                <path d="M8.5 12.5 L8.5 15.5 C8.5 23.5 11 26.5 16 26.5 C21 26.5 23.5 23.5 23.5 15.5 L23.5 12.5 C23.5 11.4 22.6 10.6 21.5 10.6 L10.5 10.6 C9.4 10.6 8.5 11.4 8.5 12.5 Z" fill="url(#gf)"/>
-                <defs><linearGradient id="gf" x1="8.5" y1="12.5" x2="23.5" y2="26.5"><stop stop-color="#ff2d95"/><stop offset="1" stop-color="#00f0ff"/></linearGradient></defs>
-                <circle cx="12.5" cy="16.5" r="1.2" fill="#07070f"/>
-                <circle cx="19.5" cy="16.5" r="1.2" fill="#07070f"/>
-                <rect x="13.5" y="19.5" width="5" height="3.6" rx="1.8" fill="#ff2d95" opacity="0.5"/>
-              </svg>
-              <span class="brand__name">NeoDonkey</span>
-            </a>
-            <p>Headless, local-first ERP for the browser. This site is one head among many.</p>
-          </div>
-          <div class="site-footer__col">
-            <h4>Product</h4>
-            <a href="https://github.com/NeoDonkey/NeoDonkey-ERP" target="_blank" rel="noopener">NeoDonkey-ERP</a>
-            <a href="https://github.com/NeoDonkey/NeoDonkey-ERP/blob/main/neodonkey-manifesto.md" target="_blank" rel="noopener">The manifesto</a>
-            <a href="https://github.com/NeoDonkey/NeoDonkey-ERP/issues" target="_blank" rel="noopener">Issues</a>
-          </div>
-          <div class="site-footer__col">
-            <h4>This site</h4>
-            <a href="#how">How it works</a>
-            <a href="#features">Why</a>
-            <a href="#copilot">Copilot</a>
-            <a href="https://github.com/NeoDonkey/NeoDonkey.github.io" target="_blank" rel="noopener">Its source</a>
-          </div>
-        </div>
-        <div class="site-footer__bottom">
-          <span>&copy; 2026 NeoDonkey &middot; EUPL-1.2</span>
-          <span id="erp-version-note">No tracking &middot; No telemetry &middot; No servers</span>
-        </div>
-      </div>
-    </footer>
+@media (prefers-reduced-motion: no-preference) {
+  .dial .pkt { animation: travel 4.2s ease-in-out infinite; }
+  .dial .hubring { animation: ring 4.2s ease-in-out infinite; }
+  @keyframes ring { 0%,100% { opacity: .18; r: 40px; } 50% { opacity: .42; r: 46px; } }
+}
+.dial .pkt { offset-rotate: 0deg; }
+.dial .s1 { offset-path: path('M 450 210 L 450 60');  animation-delay: 0s; }
+.dial .s2 { offset-path: path('M 780 105 L 450 210'); animation-delay: .7s; }
+.dial .s3 { offset-path: path('M 450 210 L 800 320'); animation-delay: 1.4s; }
+.dial .s4 { offset-path: path('M 450 370 L 450 210'); animation-delay: 2.1s; }
+.dial .s5 { offset-path: path('M 450 210 L 100 320'); animation-delay: 2.8s; }
+.dial .s6 { offset-path: path('M 120 105 L 450 210'); animation-delay: 3.5s; }
+
+/* ---- diagram 4: headless ------------------------------------------------ */
+.head .core { fill: var(--paper-sunk); stroke: var(--accent); stroke-width: 1.6; }
+.head .corelbl { fill: var(--accent); font-size: 12.5px; }
+.head .frame { fill: var(--paper-sunk); stroke: var(--rule); stroke-width: 1.3; }
+.head .frame-next { fill: none; stroke: var(--accent); stroke-width: 1.3; stroke-dasharray: 5 5; opacity: .55; }
+.head .bar { fill: var(--ink-faint); opacity: .45; }
+.head .bar-on { fill: var(--accent); opacity: .7; }
+.head .stem { stroke: var(--rule); stroke-width: 1.2; stroke-dasharray: 4 4; }
+.head .drop { fill: var(--accent); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .head .drop { animation: travel 3.6s ease-in-out infinite; }
+  /* The frames come and go. The core does not move, and that is the point. */
+  .head .g1 { animation: swap 12s ease-in-out infinite; }
+  .head .g2 { animation: swap 12s ease-in-out infinite 3s; }
+  .head .g3 { animation: swap 12s ease-in-out infinite 6s; }
+  .head .g4 { animation: swap 12s ease-in-out infinite 9s; }
+  @keyframes swap {
+    0%,4%    { opacity: .28; transform: translateY(0); }
+    10%,26%  { opacity: 1;   transform: translateY(-6px); }
+    34%,100% { opacity: .28; transform: translateY(0); }
+  }
+}
+.head .drop { offset-rotate: 0deg; }
+.head .k1 { offset-path: path('M 145 214 L 145 262'); }
+.head .k2 { offset-path: path('M 385 214 L 385 262'); animation-delay: .9s; }
+.head .k3 { offset-path: path('M 625 214 L 625 262'); animation-delay: 1.8s; }
+.head .k4 { offset-path: path('M 800 214 L 800 262'); animation-delay: 2.7s; }
+
+/* ---- rule in, system out ------------------------------------------------ */
+.swap { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1.6rem; align-items: center;
+        margin-top: 2.6rem; }
+@media (max-width: 860px) { .swap { grid-template-columns: 1fr; } .swap .arrow { transform: rotate(90deg); } }
+.card { border: 1px solid var(--rule); border-radius: var(--r-lg); padding: 1.5rem; background: var(--paper-sunk); }
+.card__tag { font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: .1em;
+             text-transform: uppercase; color: var(--ink-faint); margin-bottom: .9rem; }
+.card pre { margin: 0; font-family: var(--font-mono); font-size: .84rem; line-height: 1.75;
+            white-space: pre-wrap; color: var(--ink); }
+.card .hl { color: var(--accent); }
+.card .no { color: var(--ink-faint); }
+.arrow { color: var(--accent); font-size: 1.4rem; }
+
+/* ---- proof rows --------------------------------------------------------- */
+.rows { margin-top: 2.6rem; border-top: 1px solid var(--rule); }
+.row { display: grid; grid-template-columns: 1.1fr 1.4fr; gap: 1.5rem; padding: 1.35rem 0;
+       border-bottom: 1px solid var(--rule); align-items: baseline; }
+@media (max-width: 780px) { .row { grid-template-columns: 1fr; gap: .4rem; } }
+.row h3 { font-size: 1.06rem; letter-spacing: -.015em; font-weight: 640; }
+.row p { margin: 0; color: var(--ink-soft); font-size: var(--t-small); }
+
+/* ---- stats -------------------------------------------------------------- */
+.stats { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 0; margin-top: 3rem;
+         border: 1px solid var(--rule); border-radius: var(--r-lg); overflow: hidden; }
+@media (max-width: 820px) { .stats { grid-template-columns: 1fr; } }
+.stat { padding: 1.6rem; border-right: 1px solid var(--rule); }
+.stat:last-child { border-right: 0; }
+@media (max-width: 820px) { .stat { border-right: 0; border-bottom: 1px solid var(--rule); } }
+.stat b { display: block; font-family: var(--font-display); font-size: clamp(2.1rem, 4vw, 3rem);
+          font-weight: 680; letter-spacing: -.04em; color: var(--accent); line-height: 1; }
+.stat span { display: block; margin-top: .6rem; color: var(--ink-soft); font-size: var(--t-small); }
+.stat cite { display: block; margin-top: .5rem; font-style: normal; font-family: var(--font-mono);
+             font-size: var(--t-micro); color: var(--ink-faint); }
+
+/* ---- names -------------------------------------------------------------- */
+.names { display: flex; flex-wrap: wrap; gap: .6rem 1.4rem; margin-top: 1.8rem; font-family: var(--font-mono);
+         font-size: clamp(1rem, 1.8vw, 1.5rem); color: var(--ink-faint); }
+
+/* ---- ladder ------------------------------------------------------------- */
+.ladder { display: grid; grid-template-columns: .8fr 1fr 1.3fr; gap: 1rem; margin-top: 2.8rem; }
+@media (max-width: 860px) { .ladder { grid-template-columns: 1fr; } }
+.rung { border: 1px solid var(--rule); border-radius: var(--r-lg); padding: 1.5rem; }
+.rung b { display: block; font-family: var(--font-display); font-size: 2rem; font-weight: 680;
+          letter-spacing: -.04em; color: var(--accent); line-height: 1; }
+.rung p { margin: .8rem 0 0; color: var(--ink-soft); font-size: var(--t-small); }
+.rung .same { display: block; margin-top: 1.1rem; padding-top: .9rem; border-top: 1px solid var(--rule);
+              font-family: var(--font-mono); font-size: var(--t-micro); color: var(--ink-faint); }
+
+/* ---- close -------------------------------------------------------------- */
+.close { padding-block: var(--section); border-top: 1px solid var(--rule); text-align: center; }
+.close h2 { font-size: clamp(2.1rem, 5vw, 4rem); letter-spacing: -.045em; line-height: 1.02;
+            max-width: 22ch; margin-inline: auto; }
+.close p { color: var(--ink-soft); max-width: 56ch; margin: 1.4rem auto 2.4rem; }
+.close .hero__cta { justify-content: center; }
+
+/* ---- footer ------------------------------------------------------------- */
+.foot { border-top: 1px solid var(--rule); padding-block: 2.6rem; color: var(--ink-faint);
+        font-size: var(--t-small); }
+.foot__in { display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+.foot a { color: var(--ink-soft); text-decoration: none; }
+.foot a:hover { color: var(--accent); }
+.foot nav { display: flex; gap: 1.4rem; flex-wrap: wrap; }
+
+/* ---- reveal ------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+  .reveal.in { opacity: 1; transform: none; }
+}
+</style>
+
+<div id="landing-root">
+
+<nav class="nav">
+  <div class="shell nav__in">
+    <a class="brand" href="/">
+      <img src="/brand/mark-64.png" alt="" width="30" height="30" decoding="async">
+      <span>NeoDonkey</span>
+    </a>
+    <div class="nav__right">
+      <a class="opt" href="#forever">Compatibility</a>
+      <a class="opt" href="#speak">Integration</a>
+      <a class="opt" href="#model">Operating model</a>
+      <a class="opt" href="#ground">Sovereignty</a>
+      <a class="btn btn--primary btn--sm" href="#" data-login>Open a company</a>
+    </div>
   </div>
+</nav>
 
-  <!-- ============ THE ERP ============
+<!-- ===========================================================================
+     HERO. The promise is longevity, so the headline is a promise about the
+     next one, not a description of this one.
+     ======================================================================== -->
+<header class="hero">
+  <div class="shell hero__grid">
+    <div>
+      <h1>Your next ERP <span class="glow">is your last.</span></h1>
+      <p class="hero__sub">
+        Every system your company has ever bought had an expiry date built into it.
+        This one does not. Updates add, they never break, and a document written today
+        still opens in thirty years. There is no next migration.
+      </p>
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="#" data-login>Open a company</a>
+        <a class="btn btn--ghost" href="#forever">See why</a>
+      </div>
+      <p class="hero__note">Runs in this tab. Nothing to install, nothing sent anywhere.</p>
+    </div>
 
-       The runtime from the pinned ref in erp.pin.json, in a frame, unmodified and with its own
-       stylesheet. Its first screen is the log-in: a name, and a key pair generated here. -->
+    <div class="meshwrap">
+      <svg class="dia mesh" viewBox="0 0 900 560" role="img" aria-label="A mesh of the machines a company already owns. Work travels between them, and when one machine goes dark the traffic reroutes and nothing stops.">
+        <circle class="halo" cx="430" cy="270" r="200"/>
+        <!-- the field: the rest of the company, out past the labelled machines. -->
+        <g class="field">
+          <circle cx="582.8" cy="49.6" r="3" style="animation-delay:0.60s"/>
+          <circle cx="481.6" cy="193.9" r="2.1" style="animation-delay:0.62s"/>
+          <circle cx="43.0" cy="227.4" r="2.1" style="animation-delay:0.64s"/>
+          <circle cx="71.5" cy="58.6" r="3" style="animation-delay:0.67s"/>
+          <circle cx="383.6" cy="420.8" r="2.1" style="animation-delay:0.69s"/>
+          <circle cx="562.1" cy="480.3" r="2.1" style="animation-delay:0.71s"/>
+          <circle cx="517.9" cy="209.2" r="3" style="animation-delay:0.73s"/>
+          <circle cx="869.1" cy="36.9" r="2.1" style="animation-delay:0.75s"/>
+          <circle cx="136.9" cy="72.0" r="2.1" style="animation-delay:0.78s"/>
+          <circle cx="281.5" cy="415.5" r="3" style="animation-delay:0.80s"/>
+          <circle cx="169.0" cy="300.1" r="2.1" style="animation-delay:0.82s"/>
+          <circle cx="572.2" cy="197.2" r="2.1" style="animation-delay:0.84s"/>
+          <circle cx="492.0" cy="44.9" r="3" style="animation-delay:0.86s"/>
+          <circle cx="62.4" cy="115.3" r="2.1" style="animation-delay:0.89s"/>
+          <circle cx="286.4" cy="302.1" r="2.1" style="animation-delay:0.91s"/>
+          <circle cx="408.8" cy="161.5" r="3" style="animation-delay:0.93s"/>
+          <circle cx="709.1" cy="357.9" r="2.1" style="animation-delay:0.95s"/>
+          <circle cx="224.8" cy="296.6" r="2.1" style="animation-delay:0.97s"/>
+          <circle cx="472.2" cy="444.6" r="3" style="animation-delay:1.00s"/>
+          <circle cx="651.9" cy="155.7" r="2.1" style="animation-delay:1.02s"/>
+          <circle cx="872.6" cy="72.1" r="2.1" style="animation-delay:1.04s"/>
+          <circle cx="377.9" cy="386.5" r="3" style="animation-delay:1.06s"/>
+          <circle cx="143.7" cy="254.6" r="2.1" style="animation-delay:1.08s"/>
+          <circle cx="44.5" cy="342.8" r="2.1" style="animation-delay:1.11s"/>
+          <circle cx="682.8" cy="295.9" r="3" style="animation-delay:1.13s"/>
+          <circle cx="621.9" cy="306.4" r="2.1" style="animation-delay:1.15s"/>
+          <circle cx="520.3" cy="238.5" r="2.1" style="animation-delay:1.17s"/>
+          <circle cx="749.2" cy="478.8" r="3" style="animation-delay:1.19s"/>
+          <circle cx="427.2" cy="340.8" r="2.1" style="animation-delay:1.22s"/>
+          <circle cx="579.5" cy="502.6" r="2.1" style="animation-delay:1.24s"/>
+          <circle cx="733.3" cy="154.0" r="3" style="animation-delay:1.26s"/>
+          <circle cx="349.5" cy="343.0" r="2.1" style="animation-delay:1.28s"/>
+          <circle cx="61.9" cy="392.0" r="2.1" style="animation-delay:1.30s"/>
+          <circle cx="80.9" cy="235.0" r="3" style="animation-delay:1.33s"/>
+          <circle cx="215.3" cy="252.6" r="2.1" style="animation-delay:1.35s"/>
+          <circle cx="528.4" cy="143.3" r="2.1" style="animation-delay:1.37s"/>
+          <circle cx="13.6" cy="220.1" r="3" style="animation-delay:1.39s"/>
+          <circle cx="334.9" cy="292.6" r="2.1" style="animation-delay:1.41s"/>
+          <circle cx="848.7" cy="353.7" r="2.1" style="animation-delay:1.44s"/>
+          <circle cx="463.6" cy="317.9" r="3" style="animation-delay:1.46s"/>
+          <circle cx="801.6" cy="397.7" r="2.1" style="animation-delay:1.48s"/>
+          <circle cx="355.3" cy="210.3" r="2.1" style="animation-delay:1.50s"/>
+          <circle cx="101.1" cy="326.1" r="3" style="animation-delay:1.52s"/>
+          <circle cx="193.7" cy="93.9" r="2.1" style="animation-delay:1.55s"/>
+          <circle cx="309.2" cy="39.9" r="2.1" style="animation-delay:1.57s"/>
+          <circle cx="10.2" cy="88.4" r="3" style="animation-delay:1.59s"/>
+          <circle cx="99.3" cy="192.9" r="2.1" style="animation-delay:1.61s"/>
+          <circle cx="32.4" cy="444.2" r="2.1" style="animation-delay:1.63s"/>
+          <circle cx="550.4" cy="87.1" r="3" style="animation-delay:1.66s"/>
+          <circle cx="232.0" cy="184.9" r="2.1" style="animation-delay:1.68s"/>
+          <circle cx="311.5" cy="144.3" r="2.1" style="animation-delay:1.70s"/>
+          <circle cx="739.4" cy="93.4" r="3" style="animation-delay:1.72s"/>
+          <circle cx="30.3" cy="481.9" r="2.1" style="animation-delay:1.74s"/>
+          <circle cx="474.9" cy="86.1" r="2.1" style="animation-delay:1.77s"/>
+          <circle cx="474.7" cy="495.4" r="3" style="animation-delay:1.79s"/>
+          <circle cx="769.7" cy="356.5" r="2.1" style="animation-delay:1.81s"/>
+          <circle cx="478.7" cy="397.3" r="2.1" style="animation-delay:1.83s"/>
+          <circle cx="724.1" cy="498.6" r="3" style="animation-delay:1.85s"/>
+          <path d="M 582.8 49.6 L 550.4 87.1"/>
+          <path d="M 481.6 193.9 L 517.9 209.2"/>
+          <path d="M 43.0 227.4 L 13.6 220.1"/>
+          <path d="M 71.5 58.6 L 62.4 115.3"/>
+          <path d="M 383.6 420.8 L 377.9 386.5"/>
+          <path d="M 562.1 480.3 L 579.5 502.6"/>
+          <path d="M 517.9 209.2 L 520.3 238.5"/>
+          <path d="M 869.1 36.9 L 872.6 72.1"/>
+          <path d="M 136.9 72.0 L 193.7 93.9"/>
+          <path d="M 169.0 300.1 L 143.7 254.6"/>
+          <path d="M 572.2 197.2 L 520.3 238.5"/>
+          <path d="M 492.0 44.9 L 474.9 86.1"/>
+          <path d="M 62.4 115.3 L 10.2 88.4"/>
+          <path d="M 286.4 302.1 L 334.9 292.6"/>
+          <path d="M 408.8 161.5 L 355.3 210.3"/>
+          <path d="M 709.1 357.9 L 769.7 356.5"/>
+          <path d="M 224.8 296.6 L 215.3 252.6"/>
+          <path d="M 472.2 444.6 L 478.7 397.3"/>
+          <path d="M 377.9 386.5 L 349.5 343.0"/>
+          <path d="M 143.7 254.6 L 80.9 235.0"/>
+          <path d="M 44.5 342.8 L 61.9 392.0"/>
+          <path d="M 682.8 295.9 L 621.9 306.4"/>
+          <path d="M 749.2 478.8 L 724.1 498.6"/>
+          <path d="M 427.2 340.8 L 463.6 317.9"/>
+          <path d="M 733.3 154.0 L 739.4 93.4"/>
+          <path d="M 349.5 343.0 L 334.9 292.6"/>
+        </g>
+
+        <!-- the working edges -->
+        <path class="edge live" d="M 250 240 L 430 270"/>
+        <path class="edge live" d="M 430 270 L 610 240"/>
+        <path class="edge live" d="M 430 270 L 340 450"/>
+        <path class="edge live reroute" d="M 610 240 L 700 440"/>
+        <path class="edge" d="M 140 120 L 250 240"/>
+        <path class="edge" d="M 300 80  L 250 240"/>
+        <path class="edge" d="M 300 80  L 470 130"/>
+        <path class="edge" d="M 470 130 L 430 270"/>
+        <path class="edge" d="M 640 90  L 470 130"/>
+        <path class="edge" d="M 640 90  L 790 160"/>
+        <path class="edge" d="M 790 160 L 770 300"/>
+        <path class="edge" d="M 770 300 L 700 440"/>
+        <path class="edge" d="M 90  280 L 140 120"/>
+        <path class="edge" d="M 90  280 L 160 420"/>
+        <path class="edge" d="M 160 420 L 340 450"/>
+        <path class="edge" d="M 340 450 L 520 410"/>
+        <path class="edge" d="M 520 410 L 700 440"/>
+        <path class="edge" d="M 610 240 L 770 300"/>
+        <path class="edge" d="M 250 240 L 160 420"/>
+
+        <circle class="pulse p1" r="4.5"/>
+        <circle class="pulse p2" r="4.5"/>
+        <circle class="pulse p3" r="4.5"/>
+        <circle class="pulse p4" r="4.5"/>
+        <circle class="pulse p5" r="4.5"/>
+        <circle class="pulse p6" r="4.5"/>
+
+        <circle class="node" cx="140" cy="120" r="9"  style="animation-delay:.35s"/>
+        <circle class="node" cx="300" cy="80"  r="9"  style="animation-delay:.45s"/>
+        <circle class="node" cx="470" cy="130" r="9"  style="animation-delay:.55s"/>
+        <circle class="node faulty" cx="640" cy="90" r="9" style="animation-delay:.65s"/>
+        <circle class="node" cx="790" cy="160" r="9"  style="animation-delay:.75s"/>
+        <circle class="node" cx="90"  cy="280" r="9"  style="animation-delay:.5s"/>
+        <circle class="core" cx="250" cy="240" r="13" style="animation-delay:.2s"/>
+        <circle class="core" cx="430" cy="270" r="17" style="animation-delay:.1s"/>
+        <circle class="core" cx="610" cy="240" r="13" style="animation-delay:.3s"/>
+        <circle class="node" cx="770" cy="300" r="9"  style="animation-delay:.8s"/>
+        <circle class="node" cx="160" cy="420" r="9"  style="animation-delay:.6s"/>
+        <circle class="core" cx="340" cy="450" r="11" style="animation-delay:.4s"/>
+        <circle class="node" cx="520" cy="410" r="9"  style="animation-delay:.7s"/>
+        <circle class="core" cx="700" cy="440" r="11" style="animation-delay:.55s"/>
+
+        <text class="lbl" x="250" y="222" text-anchor="middle" style="animation-delay:.9s">Warehouse</text>
+        <text class="lbl" x="430" y="296" text-anchor="middle" style="animation-delay:.85s">Munich office</text>
+        <text class="lbl" x="610" y="222" text-anchor="middle" style="animation-delay:.95s">Lisbon team</text>
+        <text class="lbl" x="340" y="476" text-anchor="middle" style="animation-delay:1s">Sales laptop</text>
+        <text class="lbl" x="700" y="466" text-anchor="middle" style="animation-delay:1.05s">Accountant</text>
+        <text class="lbl faulty" x="640" y="72" text-anchor="middle" style="animation-delay:1.1s">Rack, basement</text>
+
+        <text class="verdict" x="450" y="536" text-anchor="middle">A machine went down. Nothing stopped.</text>
+      </svg>
+      <div class="diacap">
+        <span><b>Every machine</b> holds part of the company</span>
+        <span><b>No machine</b> is irreplaceable</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===========================================================================
+     PRINCIPLE 6. The biggest pain in the market, and the boldest claim we have.
+     ======================================================================== -->
+<section class="band" id="forever">
+  <div class="shell">
+    <div class="head2">
+      <div>
+        <div class="kicker">Compatibility, in both directions</div>
+        <h2>Nobody sells you an ERP. They sell you the migration.</h2>
+      </div>
+      <p class="lede">
+        The licence was never the expensive part. The expensive part is that every few
+        years the format changes, and your company has to be carried across by people
+        who charge by the day.
+      </p>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <b data-count="55" data-suffix="%">55%</b>
+        <span>of S/4HANA migration projects overrun, fail or get abandoned.</span>
+        <cite>Panorama Consulting, 2025</cite>
+      </div>
+      <div class="stat">
+        <b data-count="189" data-suffix="%">189%</b>
+        <span>average cost overrun on those projects.</span>
+        <cite>Panorama Consulting, 2025</cite>
+      </div>
+      <div class="stat">
+        <b data-count="0">0</b>
+        <span>migration projects between any two versions of this system.</span>
+        <cite>By construction, not by policy</cite>
+      </div>
+    </div>
+
+    <div class="diarail" style="margin-top:3rem">
+      <svg class="dia lanes" viewBox="0 0 900 400" role="img" aria-label="Two timelines from 2027 to 2045. On the first, a document stops at the first version wall and never arrives. On the second, documents pass in both directions through every version.">
+        <line class="guide" x1="92"  y1="112" x2="92"  y2="304"/>
+        <line class="guide" x1="281" y1="112" x2="281" y2="304"/>
+        <line class="guide" x1="470" y1="112" x2="470" y2="304"/>
+        <line class="guide" x1="659" y1="112" x2="659" y2="304"/>
+        <line class="guide" x1="848" y1="112" x2="848" y2="304"/>
+  
+        <text class="laneName" x="0" y="86">Every other ERP</text>
+        <line class="lane" x1="92" y1="128" x2="848" y2="128"/>
+        <line class="tick" x1="92"  y1="118" x2="92"  y2="138"/>
+        <line class="tick" x1="281" y1="118" x2="281" y2="138"/>
+        <line class="tick" x1="470" y1="118" x2="470" y2="138"/>
+        <line class="tick" x1="659" y1="118" x2="659" y2="138"/>
+        <line class="tick" x1="848" y1="118" x2="848" y2="138"/>
+        <line class="wall" x1="281" y1="105" x2="281" y2="151"/>
+        <line class="wall" x1="470" y1="105" x2="470" y2="151" style="animation-delay:.2s"/>
+        <line class="wall" x1="659" y1="105" x2="659" y2="151" style="animation-delay:.4s"/>
+        <line class="wall" x1="848" y1="105" x2="848" y2="151" style="animation-delay:.6s"/>
+        <path class="barred" d="M 274 98 L 288 112 M 288 98 L 274 112"/>
+        <path class="barred" d="M 463 98 L 477 112 M 477 98 L 463 112"/>
+        <path class="barred" d="M 652 98 L 666 112 M 666 98 L 652 112"/>
+        <path class="barred" d="M 841 98 L 855 112 M 855 98 L 841 112"/>
+        <text class="wallcap" x="281" y="172" text-anchor="middle">migration</text>
+        <text class="wallcap" x="470" y="172" text-anchor="middle">migration</text>
+        <text class="wallcap" x="659" y="172" text-anchor="middle">migration</text>
+        <text class="wallcap" x="848" y="172" text-anchor="middle">migration</text>
+        <rect class="doc d1" x="-7" y="-9" width="14" height="18" rx="2"/>
+        <text class="stopped" x="292" y="209">stops here. the company is carried across by hand.</text>
+  
+        <text class="laneName" x="0" y="246">NeoDonkey</text>
+        <line class="lane-on" x1="92" y1="288" x2="848" y2="288"/>
+        <line class="tick-on" x1="92"  y1="278" x2="92"  y2="298"/>
+        <line class="tick-on" x1="281" y1="278" x2="281" y2="298"/>
+        <line class="tick-on" x1="470" y1="278" x2="470" y2="298"/>
+        <line class="tick-on" x1="659" y1="278" x2="659" y2="298"/>
+        <line class="tick-on" x1="848" y1="278" x2="848" y2="298"/>
+        <rect class="doc-on f1" x="-7" y="-9" width="14" height="18" rx="2"/>
+        <rect class="doc-on f2" x="-7" y="-9" width="14" height="18" rx="2"/>
+  
+        <text class="lbl" x="92"  y="332" text-anchor="middle">2027</text>
+        <text class="lbl" x="281" y="332" text-anchor="middle">2032</text>
+        <text class="lbl" x="470" y="332" text-anchor="middle">2037</text>
+        <text class="lbl" x="659" y="332" text-anchor="middle">2042</text>
+        <text class="lbl" x="848" y="332" text-anchor="middle">2045</text>
+        <text class="lbl-on" x="92" y="372">A document written today opens in 2045. A document written in 2045 opens today.</text>
+      </svg>
+    </div>
+    <p class="railnote">scroll the diagram sideways</p>
+
+    <div class="rows">
+      <div class="row">
+        <h3>Updates add. They never remove.</h3>
+        <p>New rule constructions are additive, so rules written years ago keep running unchanged.
+           There is no version of this software that stops reading the previous one.</p>
+      </div>
+      <div class="row">
+        <h3>Two file formats, and that is the whole list.</h3>
+        <p>A company is documents and the transactions that change them. Both are signed commits
+           in a git repository. A format that simple has nothing in it to break.</p>
+      </div>
+      <div class="row">
+        <h3>An older version refuses rather than guesses.</h3>
+        <p>Meet a rule it does not understand and it stops and says so. Silent wrong arithmetic
+           is the one failure an accounting system must never have, so it is designed out.</p>
+      </div>
+      <div class="row">
+        <h3>Update in any order, on any machine.</h3>
+        <p>No maintenance window, no coordinated cutover, no fleet on the same build. Machines
+           on different versions keep working together.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================================================================
+     PRINCIPLE 5. Integration is the largest line item in most ERP budgets.
+     ======================================================================== -->
+<section class="section" id="speak">
+  <div class="shell">
+    <div class="head2">
+      <div>
+        <div class="kicker">Polyglot outward</div>
+        <h2>Your systems do not need integrating. They need speaking to.</h2>
+      </div>
+      <p class="lede">
+        An integration is a project: a scope, a partner, a six figure number and a date it
+        slips past. A dialect is a file. It describes how a foreign system names things, and
+        the runtime reads it. Adding Shopify is not a change request.
+      </p>
+    </div>
+
+    <div class="diarail" style="margin-top:2.6rem">
+      <svg class="dia dial" viewBox="0 0 900 420" role="img" aria-label="Your company at the centre, speaking to Shopify, DATEV, XRechnung, Salesforce, retailer EDI and Notion. Each connection is a translation rule at the boundary, and traffic runs in both directions.">
+        <path class="spoke" d="M 450 210 L 450 60"/>
+        <path class="spoke" d="M 450 210 L 780 105"/>
+        <path class="spoke" d="M 450 210 L 800 320"/>
+        <path class="spoke" d="M 450 210 L 450 370"/>
+        <path class="spoke" d="M 450 210 L 100 320"/>
+        <path class="spoke" d="M 450 210 L 120 105"/>
+  
+        <circle class="hubring" cx="450" cy="210" r="40"/>
+        <circle class="hub" cx="450" cy="210" r="15"/>
+        <text class="lbl-lg" x="450" y="272" text-anchor="middle">your company</text>
+  
+        <g class="gates">
+          <rect class="gate" x="437" y="128" width="26" height="16" rx="3"/>
+          <rect class="gate" x="602" y="150" width="26" height="16" rx="3"/>
+          <rect class="gate" x="612" y="257" width="26" height="16" rx="3"/>
+          <rect class="gate" x="437" y="282" width="26" height="16" rx="3"/>
+          <rect class="gate" x="262" y="257" width="26" height="16" rx="3"/>
+          <rect class="gate" x="272" y="150" width="26" height="16" rx="3"/>
+        </g>
+  
+        <circle class="pkt s1" r="4"/>
+        <circle class="pkt s2" r="4"/>
+        <circle class="pkt s3" r="4"/>
+        <circle class="pkt s4" r="4"/>
+        <circle class="pkt s5" r="4"/>
+        <circle class="pkt s6" r="4"/>
+  
+        <rect class="sat" x="392" y="34"  width="116" height="34" rx="7"/>
+        <rect class="sat" x="722" y="79"  width="116" height="34" rx="7"/>
+        <rect class="sat" x="742" y="294" width="116" height="34" rx="7"/>
+        <rect class="sat" x="392" y="344" width="116" height="34" rx="7"/>
+        <rect class="sat" x="42"  y="294" width="116" height="34" rx="7"/>
+        <rect class="sat" x="62"  y="79"  width="116" height="34" rx="7"/>
+  
+        <text class="lbl" x="450" y="56"  text-anchor="middle">Shopify</text>
+        <text class="lbl" x="780" y="101" text-anchor="middle">DATEV</text>
+        <text class="lbl" x="800" y="316" text-anchor="middle">XRechnung</text>
+        <text class="lbl" x="450" y="366" text-anchor="middle">Salesforce</text>
+        <text class="lbl" x="100" y="316" text-anchor="middle">retailer EDI</text>
+        <text class="lbl" x="120" y="101" text-anchor="middle">Notion</text>
+  
+        <text class="gatelbl" x="450" y="404" text-anchor="middle">each square is one rule file, and it is the entire integration</text>
+      </svg>
+    </div>
+    <p class="railnote">scroll the diagram sideways</p>
+
+    <p class="note">
+      The same mechanism runs in both directions, which is why an export is not a separate
+      feature. What DATEV is owed and what Shopify is told are the same rules read the other
+      way round.
+    </p>
+  </div>
+</section>
+
+<!-- ===========================================================================
+     PRINCIPLE 11. The revolutionary one, and the hardest to say plainly.
+     ======================================================================== -->
+<section class="band" id="model">
+  <div class="shell">
+    <div class="head2">
+      <div>
+        <div class="kicker">The operating model is the ERP</div>
+        <h2>What your COO writes is what the system runs.</h2>
+      </div>
+      <p class="lede">
+        An ERP is normally a translation. The business explains itself to consultants,
+        consultants explain it to developers, and five years later nobody can change a
+        discount rule without a project. We deleted the translation. The description of
+        the company is the running system.
+      </p>
+    </div>
+
+    <div class="swap">
+      <div class="card">
+        <div class="card__tag">Written by the business</div>
+        <pre>A purchase order over
+<span class="hl">10,000 EUR</span> needs a second
+signature from the
+<span class="hl">managing director</span>.</pre>
+      </div>
+      <div class="arrow" aria-hidden="true">&#8594;</div>
+      <div class="card">
+        <div class="card__tag">Enforced by the system</div>
+        <pre>Order PO-2027-0114
+<span class="no">refused:</span> 14,200 EUR
+exceeds the limit and
+carries one signature.</pre>
+      </div>
+    </div>
+
+    <div class="rows">
+      <div class="row">
+        <h3>Change the sentence, change the system. Today.</h3>
+        <p>No configuration screen, no consultant, no release train. The rule is the text and
+           the runtime reads the text.</p>
+      </div>
+      <div class="row">
+        <h3>Technical debt has nowhere to accumulate.</h3>
+        <p>Debt collects in the gap between what the business meant and what was built. Remove
+           the gap and there is no gap to fill.</p>
+      </div>
+      <div class="row">
+        <h3>Every posting names the rule that authorised it.</h3>
+        <p>A German auditor asks whether a booking can be traced to the rule that permitted it.
+           This system refuses the write when no rule covers it, which is a stronger answer
+           than a log.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================================================================
+     PRINCIPLE 7. Headless, said in a way a CEO reads as durability.
+     ======================================================================== -->
+<section class="section" id="headless">
+  <div class="shell">
+    <div class="head2">
+      <div>
+        <div class="kicker">Headless</div>
+        <h2>The screen is the disposable part.</h2>
+      </div>
+      <p class="lede">
+        Every interface your company uses today will look wrong in ten years, and in most
+        systems the interface and the data are the same object, which is why replacing one
+        means replacing both. Here the core has no screen at all. Interfaces dock on.
+      </p>
+    </div>
+
+    <div class="diarail" style="margin-top:2.6rem">
+      <svg class="dia head" viewBox="0 -14 900 354" role="img" aria-label="Four interfaces sitting above one unchanging core: a chat, a dashboard, a warehouse scanner, and whatever is built next. The core does not change when they do.">
+        <text class="lbl" x="145" y="26" text-anchor="middle">chat</text>
+        <text class="lbl" x="385" y="26" text-anchor="middle">dashboard</text>
+        <text class="lbl" x="625" y="26" text-anchor="middle">warehouse scanner</text>
+        <text class="lbl" x="800" y="26" text-anchor="middle">2031</text>
+  
+        <g class="g1">
+          <rect class="frame" x="80" y="40" width="130" height="170" rx="8"/>
+          <rect class="bar-on" x="96" y="58" width="70" height="7" rx="3.5"/>
+          <rect class="bar" x="96" y="78"  width="98" height="6" rx="3"/>
+          <rect class="bar" x="96" y="94"  width="80" height="6" rx="3"/>
+          <rect class="bar-on" x="96" y="118" width="60" height="7" rx="3.5"/>
+          <rect class="bar" x="96" y="138" width="98" height="6" rx="3"/>
+          <rect class="bar" x="96" y="154" width="70" height="6" rx="3"/>
+        </g>
+        <g class="g2">
+          <rect class="frame" x="320" y="40" width="130" height="170" rx="8"/>
+          <rect class="bar-on" x="336" y="58" width="40" height="26" rx="4"/>
+          <rect class="bar" x="384" y="58" width="50" height="26" rx="4"/>
+          <rect class="bar" x="336" y="96" width="98" height="10" rx="4"/>
+          <rect class="bar" x="336" y="114" width="98" height="10" rx="4"/>
+          <rect class="bar-on" x="336" y="132" width="70" height="10" rx="4"/>
+          <rect class="bar" x="336" y="150" width="98" height="10" rx="4"/>
+        </g>
+        <g class="g3">
+          <rect class="frame" x="560" y="40" width="130" height="170" rx="8"/>
+          <rect class="bar" x="588" y="66" width="74" height="46" rx="4"/>
+          <rect class="bar-on" x="588" y="124" width="74" height="9" rx="4"/>
+          <rect class="bar" x="588" y="142" width="52" height="9" rx="4"/>
+        </g>
+        <g class="g4">
+          <rect class="frame-next" x="740" y="40" width="120" height="170" rx="8"/>
+          <text class="lbl" x="800" y="132" text-anchor="middle">whatever</text>
+          <text class="lbl" x="800" y="150" text-anchor="middle">comes next</text>
+        </g>
+  
+  
+        <line class="stem" x1="145" y1="240" x2="145" y2="262"/>
+        <line class="stem" x1="385" y1="240" x2="385" y2="262"/>
+        <line class="stem" x1="625" y1="240" x2="625" y2="262"/>
+        <line class="stem" x1="800" y1="240" x2="800" y2="262"/>
+        <circle class="drop k1" r="3.6"/>
+        <circle class="drop k2" r="3.6"/>
+        <circle class="drop k3" r="3.6"/>
+        <circle class="drop k4" r="3.6"/>
+  
+        <rect class="core" x="60" y="262" width="780" height="56" rx="10"/>
+        <text class="corelbl" x="450" y="296" text-anchor="middle">one core: your rules, your documents, your history</text>
+      </svg>
+    </div>
+    <p class="railnote">scroll the diagram sideways</p>
+
+    <div class="rows">
+      <div class="row">
+        <h3>An AI is one interface, not the product.</h3>
+        <p>It reads and writes through the same API everything else uses. It has no privileged
+           path and it cannot decide anything the rules do not already allow.</p>
+      </div>
+      <div class="row">
+        <h3>Execution stays deterministic.</h3>
+        <p>A model can draft a rule and propose a screen. What actually runs is the written rule,
+           evaluated the same way every time. No model sits in the decision chain.</p>
+      </div>
+      <div class="row">
+        <h3>Build your own front end and it keeps working.</h3>
+        <p>The interface talks to a documented core. Replacing the screen has never been the
+           part that costs money here.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================================================================
+     PRINCIPLES 2 AND 9. Ground and ownership.
+     ======================================================================== -->
+<section class="band" id="ground">
+  <div class="shell">
+    <div class="head2">
+      <div>
+        <div class="kicker">Serverless. Cloudless.</div>
+        <h2>Your company is not a customer of a data centre. It is the data centre.</h2>
+      </div>
+      <p class="lede">
+        Storage and compute flow to wherever there is capacity, across the laptops, servers
+        and phones you already pay for. Add a machine and the system gets bigger. Lose one
+        and nothing stops, because no machine is irreplaceable.
+      </p>
+    </div>
+
+    <div class="names">Microsoft &nbsp; Amazon &nbsp; Google &nbsp; SAP &nbsp; Oracle</div>
+    <p class="note">
+      Five companies decide how most of the world's businesses are allowed to operate, and
+      what that costs. The point of this project is that a company should not structurally
+      need any of them. Sovereignty here is not a contract clause or a hosting region. It is
+      that there is nothing to revoke.
+    </p>
+  </div>
+</section>
+
+<!-- ===========================================================================
+     PRINCIPLE 8.
+     ======================================================================== -->
+<section class="section" id="scale">
+  <div class="shell">
+    <div class="head2">
+      <div>
+        <div class="kicker">One system</div>
+        <h2>One laptop or ten thousand employees. The same software.</h2>
+      </div>
+      <p class="lede">
+        There is no Enterprise Edition, because there is nothing to upgrade to. The freelancer
+        and the group with three continents run identical code. The only difference is how many
+        machines are in the mesh and how much of the company is written down.
+      </p>
+    </div>
+
+    <div class="ladder">
+      <div class="rung">
+        <b>1</b>
+        <p>A founder with a laptop, offline on a train.</p>
+        <span class="same">same core</span>
+      </div>
+      <div class="rung">
+        <b>40</b>
+        <p>A Mittelstand company across two sites and a warehouse, no server room.</p>
+        <span class="same">same core</span>
+      </div>
+      <div class="rung">
+        <b>10,000</b>
+        <p>A group across three continents, each entity sovereign, one operating model.</p>
+        <span class="same">same core</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================================================================
+     CLOSE.
+     ======================================================================== -->
+<section class="close">
+  <div class="shell">
+    <h2>Sovereignty is structural, not contractual.</h2>
+    <p>
+      You cannot negotiate your way out of a dependency. You can only stop having it.
+      Open a working company in this tab and see what that feels like.
+    </p>
+    <div class="hero__cta">
+      <a class="btn btn--primary" href="#" data-login>Open a company</a>
+      <a class="btn btn--ghost" href="https://github.com/NeoDonkey/NeoDonkey-ERP/blob/main/neodonkey-manifesto.md">Read the manifesto</a>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="shell foot__in">
+    <div>NeoDonkey. Licensed EUPL-1.2. Built in Europe.</div>
+    <nav>
+      <a href="https://github.com/NeoDonkey/NeoDonkey-ERP">Source</a>
+      <a href="https://x.com/neodonkey">X</a>
+      <a href="/blog/">Writing</a>
+      <a href="https://github.com/NeoDonkey/NeoDonkey-ERP/blob/main/docs/GATE.md">Build status</a>
+      <a href="/pricing.html">Pricing</a>
+    </nav>
+  </div>
+</footer>
+
+</div><!-- /#landing-root -->
+
+<!-- ===========================================================================
+     The application shell. src/main.ts owns these ids: it hides #landing-root,
+     shows #app-root and loads the vendored ERP into #erp-frame when a
+     [data-login] button is pressed. Styled by brand/app.css.
+     ======================================================================== -->
   <div id="app-root" class="app-root" hidden>
 
     <header class="app-topbar">
@@ -531,5 +1015,35 @@
   </div>
 
   <script type="module" src="/src/main.ts"></script>
+
+
+<script>
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var blocks = document.querySelectorAll('.section > .shell > *, .band > .shell > *');
+  Array.prototype.forEach.call(blocks, function (el) { el.classList.add('reveal'); });
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      Array.prototype.forEach.call(e.target.querySelectorAll('[data-count]'), function (n) {
+        var target = parseInt(n.getAttribute('data-count'), 10);
+        var suffix = n.getAttribute('data-suffix') || '';
+        if (target === 0) { n.textContent = '0' + suffix; return; }
+        var t0 = null;
+        function step(ts) {
+          if (t0 === null) t0 = ts;
+          var p = Math.min((ts - t0) / 1100, 1);
+          n.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))) + suffix;
+          if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      });
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
+  Array.prototype.forEach.call(blocks, function (el) { io.observe(el); });
+})();
+</script>
 </body>
 </html>

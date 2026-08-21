@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>An approval that outlived its subject. NeoDonkey</title>
+<meta name="description" content="A change was approved, then changed, then merged on the old approval. The same shape as every internal-control failure an auditor has ever written up.">
+<link rel="canonical" href="https://neodonkey.github.io/blog/an-approval-that-outlived-its-subject.html">
+<meta property="og:title" content="An approval that outlived its subject">
+<meta property="og:description" content="A change was approved, then changed, then merged on the old approval. The same shape as every internal-control failure an auditor has ever written up.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://neodonkey.github.io/blog/an-approval-that-outlived-its-subject.html">
+<meta property="og:image" content="https://neodonkey.github.io/brand/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@neodonkey">
+<link rel="icon" href="/brand/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/brand/mark-180.png">
+<link rel="stylesheet" href="/brand/tokens.css">
+<link rel="stylesheet" href="/brand/post.css">
+<script src="/analytics.js"></script>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav__in">
+    <a class="brand" href="/">
+      <img src="/brand/mark-64.png" alt="" width="28" height="28" decoding="async">
+      <span>NeoDonkey</span>
+    </a>
+    <div class="nav__links">
+      <a href="/blog/">Writing</a>
+      <a href="https://github.com/NeoDonkey/NeoDonkey-ERP">Source</a>
+    </div>
+  </div>
+</nav>
+
+<article>
+  <div class="shell">
+    <div class="meta">19 August 2026 &nbsp;·&nbsp; 4 min read</div>
+    <h1>An approval that outlived its subject</h1>
+    <p class="dek">
+      A change was approved. Then it changed. Then it shipped on the old approval.
+      Every auditor reading this already knows the ending.
+    </p>
+
+    <p>
+      On the morning of 19 August a change went into NeoDonkey carrying a review that
+      had rejected it. Not a review that missed something. A review that said, in
+      writing, that the change was not fit to merge. The system then announced, also
+      in writing, that nothing merges without a clean review.
+    </p>
+
+    <p>
+      Here is the whole event, from the log:
+    </p>
+
+<pre><code>10:30:13  review round 1 : CLEAN            approval granted
+          a new commit is pushed
+10:35:00  build green on the new commit
+10:35:03  MERGED
+10:35:55  review round 2 : CHANGES_REQUIRED
+10:36:03  "Nothing merges until a review comes back clean"</code></pre>
+
+    <p>
+      Fifty five seconds. The approval was granted at 10:30 for a version of the work
+      that stopped existing before 10:35. Nobody withdrew it, because nothing in the
+      system understood that it should be withdrawn. The approval was attached to the
+      request. The reviewer had been looking at the contents.
+    </p>
+
+    <h2>Why a finance person should care about a build system</h2>
+
+    <p>
+      Strip the engineering out and this is a purchase requisition approved at one
+      amount, edited afterwards, and paid at the new one. It is a payment run signed
+      off on Monday and released on Thursday against a changed beneficiary list. It is
+      a credit limit approved for one exposure and then quietly reused for another.
+    </p>
+
+    <p>
+      Controls people have a name for the whole family: the approval and the thing
+      approved drifted apart, and nothing in the system noticed. It is one of the most
+      common material weaknesses there is, and it almost never looks like fraud from
+      the inside. It looks like a process that worked, because every individual step
+      did work.
+    </p>
+
+    <blockquote>
+      The reviewer was right. The build was green. The merge rule was correct. The
+      approval simply outlived the thing it was granted for.
+    </blockquote>
+
+    <h2>What made it visible</h2>
+
+    <p>
+      The second review, the one that arrived fifty five seconds too late, found that
+      three of the documents in that change duplicated three that already existed.
+      That rule had been added the previous day and it worked exactly as designed. It
+      just had no way to reach back through a decision that had already been executed.
+    </p>
+
+    <p>
+      What made the whole thing legible was not cleverness. It was that the sequence
+      above is recorded. Every state the change passed through, who or what moved it,
+      and at which second, is in the repository. Reconstructing the failure took one
+      pass through a log that nobody had to be asked for.
+    </p>
+
+    <p>
+      That is the property this product is built around. In most business systems the
+      equivalent question, which approval authorised this posting and was it still
+      valid at the moment the posting was made, is answerable in principle and
+      expensive in practice. It ends in a ticket to a vendor.
+    </p>
+
+    <h2>The fix, and the honest part</h2>
+
+    <p>
+      Two changes. Any modification to a piece of work now withdraws the standing
+      approval, and only a fresh clean review of that exact version restores it. A
+      second process independently strips approval from anything carrying an open
+      objection, because the withdrawal and the build run at the same time and a very
+      fast build could still win the race.
+    </p>
+
+    <p>
+      What that does not fix: approvals in NeoDonkey are still checked at merge, not
+      continuously. If a system can hold a stale approval for fifty five seconds it can
+      hold one for fifty five milliseconds, and the second version of this bug will be
+      harder to see than the first. That is why the change is written up rather than
+      quietly patched.
+    </p>
+
+    <p>
+      The scorecard for version 1.0 currently reads five of ten conditions met, one
+      partial, four unmet. It is generated from the test suite rather than written by
+      hand, which is the only reason it is worth reading.
+    </p>
+
+    <div class="endnote">
+      The incident is recorded in full at
+      <a href="https://github.com/NeoDonkey/NeoDonkey-ERP/blob/main/docs/journal/2026-08-19-a-push-revokes-the-approval.md">docs/journal/2026-08-19-a-push-revokes-the-approval.md</a>.
+      The current state of the ten v1.0 conditions is at
+      <a href="https://github.com/NeoDonkey/NeoDonkey-ERP/blob/main/docs/GATE.md">docs/GATE.md</a>.
+    </div>
+  </div>
+</article>
+
+<footer class="foot">
+  <div class="foot__in">
+    <div>NeoDonkey. Licensed EUPL-1.2.</div>
+    <div><a href="/">Home</a> &nbsp; <a href="/blog/">Writing</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
