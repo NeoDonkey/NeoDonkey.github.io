@@ -218,6 +218,19 @@
       <div id="commit-graph" class="commit-graph"></div>
     </div>
 
+    <div class="card hidden" id="step5">
+      <h2><span class="step-number" id="num5">5</span> Export to DATEV</h2>
+      <p style="color: var(--text-2); margin-bottom: 16px;">
+        Generate a DATEV EXTF v700 booking batch from your ledger. Your tax advisor imports this directly.
+      </p>
+      <button id="btn-datev" onclick="exportDatev()" disabled>Generate DATEV Export</button>
+      <div id="log-datev" class="log hidden" style="margin-top: 16px;"></div>
+      <div id="datev-output" class="hidden" style="margin-top: 16px;">
+        <pre id="datev-csv" style="background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-family: var(--font-mono); font-size: 0.75rem; overflow-x: auto; max-height: 300px;"></pre>
+        <button onclick="downloadDatev()" style="margin-top: 12px;">Download .txt</button>
+      </div>
+    </div>
+
     <div class="card" style="margin-top: 32px;">
       <h2>What just happened</h2>
       <div class="feature-grid">
@@ -244,9 +257,11 @@
   <script type="module">
     import { open } from './erp/runtime/kernel.js';
     import { opfsFs } from './erp/runtime/git/fs-opfs.js';
+    import { buildDatevExtf } from './erp/runtime/export/datev-extf.js';
 
     let nd = null;
     let identity = null;
+    let datevResult = null;
 
     function log(containerId, message, type = 'info') {
       const el = document.getElementById(containerId);
@@ -459,6 +474,8 @@
 
         document.getElementById('num3').classList.add('done');
         document.getElementById('step4').classList.remove('hidden');
+        document.getElementById('step5').classList.remove('hidden');
+        document.getElementById('btn-datev').disabled = false;
         await renderGitLog();
 
       } catch (e) {
@@ -521,6 +538,53 @@
         container.innerHTML = '<div class="commit"><div class="commit-msg">Git log rendering failed</div></div>';
       }
     }
+    window.exportDatev = async function() {
+      const btn = document.getElementById('btn-datev');
+      btn.disabled = true;
+      log('log-datev', 'Generating DATEV EXTF v700 export...', 'cmd');
+
+      try {
+        datevResult = await buildDatevExtf({
+          kernel: nd,
+          beraterNr: '1234567',
+          mandantenNr: '1',
+          wjBeginn: '20270101',
+          sachkontenrahmen: 'SKR04',
+          bezeichnung: 'NeoDonkey Demo Export',
+          datumBeginn: '20271101',
+          datumEnde: '20271130',
+          nurGeänderte: false,
+        });
+
+        log('log-datev', `Export generated: ${datevResult.rows} rows, ${datevResult.entries} entries`, 'ok');
+        if (datevResult.skipped > 0) {
+          log('log-datev', `${datevResult.skipped} entries skipped (draft/cancelled)`, 'ok');
+        }
+
+        document.getElementById('datev-csv').textContent = datevResult.csv;
+        document.getElementById('datev-output').classList.remove('hidden');
+        document.getElementById('num5').classList.add('done');
+
+      } catch (e) {
+        log('log-datev', `Error: ${e.message}`, 'err');
+        console.error(e);
+        btn.disabled = false;
+      }
+    };
+
+    window.downloadDatev = function() {
+      if (!datevResult) return;
+      const blob = new Blob([datevResult.csv], { type: 'text/plain;charset=windows-1252' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'neodonkey-demo-datev-extf.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      log('log-datev', 'Download started: neodonkey-demo-datev-extf.txt', 'ok');
+    };
   </script>
 </body>
 </html>
