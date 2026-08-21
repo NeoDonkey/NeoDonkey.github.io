@@ -1,595 +1,188 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NeoDonkey Live Demo — Real Kernel, Real Git</title>
-  <script type="importmap">
-  {
-    "imports": {
-      "kernel": "./erp/runtime/kernel.js",
-      "fs-opfs": "./erp/runtime/git/fs-opfs.js",
-      "ed25519": "./erp/runtime/identity/ed25519.js"
-    }
-  }
-  </script>
-  <style>
-    :root {
-      --bg: #07070f;
-      --surface: #0f0f1a;
-      --surface-2: #1a1a2e;
-      --border: #2a2a4a;
-      --text: #e0e0f0;
-      --text-2: #8888aa;
-      --accent: #ff2d95;
-      --accent-2: #00f0ff;
-      --success: #00ff88;
-      --error: #ff4444;
-      --font-mono: 'SF Mono', Monaco, 'Cascadia Code', monospace;
-      --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
-    * { box-sizing: border-box; margin: 0; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-body);
-      line-height: 1.6;
-      min-height: 100vh;
-    }
-    .container { max-width: 900px; margin: 0 auto; padding: 24px; }
-    header { text-align: center; padding: 48px 0 32px; }
-    .brand {
-      font-size: 2.5rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 8px;
-    }
-    .tagline { color: var(--text-2); font-size: 1.1rem; }
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px;
-      margin-bottom: 20px;
-    }
-    .card h2 {
-      font-size: 1.1rem;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .step-number {
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-    .step-number.done { background: var(--success); color: var(--bg); border-color: var(--success); }
-    button {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: white;
-      border: none;
-      padding: 12px 28px;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: opacity 0.2s;
-    }
-    button:hover { opacity: 0.9; }
-    button:disabled { opacity: 0.4; cursor: not-allowed; }
-    .log {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px;
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      line-height: 1.5;
-      max-height: 400px;
-      overflow-y: auto;
-      white-space: pre-wrap;
-      word-break: break-all;
-    }
-    .log .timestamp { color: var(--text-2); }
-    .log .ok { color: var(--success); }
-    .log .err { color: var(--error); }
-    .log .cmd { color: var(--accent-2); }
-    .hidden { display: none; }
-    .commit-graph { display: flex; flex-direction: column; gap: 12px; }
-    .commit {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px;
-      position: relative;
-    }
-    .commit-oid {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--accent);
-    }
-    .commit-msg { margin: 4px 0; font-weight: 500; }
-    .commit-meta {
-      font-size: 0.8rem;
-      color: var(--text-2);
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .verified {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      color: var(--success);
-      font-size: 0.75rem;
-    }
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin-top: 16px;
-    }
-    .feature {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px;
-    }
-    .feature h3 { font-size: 0.9rem; color: var(--accent-2); margin-bottom: 4px; }
-    .feature p { font-size: 0.8rem; color: var(--text-2); }
-    .warning {
-      background: rgba(255, 200, 0, 0.1);
-      border: 1px solid rgba(255, 200, 0, 0.3);
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 16px;
-      color: #ffcc00;
-    }
-    .spinner {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-radius: 50%;
-      border-top-color: white;
-      animation: spin 1s ease-in-out infinite;
-      margin-left: 8px;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The guided tour. NeoDonkey</title>
+<meta name="description" content="Five chapters from a running NeoDonkey company. Every screenshot and every excerpt on this page was captured from the real kernel, and the one thing that does not work is named.">
+<link rel="canonical" href="https://neodonkey.github.io/demo.html">
+<meta property="og:title" content="The guided tour. NeoDonkey">
+<meta property="og:description" content="Five chapters from a running NeoDonkey company, captured from the real kernel. No mockups.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://neodonkey.github.io/demo.html">
+<meta property="og:image" content="https://neodonkey.github.io/brand/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@neodonkey">
+<link rel="icon" href="/brand/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/brand/mark-180.png">
+<link rel="stylesheet" href="/brand/tokens.css">
+<style>
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body);
+       font-size: var(--t-body); line-height: 1.6; margin: 0; }
+
+.nav { position: sticky; top: 0; z-index: 20; height: 64px; display: flex; align-items: center;
+       background: var(--paper); border-bottom: 1px solid var(--rule); }
+.nav__in { display: flex; align-items: center; justify-content: space-between;
+           width: min(100% - 2.5rem, var(--shell)); margin-inline: auto; }
+.brand { display: flex; align-items: center; gap: .55rem; text-decoration: none;
+         color: var(--ink); font-weight: 620; }
+.nav__links { display: flex; gap: 1.6rem; font-size: var(--t-small); }
+.nav__links a { color: var(--ink-soft); text-decoration: none; }
+.nav__links a:hover { color: var(--ink); }
+
+.shell { width: min(100% - 2.5rem, 860px); margin-inline: auto; }
+
+header.tour { padding-block: clamp(3rem, 8vw, 6rem) clamp(2rem, 5vw, 3.5rem); }
+h1 { font-family: var(--font-display); font-weight: 640; letter-spacing: -.035em;
+     font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1.02; margin: 0 0 1.2rem; }
+.hi { color: var(--accent); }
+.dek { font-size: 1.16rem; color: var(--ink-soft); margin: 0 0 1.2rem; max-width: 58ch; }
+.meta { font-family: var(--font-mono); font-size: var(--t-micro); color: var(--ink-faint); }
+
+.chapter { border-top: 1px solid var(--rule); padding-block: clamp(2.5rem, 6vw, 4rem); }
+.chapter .no { font-family: var(--font-mono); font-size: var(--t-micro); color: var(--accent);
+               letter-spacing: .1em; text-transform: uppercase; }
+.chapter h2 { font-family: var(--font-display); font-weight: 620; letter-spacing: -.02em;
+              font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.15; margin: .7rem 0 1.2rem; }
+.chapter p { margin: 0 0 1.35rem; max-width: 62ch; }
+.chapter p.muted, .chapter li { color: var(--ink-soft); }
+.chapter ul { margin: 0 0 1.35rem; padding-left: 1.2rem; }
+.chapter li { margin-bottom: .55rem; max-width: 62ch; }
+a { color: inherit; text-underline-offset: 3px; }
+.chapter a { color: var(--ink); }
+code { font-family: var(--font-mono); font-size: .88em; }
+
+figure { margin: 1.8rem 0; background: var(--paper-sunk); border: 1px solid var(--rule);
+         border-radius: var(--r-lg); padding: .9rem; }
+figure img { display: block; width: 100%; height: auto; border-radius: var(--r-md); }
+figcaption { font-family: var(--font-mono); font-size: var(--t-micro); color: var(--ink-faint);
+             padding: .8rem .2rem .2rem; }
+
+pre { background: var(--paper-sunk); border: 1px solid var(--rule); border-radius: var(--r-lg);
+      padding: 1rem 1.2rem; overflow-x: auto; font-family: var(--font-mono);
+      font-size: var(--t-micro); line-height: 1.55; color: var(--ink-soft); margin: 1.4rem 0; }
+
+.btn { display: inline-block; text-decoration: none; font-weight: 620; font-size: var(--t-body);
+       padding: .8rem 1.6rem; border-radius: var(--r-md); }
+.btn--primary { background: var(--accent); color: var(--btn-ink); }
+.btn--ghost { border: 1px solid var(--rule); color: var(--ink); }
+.cta { text-align: left; }
+.cta .row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.6rem; }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: var(--r-sm); }
+
+.foot { border-top: 1px solid var(--rule); padding-block: 3rem; color: var(--ink-faint);
+        font-size: var(--t-small); }
+.foot__in { display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+            width: min(100% - 2.5rem, var(--shell)); margin-inline: auto; }
+.foot a { color: var(--ink-soft); text-decoration: none; }
+.foot a:hover { color: var(--ink); }
+</style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="brand">NeoDonkey</div>
-      <p class="tagline">Open a company. Post a booking. Read the git log. All in your browser.</p>
-      <p style="margin-top: 12px;">
-        <a href="https://clickbid.app" target="_blank" style="display: inline-block; padding: 8px 16px; background: linear-gradient(135deg, #ff2d95, #00f0ff); border-radius: 8px; color: white; font-weight: 600; font-size: .85rem; text-decoration: none;">
-          🔥 Help NeoDonkey climb Clickbid — every click is a bid!
-        </a>
-      </p>
-    </header>
 
-    <div class="card">
-      <div class="warning">
-        <strong>⚡ Live Demo</strong> — This page loads the actual NeoDonkey kernel (runtime/kernel.js) 
-        and runs it in your browser using <a href="https://developer.mozilla.org/en-US/docs/Web/API/File_System_API/Origin_private_file_system" target="_blank" style="color: var(--accent-2);">OPFS</a>.
-        Every commit is real. Your data stays on your device.
-      </div>
-    </div>
-
-    <div class="card" id="step1">
-      <h2><span class="step-number" id="num1">1</span> Create your company</h2>
-      <p style="color: var(--text-2); margin-bottom: 16px;">
-        Loads the NeoDonkey kernel, generates Ed25519 identity, and opens a git repository in OPFS.
-      </p>
-      <button id="btn-create" onclick="createCompany()">Create Company</button>
-      <div id="log-create" class="log hidden" style="margin-top: 16px;"></div>
-    </div>
-
-    <div class="card hidden" id="step2">
-      <h2><span class="step-number" id="num2">2</span> Adopt chart of accounts</h2>
-      <p style="color: var(--text-2); margin-bottom: 16px;">
-        Creates SKR04 chart and opens accounting period 2027-11.
-      </p>
-      <button id="btn-chart" onclick="adoptChart()" disabled>Adopt Chart</button>
-      <div id="log-chart" class="log hidden" style="margin-top: 16px;"></div>
-    </div>
-
-    <div class="card hidden" id="step3">
-      <h2><span class="step-number" id="num3">3</span> Post your first booking</h2>
-      <p style="color: var(--text-2); margin-bottom: 16px;">
-        Double-entry booking: 8400 Revenue / 1200 Bank for €1,000.00.
-      </p>
-      <button id="btn-post" onclick="postEntry()" disabled>Post Booking</button>
-      <div id="log-post" class="log hidden" style="margin-top: 16px;"></div>
-    </div>
-
-    <div class="card hidden" id="step4">
-      <h2><span class="step-number" id="num4">4</span> Git audit trail</h2>
-      <p style="color: var(--text-2); margin-bottom: 16px;">
-        Every document is a signed git commit. Tamper-evident by design.
-      </p>
-      <div id="commit-graph" class="commit-graph"></div>
-    </div>
-
-    <div class="card hidden" id="step5">
-      <h2><span class="step-number" id="num5">5</span> Export to DATEV</h2>
-      <p style="color: var(--text-2); margin-bottom: 16px;">
-        Generate a DATEV EXTF v700 booking batch from your ledger. Your tax advisor imports this directly.
-      </p>
-      <button id="btn-datev" onclick="exportDatev()" disabled>Generate DATEV Export</button>
-      <div id="log-datev" class="log hidden" style="margin-top: 16px;"></div>
-      <div id="datev-output" class="hidden" style="margin-top: 16px;">
-        <pre id="datev-csv" style="background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-family: var(--font-mono); font-size: 0.75rem; overflow-x: auto; max-height: 300px;"></pre>
-        <button onclick="downloadDatev()" style="margin-top: 12px;">Download .txt</button>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top: 32px;">
-      <h2>What just happened</h2>
-      <div class="feature-grid">
-        <div class="feature">
-          <h3>Real Kernel</h3>
-          <p>runtime/kernel.js loaded directly. No simulation. The actual code from the repo.</p>
-        </div>
-        <div class="feature">
-          <h3>Real Git</h3>
-          <p>Every booking creates an actual git commit in your browser's OPFS storage.</p>
-        </div>
-        <div class="feature">
-          <h3>Real Signatures</h3>
-          <p>Ed25519 signatures via Web Crypto API. Cryptographic proof on every commit.</p>
-        </div>
-        <div class="feature">
-          <h3>Exact Money</h3>
-          <p>BigInt minor units. "1000.00 EUR" — no float anywhere in the ledger.</p>
-        </div>
-      </div>
+<nav class="nav">
+  <div class="nav__in">
+    <a class="brand" href="/">
+      <img src="/brand/mark-64.png" alt="" width="28" height="28" decoding="async">
+      <span>NeoDonkey</span>
+    </a>
+    <div class="nav__links">
+      <a href="/">Home</a>
+      <a href="/blog/">Writing</a>
+      <a href="https://github.com/NeoDonkey/NeoDonkey-ERP">Source</a>
     </div>
   </div>
+</nav>
 
-  <script type="module">
-    import { open } from './erp/runtime/kernel.js';
-    import { opfsFs } from './erp/runtime/git/fs-opfs.js';
-    import { buildDatevExtf } from './erp/runtime/export/datev-extf.js';
+<header class="tour">
+  <div class="shell">
+    <h1>A running company, in <span class="hi">five chapters.</span></h1>
+    <p class="dek">
+      This page is a guided tour of NeoDonkey doing its work: a chart of accounts adopted,
+      an invoice issued, three posting legs written by a rule, an export a tax advisor can read.
+      Nothing here is a mockup. The screenshots are real captures of the product, and every
+      quoted line is real output from the kernel that ships in this repository.
+    </p>
+    <p class="meta">
+      The company is Weber Naturkost GmbH, a demo. It was seeded on 2026-08-22 in headless
+      Chromium through the same kernel API the product uses, against the runtime vendored at
+      pin 592a844.
+    </p>
+  </div>
+</header>
 
-    let nd = null;
-    let identity = null;
-    let datevResult = null;
+<main class="shell">
 
-    function log(containerId, message, type = 'info') {
-      const el = document.getElementById(containerId);
-      el.classList.remove('hidden');
-      const div = document.createElement('div');
-      const time = new Date().toLocaleTimeString();
-      div.innerHTML = `<span class="timestamp">[${time}]</span> `;
-      if (type === 'ok') div.innerHTML += `<span class="ok">✓ ${message}</span>`;
-      else if (type === 'err') div.innerHTML += `<span class="err">✗ ${message}</span>`;
-      else if (type === 'cmd') div.innerHTML += `<span class="cmd">$ ${message}</span>`;
-      else div.textContent += message;
-      el.appendChild(div);
-      el.scrollTop = el.scrollHeight;
-    }
+<section class="chapter">
+  <div class="no">Chapter 1 of 5</div>
+  <h2>Your company is a git repository</h2>
+  <p>
+    Every act in NeoDonkey, creating the company, adopting the chart, issuing the invoice,
+    is one signed git commit. The commit below is the one that posted the invoice you will
+    meet in chapter 3. It is quoted from the workspace the screenshots were taken in:
+  </p>
+  <pre>commit 9b04175722ac13fa4bb508b15ef33e0edef94e38
+journal-entry JE-2027-0042 created
 
-    // Minimal seed for demo
-    const SEED = new Map([
-      ['operating-model/information/company.md', `# Company\n- name: text required\n- tax-id: text\n- status: text required\n`],
-      ['operating-model/information/employee.md', `# Employee\n- name: text required\n- email: text required\n- status: text required\n`],
-      ['operating-model/information/chart-of-accounts.md', `# Chart of Accounts\n- name: text required\n- standard: text required\n- status: text required\n`],
-      ['operating-model/information/ledger-account.md', `# Ledger Account\n- account-number: text required\n- name: text required\n- chart: reference to chart-of-accounts required\n- normal-balance: text required\n- status: text required\n`],
-      ['operating-model/information/accounting-period.md', `# Accounting Period\n- period-key: text required\n- fiscal-year: text required\n- month: number required\n- from-date: date required\n- to-date: date required\n- chart: reference to chart-of-accounts required\n- status: text required\n`],
-      ['operating-model/information/journal-entry.md', `# Journal Entry\n- entry-number: text required\n- entry-date: date required\n- document-date: date required\n- accounting-period: reference to accounting-period required\n- chart: reference to chart-of-accounts required\n- currency: text required\n- debit-amount: text required\n- credit-amount: text required\n- posting-count: number required\n- description: text required\n- source-document-type: text required\n- source-document-reference: text required\n- status: text required\n- reversal: boolean required\n`],
-      ['operating-model/information/posting.md', `# Posting\n- journal-entry: reference to journal-entry required\n- position: number required\n- account-number: text required\n- chart: reference to chart-of-accounts required\n- side: text required\n- amount: text required\n- currency: text required\n- posting-date: date required\n- accounting-period: reference to accounting-period required\n- description: text required\n- source-document-reference: text required\n- vat-role: text required\n`],
-      ['operating-model/processes/journal-posting.md', `# Journal Posting Process\nWhen journal-entry status is draft, set status to posted.\n`],
-    ]);
+NeoDonkey-Transaction: v1
+NeoDonkey-Actor-Roles: managing-director accountant controller tax-accountant category-manager customer-service-agent logistics-coordinator warehouse-clerk purchasing-manager
+NeoDonkey-Change: create journal-entry JE-2027-0042
+NeoDonkey-Change: create posting JE-2027-0042-receivable
+NeoDonkey-Change: create posting JE-2027-0042-revenue
+NeoDonkey-Change: create posting JE-2027-0042-output-vat
+NeoDonkey-Rule: operating-model/processes/journal-posting.md:43
+NeoDonkey-Rule: operating-model/processes/journal-posting.md:269</pre>
+  <p class="muted">
+    Three facts are in that message. The author signed it with an Ed25519 key that never left
+    the browser. The four document changes landed atomically, in one commit. And the commit
+    names the sentence of the operating model that permitted it, by file and line, which is
+    what GoBD calls <i>Nachvollziehbarkeit</i>. Verification does not require our code:
+    <code>git log --show-signature</code> answers it, and the acceptance test
+    <a href="https://github.com/NeoDonkey/NeoDonkey-ERP/blob/main/demo/sarah.mjs">demo/sarah.mjs</a>
+    runs exactly that check with the real git and the real ssh-keygen.
+  </p>
+</section>
 
-    async function generateIdentity() {
-      const kp = await crypto.subtle.generateKey(
-        { name: 'Ed25519' },
-        true, ['sign', 'verify']
-      );
-      const pubRaw = await crypto.subtle.exportKey('raw', kp.publicKey);
-      const pubHex = Array.from(new Uint8Array(pubRaw)).map(b => b.toString(16).padStart(2, '0')).join('');
-      return {
-        name: 'Demo User',
-        email: 'demo@neodonkey.eu',
-        keyPair: kp,
-        publicKeyHex: pubHex
-      };
-    }
-
-    window.createCompany = async function() {
-      const btn = document.getElementById('btn-create');
-      btn.disabled = true;
-      log('log-create', 'Generating Ed25519 identity...', 'cmd');
-
-      try {
-        identity = await generateIdentity();
-        log('log-create', `Public key: ${identity.publicKeyHex.slice(0, 32)}...`, 'ok');
-
-        log('log-create', 'Requesting OPFS access...', 'cmd');
-        const dirHandle = await navigator.storage.getDirectory();
-        log('log-create', 'OPFS directory handle acquired', 'ok');
-
-        log('log-create', 'Loading NeoDonkey kernel with operating model...', 'cmd');
-
-        let t = Date.now();
-        nd = await open({
-          fs: opfsFs(dirHandle),
-          identity,
-          seed: SEED,
-          clock: () => (t += 1000),
-          tzOffsetMinutes: -new Date().getTimezoneOffset(),
-          strictAuthorization: false,
-        });
-
-        log('log-create', 'Kernel initialized successfully!', 'ok');
-        log('log-create', `Company ready. Git repo initialized in OPFS.`, 'ok');
-
-        document.getElementById('num1').classList.add('done');
-        document.getElementById('step2').classList.remove('hidden');
-        document.getElementById('btn-chart').disabled = false;
-
-      } catch (e) {
-        log('log-create', `Error: ${e.message}`, 'err');
-        console.error(e);
-        btn.disabled = false;
-      }
-    };
-
-    window.adoptChart = async function() {
-      const btn = document.getElementById('btn-chart');
-      btn.disabled = true;
-      log('log-chart', 'Creating chart of accounts...', 'cmd');
-
-      try {
-        const result = await nd.perform({
-          op: 'create',
-          entity: 'chart-of-accounts',
-          id: 'DEMO-CHART',
-          doc: {
-            entity: 'chart-of-accounts',
-            id: 'DEMO-CHART',
-            name: 'Demo Chart',
-            standard: 'minimal',
-            status: 'active'
-          }
-        });
-        log('log-chart', `Chart created: ${result.id}`, 'ok');
-
-        const period = await nd.perform({
-          op: 'create',
-          entity: 'accounting-period',
-          id: '2027-11',
-          doc: {
-            entity: 'accounting-period',
-            id: '2027-11',
-            'period-key': '2027-11',
-            'fiscal-year': '2027',
-            month: 11,
-            'from-date': '2027-11-01',
-            'to-date': '2027-11-30',
-            chart: 'DEMO-CHART',
-            status: 'open'
-          }
-        });
-        log('log-chart', `Period opened: ${period.id}`, 'ok');
-
-        for (const [num, name, balance] of [['1200', 'Bank', 'debit'], ['8400', 'Revenue', 'credit']]) {
-          await nd.perform({
-            op: 'create',
-            entity: 'ledger-account',
-            id: num,
-            doc: {
-              entity: 'ledger-account',
-              id: num,
-              'account-number': num,
-              name,
-              chart: 'DEMO-CHART',
-              'normal-balance': balance,
-              status: 'active'
-            }
-          });
-          log('log-chart', `Account ${num} (${name}) created`, 'ok');
-        }
-
-        document.getElementById('num2').classList.add('done');
-        document.getElementById('step3').classList.remove('hidden');
-        document.getElementById('btn-post').disabled = false;
-
-      } catch (e) {
-        log('log-chart', `Error: ${e.message}`, 'err');
-        console.error(e);
-        btn.disabled = false;
-      }
-    };
-
-    window.postEntry = async function() {
-      const btn = document.getElementById('btn-post');
-      btn.disabled = true;
-      log('log-post', 'Posting journal entry...', 'cmd');
-
-      try {
-        const entry = await nd.perform({
-          op: 'create',
-          entity: 'journal-entry',
-          id: 'JE-2027-0001',
-          doc: {
-            entity: 'journal-entry',
-            id: 'JE-2027-0001',
-            'entry-number': '1',
-            'entry-date': '2027-11-03',
-            'document-date': '2027-11-03',
-            'accounting-period': '2027-11',
-            chart: 'DEMO-CHART',
-            currency: 'EUR',
-            'debit-amount': '1000.00 EUR',
-            'credit-amount': '1000.00 EUR',
-            'posting-count': 2,
-            description: 'First revenue booking',
-            'source-document-type': 'manual',
-            'source-document-reference': 'DEMO-001',
-            status: 'draft',
-            reversal: false
-          }
-        });
-        log('log-post', `Entry created: ${entry.id}`, 'ok');
-
-        for (const [pos, account, side, amount] of [
-          [1, '8400', 'debit', '1000.00 EUR'],
-          [2, '1200', 'credit', '1000.00 EUR']
-        ]) {
-          await nd.perform({
-            op: 'create',
-            entity: 'posting',
-            id: `JE-2027-0001-${pos}`,
-            doc: {
-              entity: 'posting',
-              id: `JE-2027-0001-${pos}`,
-              'journal-entry': 'JE-2027-0001',
-              position: pos,
-              'account-number': account,
-              chart: 'DEMO-CHART',
-              side,
-              amount,
-              currency: 'EUR',
-              'posting-date': '2027-11-03',
-              'accounting-period': '2027-11',
-              description: 'First revenue booking',
-              'source-document-reference': 'DEMO-001',
-              'vat-role': 'none'
-            }
-          });
-          log('log-post', `Posting ${pos}: ${side} ${account} ${amount}`, 'ok');
-        }
-
-        log('log-post', 'Validating: debits = credits...', 'cmd');
-        log('log-post', '✓ Books balance exactly', 'ok');
-
-        document.getElementById('num3').classList.add('done');
-        document.getElementById('step4').classList.remove('hidden');
-        document.getElementById('step5').classList.remove('hidden');
-        document.getElementById('btn-datev').disabled = false;
-        await renderGitLog();
-
-      } catch (e) {
-        log('log-post', `Error: ${e.message}`, 'err');
-        console.error(e);
-        btn.disabled = false;
-      }
-    };
-
-    async function renderGitLog() {
-      const container = document.getElementById('commit-graph');
-      container.innerHTML = '';
-
-      try {
-        const { repo } = nd._internals || {};
-        if (!repo) {
-          container.innerHTML = '<div class="commit"><div class="commit-msg">Git log not available in this view</div></div>';
-          return;
-        }
-
-        // Read git log from repo
-        const refs = await repo.refs();
-        const head = refs.get('HEAD') || refs.get('refs/heads/main');
-        if (!head) {
-          container.innerHTML = '<div class="commit"><div class="commit-msg">No commits yet</div></div>';
-          return;
-        }
-
-        // Walk commit history
-        const commits = [];
-        let current = head;
-        while (current && commits.length < 20) {
-          const commit = await repo.readCommit(current);
-          if (!commit) break;
-          commits.push({ oid: current.slice(0, 12), ...commit });
-          current = commit.parent;
-        }
-
-        for (const commit of commits) {
-          const div = document.createElement('div');
-          div.className = 'commit';
-          div.innerHTML = `
-            <div class="commit-oid">${commit.oid}</div>
-            <div class="commit-msg">${commit.message}</div>
-            <div class="commit-meta">
-              <span>${commit.author || 'Unknown'}</span>
-              <span>${commit.time ? new Date(commit.time * 1000).toLocaleString() : ''}</span>
-              <span class="verified">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M2 6L5 9L10 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                Signed
-              </span>
-            </div>
-          `;
-          container.appendChild(div);
-        }
-      } catch (e) {
-        console.error('Failed to render git log:', e);
-        container.innerHTML = '<div class="commit"><div class="commit-msg">Git log rendering failed</div></div>';
-      }
-    }
-    window.exportDatev = async function() {
-      const btn = document.getElementById('btn-datev');
-      btn.disabled = true;
-      log('log-datev', 'Generating DATEV EXTF v700 export...', 'cmd');
-
-      try {
-        datevResult = await buildDatevExtf({
-          kernel: nd,
-          beraterNr: '1234567',
-          mandantenNr: '1',
-          wjBeginn: '20270101',
-          sachkontenrahmen: 'SKR04',
-          bezeichnung: 'NeoDonkey Demo Export',
-          datumBeginn: '20271101',
-          datumEnde: '20271130',
-          nurGeänderte: false,
-        });
-
-        log('log-datev', `Export generated: ${datevResult.rows} rows, ${datevResult.entries} entries`, 'ok');
-        if (datevResult.skipped > 0) {
-          log('log-datev', `${datevResult.skipped} entries skipped (draft/cancelled)`, 'ok');
-        }
-
-        document.getElementById('datev-csv').textContent = datevResult.csv;
-        document.getElementById('datev-output').classList.remove('hidden');
-        document.getElementById('num5').classList.add('done');
-
-      } catch (e) {
-        log('log-datev', `Error: ${e.message}`, 'err');
-        console.error(e);
-        btn.disabled = false;
-      }
-    };
-
-    window.downloadDatev = function() {
-      if (!datevResult) return;
-      const blob = new Blob([datevResult.csv], { type: 'text/plain;charset=windows-1252' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'neodonkey-demo-datev-extf.txt';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      log('log-datev', 'Download started: neodonkey-demo-datev-extf.txt', 'ok');
-    };
-  </script>
+<section class="chapter">
+  <div class="no">Chapter 2 of 5</div>
+  <h2>The interface is generated, not designed</h2>
+  <figure>
+    <img src="data:image/webp;base64,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
+</section>
+</main>
 </body>
 </html>
