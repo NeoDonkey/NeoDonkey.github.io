@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Zero Dependencies Is Not a Slogan — NeoDonkey Blog</title>
+  <meta name="description" content="Why NeoDonkey ships with zero npm dependencies. The structural commitment behind every line of code.">
+  <link rel="canonical" href="https://neodonkey.github.io/blog/zero-dependencies.html">
+  <link rel="stylesheet" href="/src/style.css">
+  <style>
+    .blog-article { max-width: 720px; margin: 80px auto; padding: 0 24px; }
+    .blog-article h1 { font-size: 2.5rem; margin-bottom: 16px; }
+    .blog-article .meta { color: var(--text-2); margin-bottom: 48px; }
+    .blog-article h2 { font-size: 1.5rem; margin: 48px 0 16px; }
+    .blog-article h3 { font-size: 1.25rem; margin: 32px 0 12px; }
+    .blog-article p { line-height: 1.8; margin-bottom: 20px; }
+    .blog-article ul { margin-bottom: 20px; padding-left: 24px; }
+    .blog-article li { margin-bottom: 12px; line-height: 1.6; }
+    .blog-article code { background: var(--surface-2); padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.9em; }
+    .blog-article pre { background: var(--surface-2); padding: 16px; border-radius: 8px; overflow-x: auto; margin: 24px 0; }
+    .blog-article pre code { background: none; padding: 0; }
+  </style>
+</head>
+<body>
+  <main class="blog-article">
+    <a href="/blog/">← Back to Blog</a>
+    <article>
+      <h1>Zero Dependencies Is Not a Slogan</h1>
+      <p class="meta">August 21, 2026 · 4 min read</p>
+
+      <p>Most JavaScript projects start with <code>npm install</code>. NeoDonkey does not. Its <code>package.json</code> has no <code>dependencies</code> field. There is no <code>node_modules</code> folder. There is no lockfile. This is not minimalism for its own sake. It is a structural commitment that affects every architectural decision.</p>
+
+      <h2>The Dependency Trap</h2>
+      <p>A typical Node.js project in 2026 has 1,000+ transitive dependencies. Each one is a point of failure:</p>
+
+      <ul>
+        <li>A maintainer gets burned out and stops updating</li>
+        <li>A security vulnerability is discovered in a package five levels deep</li>
+        <li>A license change makes the package commercially unusable</li>
+        <li>An "upgrade" breaks your build because of a minor version bump</li>
+        <li>The package is abandoned and archived on GitHub</li>
+      </ul>
+
+      <p>When your ERP depends on 1,000 packages, you do not own your ERP. You rent it from a thousand strangers, and any one of them can break your business with a single commit.</p>
+
+      <h2>What Zero Dependencies Means</h2>
+      <p>NeoDonkey's runtime is pure JavaScript that uses only Web API primitives:</p>
+
+      <ul>
+        <li><strong>WebCrypto</strong> for Ed25519 signatures, X25519 encryption, AES-GCM, HKDF</li>
+        <li><strong>IndexedDB</strong> for persistent key storage in the browser</li>
+        <li><strong>OPFS</strong> for filesystem access in the browser</li>
+        <li><strong>WebRTC</strong> for peer-to-peer sync between devices</li>
+        <li><strong>Fetch API</strong> for HTTP requests</li>
+      </ul>
+
+      <p>There is no Express, no React, no Lodash, no Axios. There is no build step that bundles 50MB of JavaScript. The entire ERP runtime is under 200KB of source code.</p>
+
+      <h2>The Trade-offs</h2>
+      <p>This choice has real costs. We do not get:</p>
+
+      <ul>
+        <li>Automatic React reconciliation (we write our own DOM updates)</li>
+        <li>Express middleware ecosystem (we write our own HTTP handlers)</li>
+        <li>Lodash utilities (we write our own array and object helpers)</li>
+        <li>TypeORM or Prisma (we use git as our database)</li>
+      </ul>
+
+      <p>But we also do not get:</p>
+
+      <ul>
+        <li>Supply chain attacks via compromised dependencies</li>
+        <li>Breaking changes from upstream maintainers</li>
+        <li>License conflicts in transitive dependencies</li>
+        <li>200MB Docker images just to run an ERP</li>
+        <li>Vulnerability scanners yelling about packages we do not even use</li>
+      </ul>
+
+      <h2>Where the Code Lives</h2>
+      <p>Every module in NeoDonkey is self-contained:</p>
+
+      <ul>
+        <li><code>runtime/git/repo.js</code> — Pure JavaScript git implementation (no <code>child_process.spawn('git')</code>)</li>
+        <li><code>runtime/identity/ed25519.js</code> — Key generation and SSH signatures via WebCrypto</li>
+        <li><code>runtime/crypto/keys.js</code> — Encryption using only WebCrypto primitives</li>
+        <li><code>runtime/money/money.js</code> — BigInt-based exact decimal arithmetic</li>
+        <li><code>runtime/export/datev-extf.js</code> — DATEV serializer, zero external packages</li>
+        <li><code>runtime/export/xrechnung.js</code> — XML generator, zero external packages</li>
+      </ul>
+
+      <h2>What This Means for Your Business</h2>
+      <p>When you deploy NeoDonkey, you deploy 200KB of JavaScript that you can read in an afternoon. There are no hidden dependencies. There is no <code>npm audit</code> output that spans three screens. There is no surprise breaking change on a Tuesday morning because someone in California renamed a function.</p>
+
+      <p>Your ERP is yours. Every line of it. And that is only possible because we decided, at the beginning, that there would be no dependencies field in package.json.</p>
+
+      <hr style="margin: 48px 0; border: none; border-top: 1px solid var(--border);">
+      <p><em>NeoDonkey is an open-source ERP with zero dependencies. It runs in your browser, stores data in git, and exports to DATEV and XRechnung. <a href="/demo.html">Try the demo</a>.</em></p>
+    </article>
+  </main>
+</body>
+</html>
