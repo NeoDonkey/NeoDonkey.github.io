@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Git as an Audit Trail — NeoDonkey Blog</title>
+  <meta name="description" content="Why NeoDonkey uses git commits as its audit trail. Every booking is signed, immutable, and cryptographically verifiable.">
+  <link rel="canonical" href="https://neodonkey.github.io/blog/git-audit-trail.html">
+  <link rel="stylesheet" href="/src/style.css">
+  <style>
+    .blog-article { max-width: 720px; margin: 80px auto; padding: 0 24px; }
+    .blog-article h1 { font-size: 2.5rem; margin-bottom: 16px; }
+    .blog-article .meta { color: var(--text-2); margin-bottom: 48px; }
+    .blog-article h2 { font-size: 1.5rem; margin: 48px 0 16px; }
+    .blog-article h3 { font-size: 1.25rem; margin: 32px 0 12px; }
+    .blog-article p { line-height: 1.8; margin-bottom: 20px; }
+    .blog-article ul { margin-bottom: 20px; padding-left: 24px; }
+    .blog-article li { margin-bottom: 12px; line-height: 1.6; }
+    .blog-article code { background: var(--surface-2); padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.9em; }
+    .blog-article pre { background: var(--surface-2); padding: 16px; border-radius: 8px; overflow-x: auto; margin: 24px 0; }
+    .blog-article pre code { background: none; padding: 0; }
+  </style>
+</head>
+<body>
+  <main class="blog-article">
+    <a href="/blog/">← Back to Blog</a>
+    <article>
+      <h1>Git as an Audit Trail</h1>
+      <p class="meta">August 21, 2026 · 5 min read</p>
+
+      <p>Most ERP systems have an "audit log." It is a database table where the application writes a row every time someone changes something. It is better than nothing, but it is not an audit trail. It is a diary written by the system about itself — and the system can lie.</p>
+
+      <p>NeoDonkey does not have an audit log. It has git.</p>
+
+      <h2>The Problem with Application-Level Audit Logs</h2>
+      <p>Consider what happens when an accountant posts a journal entry in a typical ERP:</p>
+
+      <ol>
+        <li>The application writes the booking to the database</li>
+        <li>The application writes a row to the audit_log table: "User 42 posted JE-1234 at 14:32"</li>
+        <li>If the admin has database access, they can delete both rows</li>
+        <li>The audit log is now a lie, and there is no way to detect it</li>
+      </ol>
+
+      <p>Some systems add "tamper-evident" hashes — each audit log row contains a hash of the previous row. This is better, but the hash algorithm and the verification code are part of the application. If an attacker compromises the application, they compromise the verification too.</p>
+
+      <h2>Git Commits as Immutable Records</h2>
+      <p>In NeoDonkey, every business document is a git commit. Not a row in a table — a commit in a git repository. This is not a metaphor. You can literally run <code>git log</code> in your company's folder and see every booking, every invoice, every goods receipt.</p>
+
+      <p>A git commit has properties that make it ideal for audit trails:</p>
+
+      <ul>
+        <li><strong>Cryptographic chain:</strong> Each commit contains the hash of its parent. Change any commit in history, and every subsequent commit's hash changes.</li>
+        <li><strong>Content-addressed:</strong> A commit's ID is a hash of its contents. You cannot alter a commit without changing its ID.</li>
+        <li><strong>Detached from the application:</strong> The git repository is a plain folder of files. You can verify it with standard git tools, completely independent of NeoDonkey.</li>
+      </ul>
+
+      <h2>Ed25519 Signatures on Every Commit</h2>
+      <p>Every commit is signed with the author's Ed25519 key. The signature is stored in the commit's gpgsig field and can be verified with standard git tools:</p>
+
+      <pre><code>$ git verify-commit HEAD
+gpg: Signature made Fri Aug 21 14:32:00 2026 CET
+gpg:                using EDDSA key 7A3B...
+gpg: Good signature from "Sarah Weber &lt;sarah@neodonkey.eu&gt;"</code></pre>
+
+      <p>This means:</p>
+      <ul>
+        <li>You know <em>who</em> made every change</li>
+        <li>You know <em>when</em> they made it</li>
+        <li>You can prove it in court (Ed25519 signatures are legally binding in the EU)</li>
+        <li>An attacker cannot forge a signature without the private key</li>
+      </ul>
+
+      <h2>The Kernel Enforces It</h2>
+      <p>The signing is not optional. The NeoDonkey kernel (<code>runtime/kernel.js</code>) will not create a commit without a valid signature. The flow is:</p>
+
+      <pre><code>1. User submits intent (e.g., "create journal-entry JE-001")
+2. Operating model validates the intent
+3. Kernel constructs the commit object
+4. Kernel signs the commit with the user's Ed25519 key
+5. Kernel writes the commit to the git repository
+6. If signing fails, the entire operation is aborted</code></pre>
+
+      <p>There is no "disable signatures" flag. There is no admin override. The signature is the commit.</p>
+
+      <h2>Where the Code Lives</h2>
+      <ul>
+        <li><code>runtime/kernel.js</code> — The main kernel, handles commit creation and signing</li>
+        <li><code>runtime/identity/ed25519.js</code> — Ed25519 key generation and SSH signature format</li>
+        <li><code>runtime/identity/sshsig.js</code> — SSH signature encoding and verification</li>
+        <li><code>runtime/git/repo.js</code> — Pure-JS git implementation, no Node dependencies</li>
+        <li><code>runtime/truth/authority.js</code> — Role-based access control, signed into commits</li>
+      </ul>
+
+      <h2>What This Means for Auditors</h2>
+      <p>When a German tax auditor (Finanzamt) asks for your GoBD-compliant records, you hand them a folder. They can:</p>
+
+      <ol>
+        <li>Verify every commit with <code>git verify-commit</code></li>
+        <li>Check the full history with <code>git log</code></li>
+        <li>Confirm no commits were altered with <code>git fsck</code></li>
+        <li>Export the entire ledger to DATEV format with one command</li>
+      </ol>
+
+      <p>No proprietary tool required. No "trust us, our audit log is secure." Just git, the same tool that powers the Linux kernel.</p>
+
+      <hr style="margin: 48px 0; border: none; border-top: 1px solid var(--border);">
+      <p><em>NeoDonkey is an open-source ERP that stores your company as a git repository. Every booking is a signed commit. <a href="/demo.html">Try the demo</a>.</em></p>
+    </article>
+  </main>
+</body>
+</html>
