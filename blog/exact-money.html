@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exact Money: Why NeoDonkey Stores Cents as BigInt — NeoDonkey Blog</title>
+  <meta name="description" content="Why NeoDonkey uses BigInt for exact decimal money instead of floating point. No rounding errors, no epsilon, no tolerance.">
+  <link rel="canonical" href="https://neodonkey.github.io/blog/exact-money.html">
+  <link rel="stylesheet" href="/src/style.css">
+  <style>
+    .blog-article { max-width: 720px; margin: 80px auto; padding: 0 24px; }
+    .blog-article h1 { font-size: 2.5rem; margin-bottom: 16px; }
+    .blog-article .meta { color: var(--text-2); margin-bottom: 48px; }
+    .blog-article h2 { font-size: 1.5rem; margin: 48px 0 16px; }
+    .blog-article h3 { font-size: 1.25rem; margin: 32px 0 12px; }
+    .blog-article p { line-height: 1.8; margin-bottom: 20px; }
+    .blog-article ul { margin-bottom: 20px; padding-left: 24px; }
+    .blog-article li { margin-bottom: 12px; line-height: 1.6; }
+    .blog-article code { background: var(--surface-2); padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.9em; }
+    .blog-article pre { background: var(--surface-2); padding: 16px; border-radius: 8px; overflow-x: auto; margin: 24px 0; }
+    .blog-article pre code { background: none; padding: 0; }
+  </style>
+</head>
+<body>
+  <main class="blog-article">
+    <a href="/blog/">← Back to Blog</a>
+    <article>
+      <h1>Exact Money: Why NeoDonkey Stores Cents as BigInt</h1>
+      <p class="meta">August 21, 2026 · 4 min read</p>
+
+      <p>Every ERP system handles money. Almost all of them get it wrong.</p>
+
+      <h2>The Problem with Floats</h2>
+      <p>JavaScript's <code>Number</code> type is IEEE 754 double-precision floating point. It cannot represent most decimal fractions exactly:</p>
+
+      <pre><code>0.1 + 0.2 === 0.3  // false
+0.1 + 0.2          // 0.30000000000000004</code></pre>
+
+      <p>This is not a JavaScript bug. It is a property of binary floating point. And it means that if you store €0.10 as a float, you do not have €0.10. You have an approximation that happens to round to €0.10 when you print it.</p>
+
+      <p>Most ERP systems work around this by using "decimal" libraries that store numbers as strings or arrays of digits. This is better, but still has a problem: the string <code>"10.00"</code> is not the same type as the string <code>"10"</code>, and comparing them requires parsing. Worse, some systems store money as <code>number</code> in JSON, which means the float problem reappears at every API boundary.</p>
+
+      <h2>NeoDonkey's Approach</h2>
+      <p>In NeoDonkey, money is a token: <code>"1000.00 EUR"</code>. This is not a string that happens to look like money. It is a structured value with three parts:</p>
+
+      <ol>
+        <li><strong>Amount</strong>: A BigInt of minor units (cents). €10.00 is <code>1000n</code>.</li>
+        <li><strong>Precision</strong>: How many decimal places the currency uses. EUR has 2.</li>
+        <li><strong>Currency</strong>: The ISO 4217 code. <code>"EUR"</code>, <code>"USD"</code>, etc.</li>
+      </ol>
+
+      <p>The token <code>"1000.00 EUR"</code> parses to <code>{ amount: 1000n, precision: 2, currency: "EUR" }</code>. All arithmetic happens on the BigInt amount. There is no float anywhere in the ledger.</p>
+
+      <h2>Why This Matters for an ERP</h2>
+      <p>An ERP is not a calculator. It is a system of record. The difference between <code>1000n</code> and <code>1000.0000000000001</code> is not a rounding error — it is a bug in the truth layer.</p>
+
+      <p>When NeoDonkey posts a journal entry, the invariant checker verifies:</p>
+
+      <pre><code>debit-amount == sum of all debit postings
+credit-amount == sum of all credit postings
+debit-amount == credit-amount</code></pre>
+
+      <p>These comparisons use exact BigInt equality. There is no epsilon. No rounding tolerance. Either the books balance exactly, or the post is rejected.</p>
+
+      <h2>Where the Code Lives</h2>
+      <ul>
+        <li><code>runtime/money/money.js</code> — Token parsing and formatting</li>
+        <li><code>runtime/money/decimal.js</code> — BigInt arithmetic with precision tracking</li>
+        <li><code>runtime/money/quantity.js</code> — Unit conversions (price × quantity = amount)</li>
+        <li><code>operating-model/information/posting.md</code> — The posting schema that enforces the <code>amount: text</code> type</li>
+      </ul>
+
+      <h2>The Test That Caught It</h2>
+      <p>Our demo fixture used to write <code>net-amount: 2160</code> for 240 units at €9.00. The parser now rejects this — correctly. The amount must be <code>2160.00 EUR</code>, because <code>2160</code> without a currency is not money, and <code>2160.0</code> without a trailing zero has the wrong precision for EUR.</p>
+
+      <p>This is not pedantry. It is the difference between a system that rounds and a system that records.</p>
+
+      <hr style="margin: 48px 0; border: none; border-top: 1px solid var(--border);">
+      <p><em>NeoDonkey is an open-source ERP that stores your company as a git repository. Every booking is a signed commit. <a href="/demo.html">Try the demo</a>.</em></p>
+    </article>
+  </main>
+</body>
+</html>
