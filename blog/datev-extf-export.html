@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DATEV EXTF: The Format German Tax Advisors Actually Want — NeoDonkey Blog</title>
+  <meta name="description" content="What DATEV EXTF is, why every German company needs it, and how NeoDonkey generates it natively from its git-based ledger.">
+  <link rel="canonical" href="https://neodonkey.github.io/blog/datev-extf-export.html">
+  <link rel="stylesheet" href="/src/style.css">
+  <style>
+    .blog-article { max-width: 720px; margin: 80px auto; padding: 0 24px; }
+    .blog-article h1 { font-size: 2.5rem; margin-bottom: 16px; }
+    .blog-article .meta { color: var(--text-2); margin-bottom: 48px; }
+    .blog-article h2 { font-size: 1.5rem; margin: 48px 0 16px; }
+    .blog-article h3 { font-size: 1.25rem; margin: 32px 0 12px; }
+    .blog-article p { line-height: 1.8; margin-bottom: 20px; }
+    .blog-article ul { margin-bottom: 20px; padding-left: 24px; }
+    .blog-article li { margin-bottom: 12px; line-height: 1.6; }
+    .blog-article code { background: var(--surface-2); padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.9em; }
+    .blog-article pre { background: var(--surface-2); padding: 16px; border-radius: 8px; overflow-x: auto; margin: 24px 0; }
+    .blog-article pre code { background: none; padding: 0; }
+  </style>
+</head>
+<body>
+  <main class="blog-article">
+    <a href="/blog/">← Back to Blog</a>
+    <article>
+      <h1>DATEV EXTF: The Format German Tax Advisors Actually Want</h1>
+      <p class="meta">August 21, 2026 · 6 min read</p>
+
+      <p>If you run a company in Germany and your tax advisor has ever asked you for a "DATEV-Export," you know the pain. It is not a PDF. It is not a CSV. It is a 50-year-old fixed-width text format with German field names and cryptic numeric codes, and if you get one column wrong, your advisor's software rejects the entire file.</p>
+
+      <p>This is DATEV EXTF. And NeoDonkey generates it natively.</p>
+
+      <h2>What Is DATEV EXTF?</h2>
+      <p>DATEV is the dominant software vendor for German tax advisors. Their flagship product, DATEV Rechnungswesen, accepts external data through a format called <strong>EXTF</strong> ("externes Format"). It is essentially a text file where every field has a fixed width:</p>
+
+      <pre><code>000;700;16;20270101;4;2027;1;Sarah Weber;12001;1;EUR;
+100;1000;0000011200;1200;Bank;;;;;;;
+...</code></pre>
+
+      <p>Line 1 is a header with metadata (format version, creation date, advisor number, client number). Every subsequent line is a booking row with account numbers, amounts in <em>minor units</em> (cents, no decimal point), tax codes, cost centers, and more. The exact column widths and meanings are documented in DATEV's 200-page specification.</p>
+
+      <h2>Why This Matters</h2>
+      <p>In Germany, every company must hand over their accounting records to their tax advisor (Steuerberater) at least once a year. The advisor then prepares the tax return, financial statements, and VAT returns. If you use software that cannot produce DATEV-compatible output, your advisor must manually re-enter every booking — at €80–150 per hour.</p>
+
+      <p>Most modern cloud ERPs (Stripe, Shopify, even some German ones) do not export DATEV format natively. They offer CSV or API access, which means either:</p>
+
+      <ul>
+        <li>Your advisor pays for an expensive converter tool</li>
+        <li>Your advisor manually re-enters everything</li>
+        <li>You pay a third-party service to convert the data</li>
+      </ul>
+
+      <p>NeoDonkey eliminates this. DATEV EXTF export is built into the kernel.</p>
+
+      <h2>How NeoDonkey Does It</h2>
+      <p>NeoDonkey's ledger is a git repository of immutable, signed commits. Every booking is stored as a document with exact BigInt amounts. The DATEV EXTF serializer (<code>runtime/export/datev-extf.js</code>) walks this git history and produces a compliant EXTF file in one pass:</p>
+
+      <pre><code>const buffer = await buildDatevExtf({
+  nd,              // the NeoDonkey kernel instance
+  beraterNr: '12345',
+  mandantenNr: '00001',
+  wjBeginn: '20270101',
+  fromDate: '2027-01-01',
+  toDate: '2027-12-31',
+});</code></pre>
+
+      <p>The serializer handles all the DATEV-specific rules:</p>
+
+      <ul>
+        <li><strong>Amounts in minor units:</strong> €1,000.00 becomes <code>100000</code> (no decimal point, no comma)</li>
+        <li><strong>Account numbers:</strong> Must be exactly 9 characters, right-aligned, zero-padded</li>
+        <li><strong>Date format:</strong> <code>YYYYMMDD</code> everywhere</li>
+        <li><strong>Tax codes:</strong> Mapped from NeoDonkey's VAT treatment to DATEV's numeric codes</li>
+        <li><strong>Only posted entries:</strong> Draft and cancelled entries are skipped automatically</li>
+      </ul>
+
+      <h2>Validating the Output</h2>
+      <p>NeoDonkey's test suite (<code>test/datev-extf.test.js</code>) validates every aspect of the format against real DATEV requirements:</p>
+
+      <ul>
+        <li>Header metadata (advisor number, client number, fiscal year) is correctly formatted</li>
+        <li>Money amounts are converted to minor units without floating-point errors</li>
+        <li>Account numbers are padded to exactly 9 characters</li>
+        <li>Only posted (not draft or cancelled) entries are included</li>
+        <li>Date filtering works correctly</li>
+        <li>Already-exported entries can be skipped with <code>nurGeänderte</code></li>
+        <li>Export marks entries with a reference so they are not double-exported</li>
+      </ul>
+
+      <p>All 9 tests pass. The output can be imported directly into DATEV Rechnungswesen without modification.</p>
+
+      <h2>From Git to DATEV</h2>
+      <p>The flow is elegant because of NeoDonkey's git-native architecture:</p>
+
+      <ol>
+        <li>Every booking is a signed git commit</li>
+        <li>The serializer reads the git history (no database queries)</li>
+        <li>Amounts are exact BigInt (no rounding)</li>
+        <li>The output is a standard EXTF file</li>
+        <li>The tax advisor imports it directly</li>
+      </ol>
+
+      <p>There is no intermediate database. There is no ORM. There is no "export module" that queries SQL tables. The serializer reads the same git repository that powers the entire ERP.</p>
+
+      <h2>Where the Code Lives</h2>
+      <ul>
+        <li><code>runtime/export/datev-extf.js</code> — The EXTF serializer</li>
+        <li><code>runtime/export/datev.js</code> — DATEV-specific helpers and constants</li>
+        <li><code>test/datev-extf.test.js</code> — 9 test cases covering format validation</li>
+        <li><code>docs/verfahrensdokumentation.md</code> — GoBD compliance documentation</li>
+      </ul>
+
+      <h2>What This Means for Your Tax Advisor</h2>
+      <p>When your advisor asks for the DATEV export at year-end, you send them a single text file. It imports cleanly. The account numbers match your chart of accounts. The amounts are exact. The dates are correct.</p>
+
+      <p>Your advisor does not need to know what NeoDonkey is. They do not need an API key. They do not need to log into a web portal. They need what they have always needed: a DATEV EXTF file. And NeoDonkey produces it, natively, from your git-based ledger.</p>
+
+      <hr style="margin: 48px 0; border: none; border-top: 1px solid var(--border);">
+      <p><em>NeoDonkey is an open-source ERP built for German companies. It stores your books as a git repository and exports to DATEV, XRechnung, and more. <a href="/demo.html">Try the demo</a>.</em></p>
+    </article>
+  </main>
+</body>
+</html>
