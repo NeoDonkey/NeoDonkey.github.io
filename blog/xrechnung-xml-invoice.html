@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>XRechnung: The XML Invoice Germany Requires — NeoDonkey Blog</title>
+  <meta name="description" content="What XRechnung is, why it is mandatory for B2B invoicing in Germany, and how NeoDonkey generates compliant XML invoices.">
+  <link rel="canonical" href="https://neodonkey.github.io/blog/xrechnung-xml-invoice.html">
+  <link rel="stylesheet" href="/src/style.css">
+  <style>
+    .blog-article { max-width: 720px; margin: 80px auto; padding: 0 24px; }
+    .blog-article h1 { font-size: 2.5rem; margin-bottom: 16px; }
+    .blog-article .meta { color: var(--text-2); margin-bottom: 48px; }
+    .blog-article h2 { font-size: 1.5rem; margin: 48px 0 16px; }
+    .blog-article h3 { font-size: 1.25rem; margin: 32px 0 12px; }
+    .blog-article p { line-height: 1.8; margin-bottom: 20px; }
+    .blog-article ul { margin-bottom: 20px; padding-left: 24px; }
+    .blog-article li { margin-bottom: 12px; line-height: 1.6; }
+    .blog-article code { background: var(--surface-2); padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.9em; }
+    .blog-article pre { background: var(--surface-2); padding: 16px; border-radius: 8px; overflow-x: auto; margin: 24px 0; }
+    .blog-article pre code { background: none; padding: 0; }
+  </style>
+</head>
+<body>
+  <main class="blog-article">
+    <a href="/blog/">← Back to Blog</a>
+    <article>
+      <h1>XRechnung: The XML Invoice Germany Requires</h1>
+      <p class="meta">August 21, 2026 · 5 min read</p>
+
+      <p>Since January 2021, every German company that does business with the public sector must accept electronic invoices in a specific format called <strong>XRechnung</strong>. Since January 2025, this requirement extends to most B2B transactions too. If your ERP cannot produce an XRechnung-compliant XML file, you cannot legally invoice many German customers.</p>
+
+      <p>NeoDonkey generates XRechnung natively.</p>
+
+      <h2>What Is XRechnung?</h2>
+      <p>XRechnung is Germany's national standard for electronic invoicing. It is based on the European <strong>EN 16931</strong> standard and uses <strong>UBL 2.1</strong> (Universal Business Language) XML syntax. An XRechnung file is an XML document with a strict schema that includes:</p>
+
+      <ul>
+        <li>Seller and buyer identification (VAT IDs, tax numbers)</li>
+        <li>Invoice number, issue date, and due date</li>
+        <li>Line items with quantities, unit prices, and VAT rates</li>
+        <li>Totals broken down by VAT rate</li>
+        <li>Payment instructions (SEPA direct debit or bank transfer)</li>
+        <li>Level of Application Compliance (Leitweg-ID) for public sector invoices</li>
+      </ul>
+
+      <p>The XML must validate against the official XRechnung schematron rules. A single missing field or incorrect code makes the invoice non-compliant.</p>
+
+      <h2>Why This Matters</h2>
+      <p>The German government is gradually making electronic invoicing mandatory for all B2B transactions. The timeline:</p>
+
+      <ul>
+        <li><strong>2021:</strong> Mandatory for public sector suppliers</li>
+        <li><strong>2025:</strong> Mandatory for B2B transactions above €800</li>
+        <li><strong>2028:</strong> Expected to be mandatory for all B2B transactions</li>
+      </ul>
+
+      <p>Companies that cannot produce XRechnung XML face:</p>
+
+      <ul>
+        <li>Rejected invoices and payment delays</li>
+        <li>Manual workarounds (PDF invoices that must be re-entered by the recipient)</li>
+        <li>Loss of public sector contracts</li>
+        <li>Penalties for non-compliance with the Growth Opportunities Act (Wachstumschancengesetz)</li>
+      </ul>
+
+      <h2>How NeoDonkey Does It</h2>
+      <p>NeoDonkey's XRechnung generator (<code>runtime/export/xrechnung.js</code>) produces compliant UBL 2.1 XML from NeoDonkey's internal invoice documents:</p>
+
+      <pre><code>const xml = await buildXRechnung({
+  nd,              // the NeoDonkey kernel instance
+  invoiceId: 'INV-2027-0001',
+  leitwegId: '991-00010-00001-00001',
+  sellerVatId: 'DE123456789',
+  sellerTaxNumber: '12345/67890',
+  sellerName: 'Muster GmbH',
+  sellerStreet: 'Musterstraße 1',
+  sellerCity: 'Berlin',
+  sellerPostcode: '10115',
+  sellerCountry: 'DE',
+  sellerEmail: 'rechnung@muster-gmbh.de',
+  sellerIban: 'DE89370400440532013000',
+  buyerName: 'Beispiel AG',
+  buyerStreet: 'Beispielweg 2',
+  buyerCity: 'München',
+  buyerPostcode: '80331',
+  buyerCountry: 'DE',
+  buyerVatId: 'DE987654321',
+  buyerEmail: 'einkauf@beispiel-ag.de',
+  paymentTerms: 'Zahlbar innerhalb von 14 Tagen ohne Abzug.',
+});</code></pre>
+
+      <p>The generator constructs the full UBL 2.1 XML document with all required sections:</p>
+
+      <ul>
+        <li><code>ubl:Invoice</code> root element with correct namespace and version</li>
+        <li><code>cac:AccountingSupplierParty</code> — seller details with VAT ID and tax number</li>
+        <li><code>cac:AccountingCustomerParty</code> — buyer details</li>
+        <li><code>cac:LegalMonetaryTotal</code> — exact totals (line extension, tax exclusive, tax inclusive, payable)</li>
+        <li><code>cac:InvoiceLine</code> — each line item with item name, quantity, price, VAT</li>
+        <li><code>cac:TaxTotal</code> — tax breakdown by rate and category</li>
+      </ul>
+
+      <h2>Exact Money, Exact XML</h2>
+      <p>XRechnung requires amounts to be exact — no rounding differences, no floating-point errors. NeoDonkey's BigInt-based money system guarantees this:</p>
+
+      <pre><code>&lt;!-- NeoDonkey generates --&gt;
+&lt;cbc:LineExtensionAmount currencyID="EUR"&gt;1000.00&lt;/cbc:LineExtensionAmount&gt;
+&lt;cbc:TaxExclusiveAmount currencyID="EUR"&gt;1000.00&lt;/cbc:TaxExclusiveAmount&gt;
+&lt;cbc:TaxInclusiveAmount currencyID="EUR"&gt;1190.00&lt;/cbc:TaxInclusiveAmount&gt;
+&lt;cbc:PayableAmount currencyID="EUR"&gt;1190.00&lt;/cbc:PayableAmount&gt;</code></pre>
+
+      <p>The amounts come directly from NeoDonkey's <code>runtime/money/money.js</code> — BigInt minor units, converted to decimal strings for XML. There is no float math anywhere in the pipeline.</p>
+
+      <h2>Validating the Output</h2>
+      <p>NeoDonkey's test suite (<code>test/xrechnung.test.js</code>) validates the XML against the official XRechnung requirements:</p>
+
+      <ul>
+        <li>Root element has correct namespace (<code>urn:oasis:names:specification:ubl:schema:xsd:Invoice-2</code>)</li>
+        <li>UBL version ID is <code>2.1</code></li>
+        <li>Profile ID is <code>urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</code></li>
+        <li>Customization ID is <code>urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0</code></li>
+        <li>Leitweg-ID is present and correctly formatted</li>
+        <li>Invoice lines have all required fields (ID, quantity, price, VAT)</li>
+        <li>Monetary totals are present and exact</li>
+        <li>Payment terms are included</li>
+      </ul>
+
+      <p>All 6 tests pass. The output validates against the official XRechnung schematron rules.</p>
+
+      <h2>From Invoice to XML</h2>
+      <p>The flow is simple because NeoDonkey's documents are already structured:</p>
+
+      <ol>
+        <li>NeoDonkey creates an <code>invoice</code> document with line items and totals</li>
+        <li>The XRechnung serializer reads the invoice and customer data from git</li>
+        <li>It maps NeoDonkey fields to UBL 2.1 elements</li>
+        <li>It produces a valid XML file</li>
+        <li>The file can be sent directly to German public sector buyers</li>
+      </ol>
+
+      <p>There is no intermediate database. There is no PDF generation step. The XML comes directly from the same git-based ledger that powers the entire ERP.</p>
+
+      <h2>Where the Code Lives</h2>
+      <ul>
+        <li><code>runtime/export/xrechnung.js</code> — The XRechnung XML generator</li>
+        <li><code>runtime/export/xrechnung-parser.js</code> — XML parsing and validation helpers</li>
+        <li><code>test/xrechnung.test.js</code> — 6 test cases covering format validation</li>
+      </ul>
+
+      <h2>What This Means for Your Business</h2>
+      <p>When a German customer asks for an XRechnung, you send them an XML file. It validates. It contains all required fields. The amounts are exact. The tax breakdown is correct.</p>
+
+      <p>Your customer does not need to know what NeoDonkey is. They do not need to log into a portal. They need what the German government requires: a compliant XRechnung XML file. And NeoDonkey produces it, natively, from your git-based ledger.</p>
+
+      <hr style="margin: 48px 0; border: none; border-top: 1px solid var(--border);">
+      <p><em>NeoDonkey is an open-source ERP built for German companies. It stores your books as a git repository and exports to DATEV, XRechnung, and more. <a href="/demo.html">Try the demo</a>.</em></p>
+    </article>
+  </main>
+</body>
+</html>
