@@ -16,8 +16,294 @@
 <link rel="icon" href="/brand/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/brand/mark-180.png">
 <link rel="stylesheet" href="/brand/tokens.css">
+<style>
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body);
+       font-size: var(--t-body); line-height: 1.6; margin: 0; }
+
+.nav { position: sticky; top: 0; z-index: 20; height: 64px; display: flex; align-items: center;
+       background: var(--paper); border-bottom: 1px solid var(--rule); }
+.nav__in { display: flex; align-items: center; justify-content: space-between;
+           width: min(100% - 2.5rem, var(--shell)); margin-inline: auto; }
+.brand { display: flex; align-items: center; gap: .55rem; text-decoration: none;
+         color: var(--ink); font-weight: 620; }
+.nav__links { display: flex; gap: 1.6rem; font-size: var(--t-small); }
+.nav__links a { color: var(--ink-soft); text-decoration: none; }
+.nav__links a:hover { color: var(--ink); }
+
+.shell { width: min(100% - 2.5rem, 860px); margin-inline: auto; }
+
+header.tour { padding-block: clamp(3rem, 8vw, 6rem) clamp(2rem, 5vw, 3.5rem); }
+h1 { font-family: var(--font-display); font-weight: 640; letter-spacing: -.035em;
+     font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1.02; margin: 0 0 1.2rem; }
+.hi { color: var(--accent); }
+.dek { font-size: 1.16rem; color: var(--ink-soft); margin: 0 0 1.2rem; max-width: 58ch; }
+.meta { font-family: var(--font-mono); font-size: var(--t-micro); color: var(--ink-faint); }
+
+.chapter { border-top: 1px solid var(--rule); padding-block: clamp(2.5rem, 6vw, 4rem); }
+.chapter .no { font-family: var(--font-mono); font-size: var(--t-micro); color: var(--accent);
+               letter-spacing: .1em; text-transform: uppercase; }
+.chapter h2 { font-family: var(--font-display); font-weight: 620; letter-spacing: -.02em;
+              font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.15; margin: .7rem 0 1.2rem; }
+.chapter p { margin: 0 0 1.35rem; max-width: 62ch; }
+.chapter p.muted, .chapter li { color: var(--ink-soft); }
+.chapter ul { margin: 0 0 1.35rem; padding-left: 1.2rem; }
+.chapter li { margin-bottom: .55rem; max-width: 62ch; }
+a { color: inherit; text-underline-offset: 3px; }
+.chapter a { color: var(--ink); }
+code { font-family: var(--font-mono); font-size: .88em; }
+
+figure { margin: 1.8rem 0; background: var(--paper-sunk); border: 1px solid var(--rule);
+         border-radius: var(--r-lg); padding: .9rem; }
+figure img { display: block; width: 100%; height: auto; border-radius: var(--r-md); }
+figcaption { font-family: var(--font-mono); font-size: var(--t-micro); color: var(--ink-faint);
+             padding: .8rem .2rem .2rem; }
+
+pre { background: var(--paper-sunk); border: 1px solid var(--rule); border-radius: var(--r-lg);
+      padding: 1rem 1.2rem; overflow-x: auto; font-family: var(--font-mono);
+      font-size: var(--t-micro); line-height: 1.55; color: var(--ink-soft); margin: 1.4rem 0; }
+
+.btn { display: inline-block; text-decoration: none; font-weight: 620; font-size: var(--t-body);
+       padding: .8rem 1.6rem; border-radius: var(--r-md); }
+.btn--primary { background: var(--accent); color: var(--btn-ink); }
+.btn--ghost { border: 1px solid var(--rule); color: var(--ink); }
+.cta { text-align: left; }
+.cta .row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.6rem; }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: var(--r-sm); }
+
+.foot { border-top: 1px solid var(--rule); padding-block: 3rem; color: var(--ink-faint);
+        font-size: var(--t-small); }
+.foot__in { display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+            width: min(100% - 2.5rem, var(--shell)); margin-inline: auto; }
+.foot a { color: var(--ink-soft); text-decoration: none; }
+.foot a:hover { color: var(--ink); }
+</style>
 </head>
 <body>
-<p>SIZE PROBE ONLY, will be overwritten by the full file in the next commit if this succeeds.</p>
+
+<nav class="nav">
+  <div class="nav__in">
+    <a class="brand" href="/">
+      <img src="/brand/mark-64.png" alt="" width="28" height="28" decoding="async">
+      <span>NeoDonkey</span>
+    </a>
+    <div class="nav__links">
+      <a href="/">Home</a>
+      <a href="/blog/">Writing</a>
+      <a href="https://github.com/NeoDonkey/NeoDonkey-ERP">Source</a>
+    </div>
+  </div>
+</nav>
+
+<header class="tour">
+  <div class="shell">
+    <h1>A running company, in <span class="hi">five chapters.</span></h1>
+    <p class="dek">
+      This page is a guided tour of NeoDonkey doing its work: a chart of accounts adopted,
+      an invoice issued, three posting legs written by a rule, an export a tax advisor can read.
+      Nothing here is a mockup. The screenshots are real captures of the product, and every
+      quoted line is real output from the kernel that ships in this repository.
+    </p>
+    <p class="meta">
+      The company is Weber Naturkost GmbH, a demo. It was seeded on 2026-08-22 in headless
+      Chromium through the same kernel API the product uses, against the runtime vendored at
+      pin 592a844.
+    </p>
+  </div>
+</header>
+
+<main class="shell">
+
+<section class="chapter">
+  <div class="no">Chapter 1 of 5</div>
+  <h2>Your company is a git repository</h2>
+  <p>
+    Every act in NeoDonkey, creating the company, adopting the chart, issuing the invoice,
+    is one signed git commit. The commit below is the one that posted the invoice you will
+    meet in chapter 3. It is quoted from the workspace the screenshots were taken in:
+  </p>
+  <pre>commit 9b04175722ac13fa4bb508b15ef33e0edef94e38
+journal-entry JE-2027-0042 created
+
+NeoDonkey-Transaction: v1
+NeoDonkey-Actor-Roles: managing-director accountant controller tax-accountant category-manager customer-service-agent logistics-coordinator warehouse-clerk purchasing-manager
+NeoDonkey-Change: create journal-entry JE-2027-0042
+NeoDonkey-Change: create posting JE-2027-0042-receivable
+NeoDonkey-Change: create posting JE-2027-0042-revenue
+NeoDonkey-Change: create posting JE-2027-0042-output-vat
+NeoDonkey-Rule: operating-model/processes/journal-posting.md:43
+NeoDonkey-Rule: operating-model/processes/journal-posting.md:269</pre>
+  <p class="muted">
+    Three facts are in that message. The author signed it with an Ed25519 key that never left
+    the browser. The four document changes landed atomically, in one commit. And the commit
+    names the sentence of the operating model that permitted it, by file and line, which is
+    what GoBD calls <i>Nachvollziehbarkeit</i>. Verification does not require our code:
+    <code>git log --show-signature</code> answers it, and the acceptance test
+    <a href="https://github.com/NeoDonkey/NeoDonkey-ERP/blob/main/demo/sarah.mjs">demo/sarah.mjs</a>
+    runs exactly that check with the real git and the real ssh-keygen.
+  </p>
+</section>
+
+<section class="chapter">
+  <div class="no">Chapter 2 of 5</div>
+  <h2>The interface is generated, not designed</h2>
+  <figure>
+    <img src="__IMG_OVERVIEW__" width="768" height="480" loading="lazy"
+         alt="The NeoDonkey overview screen for the seeded company. Thirty six kinds of document, forty eight rules in force, thirteen roles, forty six documents, and a generated table of document types with the operations the current role may perform.">
+    <figcaption>overview, captured from the running product. no screen in it was drawn by a designer.</figcaption>
+  </figure>
+  <p>
+    There is no invoice page in our source tree. There is a declaration of what an invoice is,
+    in <code>operating-model/information/invoice.md</code>, and the screen above is what the
+    runtime renders from declarations like it: the fields, the references, the counts, and in
+    the right hand column the operations the signed-in role may perform, read from the same text.
+    Sarah Weber acts as managing director here because her signed peer record,
+    <code>peers/sarah-weber@local.json</code>, says so. Change the text and the interface
+    changes, which is why the operating model and not the screen is the product.
+  </p>
+</section>
+
+<section class="chapter">
+  <div class="no">Chapter 3 of 5</div>
+  <h2>Posting is a rule, not a form</h2>
+  <p>
+    When the accountant creates a journal entry she names the source document, the period and
+    the chart. She does not choose accounts. Which accounts is a question the company answered
+    once, in writing, in <code>operating-model/processes/journal-posting.md</code>:
+  </p>
+  <pre>otherwise when journal-entry from a sales invoice then
+  Create posting as "receivable"
+    with position 1 with side "debit"
+    with account-number from chart.receivables-account-number
+    with amount from invoice.gross-amount
+  and Create posting as "revenue"
+    with position 2 with side "credit"
+    with account-number from vat-treatment.revenue-account-number
+    with amount from invoice.net-amount
+  and Create posting as "output-vat"
+    with position 3 with side "credit"
+    with account-number from vat-treatment.output-vat-account-number
+    with amount from invoice.vat-amount</pre>
+  <p>
+    The kernel executes that sentence. One commit later the entry carries three legs it did not
+    arrive with, and the detail screen says where they came from:
+  </p>
+  <figure>
+    <img src="__IMG_JOURNAL__" width="768" height="791" loading="lazy"
+         alt="The journal entry detail screen. Debit and credit both 5.950,00 EUR, posting count 3, status posted, posted by Sarah Weber, and a Referenced by section listing the three postings the rule created: receivable, revenue and output VAT.">
+    <figcaption>journal entry JE-2027-0042. the three legs under referenced by were written by the rule quoted above, in the same commit.</figcaption>
+  </figure>
+  <p class="muted">
+    An entry whose debits do not equal its credits cannot be committed at all; that invariant
+    sits on the document declaration, not in interface code, so no screen can waive it.
+  </p>
+</section>
+
+<section class="chapter">
+  <div class="no">Chapter 4 of 5</div>
+  <h2>The invoice is a document and a data structure</h2>
+  <figure>
+    <img src="__IMG_INVOICE__" width="768" height="695" loading="lazy"
+         alt="The rendered invoice RE-2027-0042 in DIN 5008 layout: sender Weber Naturkost GmbH Berlin, recipient Kolonialwaren Koch KG Bremen, five hundred bags of cashew kernels at ten euro, nineteen percent VAT, total 5.950,00 EUR, bank details and company registration in the footer.">
+    <figcaption>invoice RE-2027-0042, rendered by runtime/export/invoice-html.js. din 5008 layout, real numbers from the seeded company.</figcaption>
+  </figure>
+  <p>
+    The same act of issuing also produces the structured form German law increasingly asks for.
+    Below is an excerpt of the XRechnung XML that <code>runtime/export/xrechnung.js</code>
+    generated for this invoice. The BuyerReference is the Leitweg-ID, the routing address of a
+    public-sector receiving portal; an XRechnung without it does not arrive.
+  </p>
+  <pre>  &lt;cbc:CustomizationID&gt;urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0&lt;/cbc:CustomizationID&gt;
+  &lt;cbc:ProfileID&gt;urn:fdc:peppol.eu:2017:poacc:billing:01:1.0&lt;/cbc:ProfileID&gt;
+  &lt;cbc:ID&gt;RE-2027-0042&lt;/cbc:ID&gt;
+  &lt;cbc:IssueDate&gt;2027-11-03&lt;/cbc:IssueDate&gt;
+  &lt;cbc:DueDate&gt;2027-12-03&lt;/cbc:DueDate&gt;
+  &lt;cbc:InvoiceTypeCode&gt;380&lt;/cbc:InvoiceTypeCode&gt;
+  &lt;cbc:DocumentCurrencyCode&gt;EUR&lt;/cbc:DocumentCurrencyCode&gt;
+  &lt;cbc:BuyerReference&gt;991-08237-99&lt;/cbc:BuyerReference&gt;
+  ...
+  &lt;cac:TaxTotal&gt;
+    &lt;cbc:TaxAmount currencyID="EUR"&gt;950.00&lt;/cbc:TaxAmount&gt;
+  &lt;/cac:TaxTotal&gt;
+  &lt;cac:LegalMonetaryTotal&gt;
+    &lt;cbc:LineExtensionAmount currencyID="EUR"&gt;5000.00&lt;/cbc:LineExtensionAmount&gt;
+    &lt;cbc:TaxExclusiveAmount currencyID="EUR"&gt;5000.00&lt;/cbc:TaxExclusiveAmount&gt;
+    &lt;cbc:TaxInclusiveAmount currencyID="EUR"&gt;5950.00&lt;/cbc:TaxInclusiveAmount&gt;
+    &lt;cbc:PayableAmount currencyID="EUR"&gt;5950.00&lt;/cbc:PayableAmount&gt;
+  &lt;/cac:LegalMonetaryTotal&gt;</pre>
+</section>
+
+<section class="chapter">
+  <div class="no">Chapter 5 of 5</div>
+  <h2>Your tax advisor reads DATEV</h2>
+  <p>
+    The monthly handover to the Steuerberater is a file, not a login. This is the real header
+    and the real booking rows of the EXTF v700 export for the seeded November, generated by
+    <code>runtime/export/datev-extf.js</code>:
+  </p>
+  <pre>EXTF;700;21;1234567;1;20270101;;;;;;;SKR04;;;;;;;;;;;;;;;;;;;;;;;;;;;Weber Naturkost 2027-11
+595000;S;;;;;1200;;;20271103;;;20271103;;Ausgangsrechnung RE-2027-0042 an Kolonialwaren Koch KG Ausga;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+500000;H;;;;;4400;;;20271103;;;20271103;;Ausgangsrechnung RE-2027-0042 an Kolonialwaren Koch KG Ausga;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+95000;H;;;;;3806;;;20271103;;;20271103;;Ausgangsrechnung RE-2027-0042 an Kolonialwaren Koch KG Ausga;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</pre>
+  <p>
+    Now the part other vendors leave out. As shipped at pin 592a844, this export fails.
+    <code>datev-extf.js</code> asks the kernel for the postings of each entry with the query
+    operator <code>"is"</code>, and the kernel does not implement it. The error, reproduced
+    during this capture, reads <code>unknown operator "is" on field "journal-entry"</code>.
+    The excerpt above was produced by rerunning the identical code with a one-line shim,
+    <code>"is"</code> changed to <code>"in"</code>. That shim is a reproduction aid, not a fix,
+    and it is not committed anywhere. The defect is tracked as
+    <a href="https://github.com/NeoDonkey/NeoDonkey-ERP/issues/134">issue #134</a>, and what it
+    still owes is the fix and a regression test that drives the real query path, since the test
+    that made gate 6 look green never exercised it. We would rather you read this paragraph here
+    than discover it in your first export.
+  </p>
+</section>
+
+<section class="chapter">
+  <div class="no">The honest part</div>
+  <h2>What this page does not show</h2>
+  <ul>
+    <li>One user, one company, one month. Multi-peer sync exists in <code>runtime/sync/</code>
+        and is not exercised anywhere on this page.</li>
+    <li>The sales order was marked shipped by a signed update. The full picking chain, batch,
+        quality release, stock movement, is modelled, and this capture did not walk it.</li>
+    <li>The DATEV excerpt relies on the shim disclosed in chapter 5. As shipped, the export
+        throws. Treat the excerpt as the intended shape, not as a green gate.</li>
+    <li>The invoice render is a render. The field that would prove the customer received these
+        exact bytes, <code>archived-format-hash</code>, is empty on this invoice.</li>
+    <li>The seeded chart is the model's own SKR04 table. The model itself instructs you to diff
+        it against the current DATEV release before a real export, because DATEV renumbers
+        between years.</li>
+  </ul>
+</section>
+
+<section class="chapter cta">
+  <div class="no">Then check us</div>
+  <h2>The product is one folder, and it opens in this tab</h2>
+  <p class="muted">
+    The same runtime that produced this page is served from this repository. You get an empty
+    company, your own key pair and the operating model, in your browser's storage. Nothing
+    leaves the machine; there is no account because there is no server to hold one.
+  </p>
+  <div class="row">
+    <a class="btn btn--primary" href="/erp/">Open the product</a>
+    <a class="btn btn--ghost" href="/blog/">Read the writing</a>
+  </div>
+  <p class="meta" style="margin-top: 1.6rem;">
+    This page was assembled by a capture script that seeds the company through the kernel API
+    and photographs the result. Nothing on it was retouched.
+  </p>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot__in">
+    <div>NeoDonkey. Licensed EUPL-1.2.</div>
+    <div><a href="/">Home</a> &nbsp; <a href="/blog/">Writing</a></div>
+  </div>
+</footer>
+
 </body>
 </html>
